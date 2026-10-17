@@ -10,13 +10,16 @@
     "typecheck": "next typegen && tsc --noEmit",
     "check:contract": "tsx scripts/check-contract.ts",
     "test": "tsx --test tests/*.test.mts",
+    "sources:build": "tsx scripts/build-sources.mts",
     "models:check": "tsx --env-file=.env.local scripts/check-models.mts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
     "next": "16.4.2",
+    "p-limit": "^7.3.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "rss-parser": "^3.13.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {

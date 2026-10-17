@@ -1,0 +1,1747 @@
+[
+ {
+  "name": "BBC News: South Asia",
+  "url": "https://feeds.bbci.co.uk/news/world/south_asia/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "The New York Times: Sports",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
+  "why": "no items"
+ },
+ {
+  "name": "CNN: Top Stories",
+  "url": "http://rss.cnn.com/rss/edition.rss",
+  "why": "stale (921d)"
+ },
+ {
+  "name": "CNN: World",
+  "url": "http://rss.cnn.com/rss/edition_world.rss",
+  "why": "stale (1125d)"
+ },
+ {
+  "name": "CNN: Business",
+  "url": "http://rss.cnn.com/rss/money_latest.rss",
+  "why": "stale (2906d)"
+ },
+ {
+  "name": "ABC News (US)",
+  "url": "https://abcnews.go.com/abcnews/topstories",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Al Jazeera English",
+  "url": "https://www.aljazeera.com/xml/rss/all.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "CBC News",
+  "url": "https://www.cbc.ca/webfeed/rss/rss-topstories",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "VentureBeat",
+  "url": "https://venturebeat.com/feed/",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "Hacker News: Best",
+  "url": "https://hnrss.org/best",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "The Batch (deeplearning.ai)",
+  "url": "https://www.deeplearning.ai/the-batch/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Science (AAAS): News",
+  "url": "https://www.science.org/rss/news_current.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "New Scientist",
+  "url": "https://www.newscientist.com/feed/home/",
+  "why": "HTTP 406"
+ },
+ {
+  "name": "The News International",
+  "url": "https://www.thenews.com.pk/rss/1/1",
+  "why": "stale (330d)"
+ },
+ {
+  "name": "Profit by Pakistan Today",
+  "url": "https://profit.pakistantoday.com.pk/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Pakistan Today",
+  "url": "https://www.pakistantoday.com.pk/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Samaa TV",
+  "url": "https://www.samaa.tv/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Dunya News",
+  "url": "https://dunyanews.tv/en/rss",
+  "why": "Invalid character in entity name\nLine: 8\nColumn: 47\nChar: ="
+ },
+ {
+  "name": "The Hindu: National",
+  "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "The Hindu: International",
+  "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "The Hindu: Business",
+  "url": "https://www.thehindu.com/business/feeder/default.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Times of India: Top Stories",
+  "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Hindustan Times: India",
+  "url": "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Indian Express",
+  "url": "https://indianexpress.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "The Wire (India)",
+  "url": "https://thewire.in/feed",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Livemint",
+  "url": "https://www.livemint.com/rss/news",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Cricbuzz",
+  "url": "https://www.cricbuzz.com/rss-feed/cricket-news",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Dhaka Tribune",
+  "url": "https://www.dhakatribune.com/feed",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "The Daily Star (Bangladesh)",
+  "url": "https://www.thedailystar.net/frontpage/rss.xml",
+  "why": "stale (1548d)"
+ },
+ {
+  "name": "The Kathmandu Post",
+  "url": "https://kathmandupost.com/rss",
+  "why": "no dates"
+ },
+ {
+  "name": "Daily Mirror Sri Lanka",
+  "url": "https://www.dailymirror.lk/RSS_Feeds/breaking-news/108",
+  "why": "Feed not recognized as RSS 1 or 2."
+ },
+ {
+  "name": "TOLOnews",
+  "url": "https://tolonews.com/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Gulf News",
+  "url": "https://gulfnews.com/rss",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Khaleej Times",
+  "url": "https://www.khaleejtimes.com/rss",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Times of Israel",
+  "url": "https://www.timesofisrael.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Jerusalem Post",
+  "url": "https://www.jpost.com/rss/rssfeedsheadlines.aspx",
+  "why": "stale (488d)"
+ },
+ {
+  "name": "Haaretz",
+  "url": "https://www.haaretz.com/srv/haaretz-latest-headlines",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Hurriyet Daily News",
+  "url": "https://www.hurriyetdailynews.com/rss",
+  "why": "no items"
+ },
+ {
+  "name": "Egypt Independent",
+  "url": "https://www.egyptindependent.com/feed/",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "Ahram Online",
+  "url": "https://english.ahram.org.eg/UI/Front/RSS.aspx",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Mail & Guardian (South Africa)",
+  "url": "https://mg.co.za/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "News24 (South Africa)",
+  "url": "https://feeds.news24.com/articles/news24/TopStories/rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "The Straits Times",
+  "url": "https://www.straitstimes.com/news/world/rss.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Nikkei Asia",
+  "url": "https://asia.nikkei.com/rss/feed/nar",
+  "why": "no dates"
+ },
+ {
+  "name": "The Korea Herald",
+  "url": "http://www.koreaherald.com/common/rss_xml.php?ct=102",
+  "why": "Unexpected close tag\nLine: 57\nColumn: 7\nChar: >"
+ },
+ {
+  "name": "Rest of World",
+  "url": "https://restofworld.org/feed/latest",
+  "why": "Invalid character in entity name\nLine: 26\nColumn: 125\nChar: ="
+ },
+ {
+  "name": "BBC Chinese",
+  "url": "https://feeds.bbci.co.uk/chinese/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "DW Urdu",
+  "url": "https://rss.dw.com/xml/rss-urdu-all",
+  "why": "Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: E"
+ },
+ {
+  "name": "DW Hindi",
+  "url": "https://rss.dw.com/xml/rss-hi-all",
+  "why": "Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: E"
+ },
+ {
+  "name": "DW Persian",
+  "url": "https://rss.dw.com/xml/rss-fa-all",
+  "why": "Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: E"
+ },
+ {
+  "name": "Corriere della Sera",
+  "url": "https://xml2.corriereobjects.it/rss/homepage.xml",
+  "why": "stale (887d)"
+ },
+ {
+  "name": "NHK News",
+  "url": "https://www3.nhk.or.jp/rss/news/cat0.xml",
+  "why": "stale (70d)"
+ },
+ {
+  "name": "Xinhua (Chinese)",
+  "url": "http://www.xinhuanet.com/politics/news_politics.xml",
+  "why": "no dates"
+ },
+ {
+  "name": "TRT Haber",
+  "url": "https://www.trthaber.com/xml_mobile.php?tur=xml_genel&kategori=gundem&adet=30&tarih=1",
+  "why": "Feed not recognized as RSS 1 or 2."
+ },
+ {
+  "name": "Geo Urdu",
+  "url": "https://urdu.geo.tv/rss/1/1",
+  "why": "Invalid character in entity name\nLine: 40\nColumn: 43\nChar: ="
+ },
+ {
+  "name": "Amar Ujala (Hindi)",
+  "url": "https://www.amarujala.com/rss/breaking-news.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Dainik Bhaskar (Hindi)",
+  "url": "https://www.bhaskar.com/rss-v1--category-1061.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "Al Arabiya",
+  "url": "https://www.alarabiya.net/feed/rss2/ar.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Jerusalem Post (Hebrew: Maariv)",
+  "url": "https://www.maariv.co.il/Rss/RssFeedsMivzakiChadashot",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Reserve Bank of India: Press Releases",
+  "url": "https://rbi.org.in/pressreleases_rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "State Bank of Pakistan",
+  "url": "https://www.sbp.org.pk/rss/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "IMF: News",
+  "url": "https://www.imf.org/en/News/rss?language=eng",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "World Bank: News",
+  "url": "https://www.worldbank.org/en/news/all?format=rss",
+  "why": "Unexpected close tag\nLine: 62\nColumn: 9\nChar: >"
+ },
+ {
+  "name": "WHO: News",
+  "url": "https://www.who.int/rss-feeds/news-english.xml",
+  "why": "stale (234d)"
+ },
+ {
+  "name": "UNHCR: News",
+  "url": "https://www.unhcr.org/rss/news.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "UNICEF: Press Releases",
+  "url": "https://www.unicef.org/press-releases/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "US Treasury: Press Releases",
+  "url": "https://home.treasury.gov/system/files/136/treasury-press-releases.rss",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "US Supreme Court: Opinions",
+  "url": "https://www.supremecourt.gov/rss/slipopinions.aspx",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Pakistan Ministry of Finance",
+  "url": "https://www.finance.gov.pk/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "SECP Pakistan: Press",
+  "url": "https://www.secp.gov.pk/media-center/press-releases/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "Pakistan PM Office",
+  "url": "https://pmo.gov.pk/rss.php",
+  "why": "fetch failed"
+ },
+ {
+  "name": "NASA: Breaking News",
+  "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "ESA: Top News",
+  "url": "https://www.esa.int/rssfeed/Our_Activities/Space_News",
+  "why": "fetch failed"
+ },
+ {
+  "name": "IEA: News",
+  "url": "https://www.iea.org/api/news-feed",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "IAEA: News",
+  "url": "https://www.iaea.org/feeds/topnews",
+  "why": "no dates"
+ },
+ {
+  "name": "Microsoft: AI Blog",
+  "url": "https://blogs.microsoft.com/ai/feed/",
+  "why": "HTTP 410"
+ },
+ {
+  "name": "Tesla: Investor News",
+  "url": "https://ir.tesla.com/press-releases?format=rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "ICC: News",
+  "url": "https://www.icc-cricket.com/rss/news",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "Formula1.com: Latest",
+  "url": "https://www.formula1.com/content/fom-website/en/latest/all.xml",
+  "why": "no dates"
+ },
+ {
+  "name": "FIFA: News",
+  "url": "https://www.fifa.com/rss-feeds/news",
+  "why": "Unexpected close tag\nLine: 6\nColumn: 2436\nChar: >"
+ },
+ {
+  "name": "PCB: News",
+  "url": "https://www.pcb.com.pk/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "bolnews.com",
+  "url": "https://www.bolnews.com/category/pakistan/feed",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "bolnews.com",
+  "url": "https://bolnews.com/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "dailykhabrain.com.pk",
+  "url": "https://dailykhabrain.com.pk/category/international/feed",
+  "why": "fetch failed"
+ },
+ {
+  "name": "leadpakistan.com.pk",
+  "url": "https://leadpakistan.com.pk/news/category/national/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:aljazeera.com+intitle:Karachi&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (112d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:aljazeera.com+intitle:Lahore&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (252d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:bloomberg.com+intitle:Islamabad&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (27d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:bloomberg.com+intitle:Kashmir&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (24d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:bloomberg.com+intitle:Quetta&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "no items"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:reuters.com+intitle:Karachi&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (101d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:reuters.com+intitle:Lahore&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (27d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:reuters.com+intitle:Peshawar&hl=en-PK&gl=PK&ceid=PK:en",
+  "why": "stale (165d)"
+ },
+ {
+  "name": "timesofislamabad.com",
+  "url": "https://timesofislamabad.com/category/economy/feed",
+  "why": "stale (38d)"
+ },
+ {
+  "name": "aljazeera.com",
+  "url": "https://www.aljazeera.com/tag/india/feed/rss.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "aninews.in",
+  "url": "https://aninews.in/rss/feed/category/business.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "business-standard.com",
+  "url": "https://www.business-standard.com/rss/india-news-216.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "deccanchronicle.com",
+  "url": "https://www.deccanchronicle.com/rss_feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "dnaindia.com",
+  "url": "https://www.dnaindia.com/feeds/india.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "firstpost.com",
+  "url": "https://www.firstpost.com/commonfeeds/v1/mfp/rss/india.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "freepressjournal.in",
+  "url": "https://www.freepressjournal.in/rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "indianexpress.com",
+  "url": "https://indianexpress.com/section/business/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "indianexpress.com",
+  "url": "https://indianexpress.com/section/india/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "indianexpress.com",
+  "url": "https://indianexpress.com/section/political-pulse/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "indiatoday.in",
+  "url": "https://www.indiatoday.in/rss/1206514",
+  "why": "fetch failed"
+ },
+ {
+  "name": "indiatoday.in",
+  "url": "https://www.indiatoday.in/rss/home",
+  "why": "fetch failed"
+ },
+ {
+  "name": "news.abplive.com",
+  "url": "https://news.abplive.com/home/feed",
+  "why": "fetch failed"
+ },
+ {
+  "name": "news18.com",
+  "url": "https://www.news18.com/rss/world.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "publish.tribuneindia.com",
+  "url": "https://publish.tribuneindia.com/newscategory/impact-feature/feed/",
+  "why": "stale (597d)"
+ },
+ {
+  "name": "sebi.gov.in",
+  "url": "https://www.sebi.gov.in/sebirss.xml",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "telegraphindia.com",
+  "url": "https://www.telegraphindia.com/rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "thehindu.com",
+  "url": "https://www.thehindu.com/business/Economy/feeder/default.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "thehindu.com",
+  "url": "https://www.thehindu.com/sci-tech/science/feeder/default.rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "theweek.in",
+  "url": "https://www.theweek.in/news/india.rss.html",
+  "why": "fetch failed"
+ },
+ {
+  "name": "timesofindia.indiatimes.com",
+  "url": "https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms",
+  "why": "fetch failed"
+ },
+ {
+  "name": "amadershomoy.com",
+  "url": "https://www.amadershomoy.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "banglanews24.com",
+  "url": "https://www.banglanews24.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "bdnews24.com",
+  "url": "https://www.bdnews24.com/?widgetName=rssfeed&widgetId=1150&getXmlFeed=true",
+  "why": "Invalid character in entity name\nLine: 7\nColumn: 47\nChar: ="
+ },
+ {
+  "name": "dhakatribune.com",
+  "url": "https://www.dhakatribune.com/feed/rss",
+  "why": "no items"
+ },
+ {
+  "name": "en.somoynews.tv",
+  "url": "https://en.somoynews.tv/feed",
+  "why": "fetch failed"
+ },
+ {
+  "name": "jagonews24.com",
+  "url": "https://www.jagonews24.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "kalerkantho.com",
+  "url": "https://www.kalerkantho.com/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "news24bd.tv",
+  "url": "https://news24bd.tv/feed",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/bangladeshmedia.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "rss.dw.com",
+  "url": "https://rss.dw.com/xml/rss-bn-news",
+  "why": "Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: E"
+ },
+ {
+  "name": "tbsnews.net",
+  "url": "https://www.tbsnews.net/rss.xml",
+  "why": "stale (1800d)"
+ },
+ {
+  "name": "alkhaleej.ae",
+  "url": "https://www.alkhaleej.ae/section/6556/rss.xml",
+  "why": "no items"
+ },
+ {
+  "name": "annahar.com",
+  "url": "https://www.annahar.com/rss",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "bna.bh",
+  "url": "https://www.bna.bh/en/GenerateRssFeed.aspx?categoryId=155",
+  "why": "HTTP 405"
+ },
+ {
+  "name": "dohanews.co",
+  "url": "https://dohanews.co/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "english.enabbaladi.net",
+  "url": "https://english.enabbaladi.net/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "feeds.washingtonpost.com",
+  "url": "https://feeds.washingtonpost.com/rss/world/middle-east",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "haaretz.com",
+  "url": "https://www.haaretz.com/srv/middle-east-news-rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "middleeastmnt.disqus.com",
+  "url": "https://middleeastmnt.disqus.com/latest.rss",
+  "why": "stale (345d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/search?q=site:alhadath.net&amp;hl=ar&amp;gl=AE&amp;ceid=AE:ar",
+  "why": "no items"
+ },
+ {
+  "name": "omannews.gov.om",
+  "url": "https://omannews.gov.om/rss.ona",
+  "why": "fetch failed"
+ },
+ {
+  "name": "restofworld.org",
+  "url": "https://restofworld.org/feed/region/middle-east-north-africa/",
+  "why": "Invalid character in entity name\nLine: 9\nColumn: 38\nChar:  "
+ },
+ {
+  "name": "rss.app",
+  "url": "https://rss.app/feeds/qoc2uGuUJyQbBd91.xml",
+  "why": "HTTP 402"
+ },
+ {
+  "name": "iran-times.com",
+  "url": "https://iran-times.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "mizanonline.ir",
+  "url": "https://www.mizanonline.ir/en/rss/allnews",
+  "why": "no items"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/atom/topics/CAAqIggKIhxDQkFTRHdvSkwyMHZNREZvWDJJNEVnSmxiaWdBUAE?hl=en-US&gl=US&ceid=US:en",
+  "why": "no items"
+ },
+ {
+  "name": "972mag.com",
+  "url": "https://www.972mag.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "972mag.com",
+  "url": "https://www.972mag.com/topic/gaza/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "newarab.com",
+  "url": "https://www.newarab.com/rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "palestine-studies.org",
+  "url": "https://www.palestine-studies.org/en/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/Gaza.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "unrwa.org",
+  "url": "https://www.unrwa.org/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "newleftreview.org",
+  "url": "https://newleftreview.org/feed",
+  "why": "stale (47d)"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/atom/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFZpWTJ3U0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US%3Aen&oc=11",
+  "why": "no items"
+ },
+ {
+  "name": "pressandjournal.co.uk",
+  "url": "https://www.pressandjournal.co.uk/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/ukpolitics/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "thecourier.co.uk",
+  "url": "https://www.thecourier.co.uk/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "irisheconomy.ie",
+  "url": "http://www.irisheconomy.ie/index.php/feed/",
+  "why": "stale (227d)"
+ },
+ {
+  "name": "cbc.ca",
+  "url": "https://www.cbc.ca/webfeed/rss/rss-canada",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/canada/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "australianjewishnews.com",
+  "url": "https://www.australianjewishnews.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "kalkinemedia.com",
+  "url": "https://kalkinemedia.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/nzpolitics/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "aminata.com",
+  "url": "https://aminata.com/afrique/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "cnbcafrica.com",
+  "url": "https://www.cnbcafrica.com/feed.xml",
+  "why": "stale (402d)"
+ },
+ {
+  "name": "feeds.24.com",
+  "url": "https://feeds.24.com/articles/news24/topstories/rss",
+  "why": "fetch failed"
+ },
+ {
+  "name": "panafricanreview.com",
+  "url": "https://panafricanreview.com/feed/",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "sudantribune.com",
+  "url": "https://sudantribune.com/article/category/international/africa/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "adaderana.lk",
+  "url": "https://www.adaderana.lk/rss.php",
+  "why": "no dates"
+ },
+ {
+  "name": "borneobulletin.com.bn",
+  "url": "https://borneobulletin.com.bn/category/southeast/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "eastasiaforum.org",
+  "url": "https://eastasiaforum.org/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "gnlm.com.mm",
+  "url": "https://www.gnlm.com.mm/category/national/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "news18.com",
+  "url": "https://www.news18.com/commonfeeds/v1/eng/rss/india.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "theaseandaily.com",
+  "url": "https://theaseandaily.com/feed/",
+  "why": "HTTP 526"
+ },
+ {
+  "name": "timesnownews.com",
+  "url": "https://www.timesnownews.com/feeds/gns-en-india.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "allsides.com",
+  "url": "https://www.allsides.com/taxonomy/term/1201/feed",
+  "why": "no items"
+ },
+ {
+  "name": "consilium.europa.eu",
+  "url": "https://www.consilium.europa.eu/en/rss/pressreleases.ashx",
+  "why": "no dates"
+ },
+ {
+  "name": "eureporter.co",
+  "url": "https://www.eureporter.co/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "european-union.europa.eu",
+  "url": "https://european-union.europa.eu/node/484/rss_en",
+  "why": "no dates"
+ },
+ {
+  "name": "europeantimes.news",
+  "url": "https://europeantimes.news/europe/feed/",
+  "why": "no items"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/atom/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNRE0wTldnU0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US%3Aen&oc=11",
+  "why": "no items"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/EUnews/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/europeanunion/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "tvorimevropu.cz",
+  "url": "https://tvorimevropu.cz/feed/",
+  "why": "Unexpected close tag\nLine: 230\nColumn: 7\nChar: >"
+ },
+ {
+  "name": "caribbeannationalweekly.com",
+  "url": "https://www.caribbeannationalweekly.com/feed/",
+  "why": "Feed not recognized as RSS 1 or 2."
+ },
+ {
+  "name": "kenyanews.go.ke",
+  "url": "https://www.kenyanews.go.ke/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "nairobileo.co.ke",
+  "url": "https://nairobileo.co.ke/feed/opinions",
+  "why": "stale (23d)"
+ },
+ {
+  "name": "peopledaily.digital",
+  "url": "https://peopledaily.digital/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "africanexaminer.com",
+  "url": "https://www.africanexaminer.com/feed/",
+  "why": "stale (86d)"
+ },
+ {
+  "name": "dailynigerian.com",
+  "url": "https://dailynigerian.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "independent.ng",
+  "url": "https://independent.ng/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "thebureau.com.ng",
+  "url": "https://thebureau.com.ng/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "businesstech.co.za",
+  "url": "https://businesstech.co.za/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "rss.iol.io",
+  "url": "https://rss.iol.io/iol/news",
+  "why": "HTTP 410"
+ },
+ {
+  "name": "freemalaysiatoday.com",
+  "url": "https://www.freemalaysiatoday.com/feeds/rss/sabahsarawak",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "thestar.com.my",
+  "url": "https://www.thestar.com.my/rss/News/Nation",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "abs-cbn.com",
+  "url": "https://www.abs-cbn.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "legacy.senate.gov.ph",
+  "url": "https://legacy.senate.gov.ph/rss/rss_news.aspx",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/newsPH/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/japannews.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "asiae.co.kr",
+  "url": "https://www.asiae.co.kr/rss/all.htm",
+  "why": "fetch failed"
+ },
+ {
+  "name": "36kr.com",
+  "url": "https://36kr.com/feed",
+  "why": "Unencoded <\nLine: 9\nColumn: 169\nChar: <"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/China.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "19fortyfive.com",
+  "url": "https://www.19fortyfive.com/tag/taiwan/feed/",
+  "why": "stale (27d)"
+ },
+ {
+  "name": "nitter.net",
+  "url": "https://nitter.net/TAIWANmoda/rss",
+  "why": "HTTP 410"
+ },
+ {
+  "name": "ensonhaber.com",
+  "url": "https://www.ensonhaber.com/rss/ensonhaber.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "t24.com.tr",
+  "url": "https://t24.com.tr/rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "allsides.com",
+  "url": "https://www.allsides.com/taxonomy/term/37391/feed",
+  "why": "no items"
+ },
+ {
+  "name": "pravda.com.ua",
+  "url": "https://www.pravda.com.ua/rss/view_mainnews/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/ukraine/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "katapult-magazin.de",
+  "url": "https://katapult-magazin.de/feed/rss",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "feeds.leparisien.fr",
+  "url": "https://feeds.leparisien.fr/leparisien/rss/politique",
+  "why": "no dates"
+ },
+ {
+  "name": "services.lesechos.fr",
+  "url": "https://services.lesechos.fr/rss/les-echos-entreprises.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "20minutos.es",
+  "url": "https://www.20minutos.es/rss/minuteca/20minutoses/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/atom/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFp0YTJvU0FtVnVLQUFQAQ?hl=es-419&gl=US&ceid=US%3Aes-419&oc=11",
+  "why": "no items"
+ },
+ {
+  "name": "fanpage.it",
+  "url": "https://www.fanpage.it/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "ge.globo.com",
+  "url": "https://ge.globo.com/Esportes/Rss/0,,AS0-9645,00.xml",
+  "why": "stale (5846d)"
+ },
+ {
+  "name": "rss.uol.com.br",
+  "url": "https://rss.uol.com.br/feed/comecar-o-dia.xml",
+  "why": "Feed not recognized as RSS 1 or 2."
+ },
+ {
+  "name": "informador.mx",
+  "url": "https://www.informador.mx/rss/mexico.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "mvsnoticias.com",
+  "url": "https://mvsnoticias.com/rss/feed.html?r=751",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/mexico/new/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "0221.com.ar",
+  "url": "https://www.0221.com.ar/rss/pages/deportes.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "latinvex.com",
+  "url": "https://latinvex.com/feeds/colombia/",
+  "why": "Unexpected close tag\nLine: 74\nColumn: 7\nChar: >"
+ },
+ {
+  "name": "portafolio.co",
+  "url": "https://www.portafolio.co/rss",
+  "why": "Invalid character in entity name\nLine: 60\nColumn: 47\nChar: ="
+ },
+ {
+  "name": "pap-mediaroom.pl",
+  "url": "https://pap-mediaroom.pl/rss.xml",
+  "why": "no dates"
+ },
+ {
+  "name": "aftodioikisi.gr",
+  "url": "https://www.aftodioikisi.gr/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "nltimes.nl",
+  "url": "https://nltimes.nl/feed",
+  "why": "no dates"
+ },
+ {
+  "name": "mapnews.ma",
+  "url": "https://www.mapnews.ma/ar/actualites/politique/rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "nitter.net",
+  "url": "https://nitter.net/Moroccoftomorow/rss",
+  "why": "HTTP 410"
+ },
+ {
+  "name": "nitter.net",
+  "url": "https://nitter.net/mjcc_gov/rss",
+  "why": "HTTP 410"
+ },
+ {
+  "name": "elmoudjahid.com",
+  "url": "https://www.elmoudjahid.com/ar/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "huffingtonpost.fr",
+  "url": "https://www.huffingtonpost.fr/algerie/rss_headline.xml",
+  "why": "stale (47d)"
+ },
+ {
+  "name": "liberte-algerie.com",
+  "url": "https://www.liberte-algerie.com/feed",
+  "why": "no dates"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/Ethiopia/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "france24.com",
+  "url": "https://www.france24.com/en/tag/tanzania/rss",
+  "why": "stale (176d)"
+ },
+ {
+  "name": "kiswahili.tuko.co.ke",
+  "url": "https://kiswahili.tuko.co.ke/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "radiofreeafrica.co.tz",
+  "url": "https://radiofreeafrica.co.tz/feed",
+  "why": "fetch failed"
+ },
+ {
+  "name": "tanzaniainsight.com",
+  "url": "https://www.tanzaniainsight.com/feed",
+  "why": "HTTP 530"
+ },
+ {
+  "name": "vietnamnews.vn",
+  "url": "https://vietnamnews.vn/rss/bizhub.rss",
+  "why": "Unencoded <\nLine: 0\nColumn: 2\nChar: \u0000"
+ },
+ {
+  "name": "vnanet.vn",
+  "url": "https://vnanet.vn/en/rss/disaster-and-accident-422.rss",
+  "why": "stale (3060d)"
+ },
+ {
+  "name": "vnanet.vn",
+  "url": "https://vnanet.vn/en/rss/weather-1010.rss",
+  "why": "no items"
+ },
+ {
+  "name": "workpointnews.com",
+  "url": "https://workpointnews.com/rss.economy.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "ai.stanford.edu",
+  "url": "http://ai.stanford.edu/blog/feed.xml",
+  "why": "stale (1600d)"
+ },
+ {
+  "name": "bair.berkeley.edu",
+  "url": "https://bair.berkeley.edu/blog/feed.xml",
+  "why": "stale (80d)"
+ },
+ {
+  "name": "blogger.com",
+  "url": "https://www.blogger.com/feeds/8474926331452026626/posts/default?alt=atom&redirect=false",
+  "why": "stale (932d)"
+ },
+ {
+  "name": "crawshaw.io",
+  "url": "https://crawshaw.io/atom.xml",
+  "why": "stale (163d)"
+ },
+ {
+  "name": "every.to",
+  "url": "https://every.to/chain-of-thought/feed.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "export.arxiv.org",
+  "url": "http://export.arxiv.org/rss/cs.LG",
+  "why": "no items"
+ },
+ {
+  "name": "futurism.com",
+  "url": "https://futurism.com/tags/ai/feed",
+  "why": "Invalid character in entity name\nLine: 11\nColumn: 346\nChar: &"
+ },
+ {
+  "name": "karpathy.bearblog.dev",
+  "url": "https://karpathy.bearblog.dev/feed/",
+  "why": "stale (170d)"
+ },
+ {
+  "name": "qwenlm.github.io",
+  "url": "https://qwenlm.github.io/blog/index.xml",
+  "why": "stale (389d)"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/LLM/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/LocalLLaMA/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "safe.ai",
+  "url": "https://www.safe.ai/blog/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "sh-reya.com",
+  "url": "https://www.sh-reya.com/rss.xml",
+  "why": "stale (149d)"
+ },
+ {
+  "name": "climatechangeauthority.gov.au",
+  "url": "https://www.climatechangeauthority.gov.au/rss.xml",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "codastory.com",
+  "url": "https://www.codastory.com/climate-crisis/feed/",
+  "why": "stale (36d)"
+ },
+ {
+  "name": "euractiv.com",
+  "url": "https://www.euractiv.com/topics/climate/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "independent.co.uk",
+  "url": "https://www.independent.co.uk/topic/extreme-weather/rss",
+  "why": "no items"
+ },
+ {
+  "name": "insideclimatenews.org",
+  "url": "https://insideclimatenews.org/category/politics-policy/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reuters.com",
+  "url": "https://www.reuters.com/arc/outboundfeeds/feed-partners/trf/category/business/environment/?outputType=xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "theintercept.com",
+  "url": "https://theintercept.com/collections/climate-crimes/feed/",
+  "why": "Attribute without value\nLine: 35\nColumn: 157\nChar: >"
+ },
+ {
+  "name": "allsides.com",
+  "url": "https://www.allsides.com/taxonomy/term/1637/feed",
+  "why": "no items"
+ },
+ {
+  "name": "doublepulsar.com",
+  "url": "https://doublepulsar.com/feed",
+  "why": "stale (79d)"
+ },
+ {
+  "name": "googleonlinesecurity.blogspot.com",
+  "url": "https://googleonlinesecurity.blogspot.com/atom.xml",
+  "why": "stale (176d)"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/Bitwarden/new.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/cybersecurity/new.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "thedfirreport.com",
+  "url": "https://thedfirreport.com/feed/",
+  "why": "stale (54d)"
+ },
+ {
+  "name": "allsides.com",
+  "url": "https://www.allsides.com/taxonomy/term/222/feed",
+  "why": "no items"
+ },
+ {
+  "name": "bis.org",
+  "url": "https://www.bis.org/doclist/reshub_papers.rss",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "economic-historian.com",
+  "url": "https://www.economic-historian.com/feed",
+  "why": "stale (175d)"
+ },
+ {
+  "name": "economist.com",
+  "url": "https://www.economist.com/the-economist-explains/rss.xml",
+  "why": "stale (425d)"
+ },
+ {
+  "name": "federalreserve.gov",
+  "url": "https://www.federalreserve.gov/feeds/ifdp_notes.xml",
+  "why": "stale (2831d)"
+ },
+ {
+  "name": "imf.org",
+  "url": "https://www.imf.org/en/rss-list/feed?category=SPEECHES_ENG",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "macro.hedder.com",
+  "url": "https://macro.hedder.com/rss/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "ofce.sciences-po.fr",
+  "url": "https://www.ofce.sciences-po.fr/blog/en/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "thecuriouseconomist.com",
+  "url": "https://thecuriouseconomist.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "africa-energy-portal.org",
+  "url": "https://africa-energy-portal.org/rss.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "eepir.ru",
+  "url": "https://eepir.ru/feed/",
+  "why": "no items"
+ },
+ {
+  "name": "hydrogen-central.com",
+  "url": "https://hydrogen-central.com/feed/",
+  "why": "The operation was aborted due to timeout"
+ },
+ {
+  "name": "neimagazine.com",
+  "url": "https://www.neimagazine.com/feed",
+  "why": "stale (122d)"
+ },
+ {
+  "name": "oilgasdaily.com",
+  "url": "https://www.oilgasdaily.com/oilgasdaily.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "solardaily.com",
+  "url": "https://www.solardaily.com/solardaily.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "urban-wind.org",
+  "url": "https://urban-wind.org/feed/",
+  "why": "stale (35d)"
+ },
+ {
+  "name": "des.mod.uk",
+  "url": "https://des.mod.uk/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "theconversation.com",
+  "url": "https://theconversation.com/topics/canadian-military-58283/articles.atom",
+  "why": "stale (61d)"
+ },
+ {
+  "name": "blogs.shu.edu",
+  "url": "https://blogs.shu.edu/journalofdiplomacy/feed/",
+  "why": "stale (457d)"
+ },
+ {
+  "name": "talkdiplomacy.com",
+  "url": "https://www.talkdiplomacy.com/blog-feed.xml",
+  "why": "stale (277d)"
+ },
+ {
+  "name": "americaspace.com",
+  "url": "https://americaspace.com/feed",
+  "why": "stale (44d)"
+ },
+ {
+  "name": "astrobites.org",
+  "url": "https://astrobites.org/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "dlr.de",
+  "url": "https://www.dlr.de/++api++/@@rss?portal_type=News Item&research_domains=0a65b8491e3447dba8e36e1fa48ce5e0&Language=en",
+  "why": "no dates"
+ },
+ {
+  "name": "dlr.de",
+  "url": "https://www.dlr.de/++api++/@@rss?portal_type=News Item&research_domains=f8298f23cdb549f3a88533f9be9a73da&Language=en",
+  "why": "no dates"
+ },
+ {
+  "name": "esa.int",
+  "url": "https://www.esa.int/rssfeed/Czech",
+  "why": "fetch failed"
+ },
+ {
+  "name": "esa.int",
+  "url": "https://www.esa.int/rssfeed/Ireland",
+  "why": "fetch failed"
+ },
+ {
+  "name": "esa.int",
+  "url": "https://www.esa.int/rssfeed/Our_Activities/Navigation",
+  "why": "fetch failed"
+ },
+ {
+  "name": "esa.int",
+  "url": "https://www.esa.int/rssfeed/Portugal",
+  "why": "fetch failed"
+ },
+ {
+  "name": "nasa.gov",
+  "url": "https://www.nasa.gov/centers-and-facilities/michoud/feed/",
+  "why": "stale (179d)"
+ },
+ {
+  "name": "newscientist.com",
+  "url": "https://www.newscientist.com/subject/space/feed/",
+  "why": "HTTP 406"
+ },
+ {
+  "name": "egora.fr",
+  "url": "https://www.egora.fr/rss.xml",
+  "why": "stale (388d)"
+ },
+ {
+  "name": "medicaldialogues.in",
+  "url": "https://medicaldialogues.in/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "medinet.co.il",
+  "url": "https://www.medinet.co.il/category/מחקרים/feed",
+  "why": "stale (37d)"
+ },
+ {
+  "name": "fda.gov",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch-safety-alerts/rss.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/healthcare/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "autohebdo.fr",
+  "url": "https://www.autohebdo.fr/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "crash.net",
+  "url": "https://www.crash.net/rssnewsfeeds",
+  "why": "Invalid attribute name\nLine: 0\nColumn: 2350\nChar: /"
+ },
+ {
+  "name": "f1analisitecnica.com",
+  "url": "https://www.f1analisitecnica.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "f1ingenerale.com",
+  "url": "https://www.f1ingenerale.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "f1technical.net",
+  "url": "https://www.f1technical.net/rss/news.xml",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "f1welt.com",
+  "url": "https://www.f1welt.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "formula1.com",
+  "url": "https://www.formula1.com/en/latest/all.xml",
+  "why": "no dates"
+ },
+ {
+  "name": "grandprix.com",
+  "url": "https://www.grandprix.com/rss/news.xml",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "planetf1.com",
+  "url": "https://www.planetf1.com/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "acmilan.theoffside.com",
+  "url": "https://acmilan.theoffside.com/rss/index.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "bitterandblue.sbnation.com",
+  "url": "https://bitterandblue.sbnation.com/rss/index.xml",
+  "why": "stale (235d)"
+ },
+ {
+  "name": "basketball.realgm.com",
+  "url": "https://basketball.realgm.com/rss/news",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "cbssports.com",
+  "url": "https://www.cbssports.com/rss/headlines/nba.xml",
+  "why": "HTTP 406"
+ },
+ {
+  "name": "hoopshype.com",
+  "url": "https://hoopshype.com/feed/",
+  "why": "HTTP 406"
+ },
+ {
+  "name": "peachtreehoops.com",
+  "url": "https://www.peachtreehoops.com/rss/current.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "draftdive.com",
+  "url": "https://www.draftdive.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "heavy.com",
+  "url": "https://heavy.com/sports/nfl/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "b10c.me",
+  "url": "https://b10c.me/feed.xml",
+  "why": "stale (67d)"
+ },
+ {
+  "name": "bitcoincore.org",
+  "url": "https://bitcoincore.org/en/announcements.xml",
+  "why": "fetch failed"
+ },
+ {
+  "name": "blog.lopp.net",
+  "url": "https://blog.lopp.net/rss/",
+  "why": "stale (30d)"
+ },
+ {
+  "name": "cointelegraph.com",
+  "url": "https://cointelegraph.com/rss/category/market-analysis",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/Bitcoin.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "blog.lopp.net",
+  "url": "https://blog.lopp.net/rss/",
+  "why": "stale (30d)"
+ },
+ {
+  "name": "enegnei.github.io",
+  "url": "https://enegnei.github.io/This-Month-In-Bitcoin-Privacy/feed",
+  "why": "stale (1112d)"
+ },
+ {
+  "name": "9to5linux.com",
+  "url": "https://9to5linux.com/feed/atom",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/atom/topics/CAAqIggKIhxDQkFTRHdvSkwyMHZNRE40TlhGdEVnSmxiaWdBUAE?hl=en-US&gl=US&ceid=US%3Aen&oc=11",
+  "why": "no items"
+ },
+ {
+  "name": "paul-moore.com",
+  "url": "https://paul-moore.com/blog/atom.xml",
+  "why": "stale (59d)"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/linuxhardware.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/ProtonMail/new.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/Cloud.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "cacm.acm.org",
+  "url": "https://cacm.acm.org/category/computing-applications/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "science.org",
+  "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "abc.net.au",
+  "url": "https://www.abc.net.au/news/good-news/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "goodnewsshared.com",
+  "url": "https://goodnewsshared.com/feed/",
+  "why": "fetch failed"
+ },
+ {
+  "name": "thenewdaily.com.au",
+  "url": "https://thenewdaily.com.au/news/good-news/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "loudersound.com",
+  "url": "https://www.loudersound.com/feeds/articletype/review",
+  "why": "no items"
+ },
+ {
+  "name": "laterre.ca",
+  "url": "https://www.laterre.ca/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/homestead/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "molecularneurodegeneration.biomedcentral.com",
+  "url": "https://molecularneurodegeneration.biomedcentral.com/articles/most-recent/rss.xml",
+  "why": "Attribute without value\nLine: 13\nColumn: 5\nChar: /"
+ },
+ {
+  "name": "positivepsychology.com",
+  "url": "https://positivepsychology.com/blog/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "news.google.com",
+  "url": "https://news.google.com/rss/topics/CAAqJAgKIh5DQkFTRUFvS0wyMHZNREkzYkc1NmN4SUNaVzRvQUFQAQ?hl=en-US&gl=US&ceid=US%3Aen",
+  "why": "no items"
+ },
+ {
+  "name": "reddit.com",
+  "url": "https://www.reddit.com/r/GoogleHome/.rss",
+  "why": "HTTP 429"
+ },
+ {
+  "name": "news.microsoft.com",
+  "url": "https://news.microsoft.com/feed/",
+  "why": "stale (528d)"
+ },
+ {
+  "name": "neimagazine.com",
+  "url": "https://www.neimagazine.com/feed",
+  "why": "stale (122d)"
+ },
+ {
+  "name": "nuclear.co.ke",
+  "url": "https://www.nuclear.co.ke/feed/",
+  "why": "stale (233d)"
+ },
+ {
+  "name": "aero-news.net",
+  "url": "https://www.aero-news.net/news/rssfeed.xml",
+  "why": "no dates"
+ },
+ {
+  "name": "airbus.com",
+  "url": "https://www.airbus.com/en/newsroom/rss-feeds/helicopters",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "airwaysmag.com",
+  "url": "https://airwaysmag.com/feed/",
+  "why": "HTTP 404"
+ },
+ {
+  "name": "nycaviation.com",
+  "url": "https://www.nycaviation.com/feed",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "ohbulan.com",
+  "url": "https://ohbulan.com/feed/",
+  "why": "HTTP 403"
+ },
+ {
+  "name": "ric.com.br",
+  "url": "https://ric.com.br/entretenimento/feed/",
+  "why": "HTTP 403"
+ }
+]
