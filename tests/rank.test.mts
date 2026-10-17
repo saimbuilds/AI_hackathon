@@ -10,7 +10,7 @@ const cand = (id: string, over: Partial<Cand> = {}): Cand => ({
   updatedAt: new Date(), firstSeen: new Date(), dayCount: 1, parentId: null, unknowns: null, quiz: null, world: null, imageUrl: null,
   embedding: unit(1, 0, 0), region: 'global', sentences: [], articles: [], ...over,
 });
-const reader = (over: Partial<ReaderModel> = {}): ReaderModel => ({ vecLong: unit(1, 0, 0), vecShort: null, topicBeta: {}, mutedTopics: [], mutedStories: [], country: 'pk', calm: false, ...over });
+const reader = (over: Partial<ReaderModel> = {}): ReaderModel => ({ vecLong: unit(1, 0, 0), vecShort: null, topicBeta: {}, mutedTopics: [], mutedStories: [], mutedSources: [], country: 'pk', calm: false, ...over });
 
 test('relevance rescales the narrow cosine band across candidates to 0..1', () => {
   const rel = relevance([cand('a', { embedding: unit(1, 0.05, 0) }), cand('b', { embedding: unit(1, 0.4, 0) }), cand('c', { embedding: unit(0.2, 1, 0) })], unit(1, 0, 0));
@@ -30,6 +30,16 @@ test('topic preference, locality, and a friend pick all lift the score', () => {
   assert.ok(score([cand('x', { region: 'pk' })], reader())[0].score > base);
   assert.ok(score([cand('x', { friend: 'Ayesha' })], reader())[0].score > base);
   assert.ok(score([cand('x', { topics: ['f1'] })], reader({ topicBeta: { f1: [1, 9] } }))[0].score < base);
+});
+
+test('a topic the reader clearly turned down is demoted well below an otherwise identical story', () => {
+  const r = reader({ topicBeta: { energy: [2, 7] } });
+  const [disliked, other] = score([cand('d', { topics: ['energy'] }), cand('o', { topics: ['f1'] })], r);
+  assert.ok(other.score - disliked.score > 0.1, `gap ${other.score - disliked.score}`);
+  // thin evidence is not enough to demote
+  const thin = score([cand('t', { topics: ['energy'] })], reader({ topicBeta: { energy: [1, 1.9] } }))[0].score;
+  const none = score([cand('t', { topics: ['energy'] })], reader())[0].score;
+  assert.ok(Math.abs(none - thin) < 0.05);
 });
 
 test('fresher stories outrank stale ones, all else equal', () => {

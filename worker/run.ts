@@ -34,6 +34,6 @@ async function main() {
 }
 
 main().then(
-  () => process.exit(0),
-  (e) => { console.error(e); process.exit(1); },
+  () => { process.exitCode = 0; }, // let sockets close; process.exit() can assert-crash on Windows
+  (e) => { console.error(e); process.exitCode = 1; },
 );

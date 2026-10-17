@@ -35,12 +35,17 @@ export type ReaderModel = {
   topicBeta: Record<string, [number, number]>;
   mutedTopics: string[];
   mutedStories: string[];
+  mutedSources: string[]; // outlet names
   country: string; // ISO-ish region code of the reader, '' if unknown
   calm: boolean;
 };
 
 export const WEIGHTS = { relevance: 0.4, topic: 0.2, importance: 0.15, freshness: 0.1, sources: 0.1, local: 0.05 } as const;
 export const MMR_LAMBDA = 0.7;
+// A topic the reader has clearly turned down (posterior mean below this, with some evidence) is demoted, not just nudged,
+// so a single "less like this" is visible in the very next paper.
+export const DISLIKE_BELOW = 0.4;
+export const DISLIKE_PENALTY = 0.6;
 
 export const userVector = (r: ReaderModel): Float32Array | null => {
   if (!r.vecLong && !r.vecShort) return null;
@@ -51,6 +56,16 @@ export const userVector = (r: ReaderModel): Float32Array | null => {
 };
 
 const betaMean = (b?: [number, number]) => (b ? b[0] / (b[0] + b[1]) : 0.5);
+
+// How strongly the reader has turned down the story's most-disliked topic (0 = not at all).
+export function dislike(topics: string[], beta: Record<string, [number, number]>): number {
+  let worst = 1;
+  for (const t of topics) {
+    const b = beta[t];
+    if (b && b[0] + b[1] >= 3) worst = Math.min(worst, b[0] / (b[0] + b[1]));
+  }
+  return Math.max(0, DISLIKE_BELOW - worst);
+}
 
 export function topicAffinity(topics: string[], beta: Record<string, [number, number]>): number {
   if (!topics.length) return 0.5;
@@ -76,7 +91,8 @@ export function score(cands: Cand[], reader: ReaderModel, now = Date.now(), coRe
     const ageH = Math.max(0, (now - cand.updatedAt.getTime()) / 3_600_000);
     const topic = topicAffinity(cand.topics, reader.topicBeta);
     const total =
-      WEIGHTS.relevance * rel.get(cand.id)! +
+      WEIGHTS.relevance * rel.get(cand.id)! -
+      DISLIKE_PENALTY * dislike(cand.topics, reader.topicBeta) +
       WEIGHTS.topic * topic +
       WEIGHTS.importance * (cand.importance / 10) +
       WEIGHTS.freshness * Math.exp(-ageH / 18) +

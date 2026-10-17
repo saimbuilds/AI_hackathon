@@ -27,6 +27,7 @@ export function readerModel(p: Profile): ReaderModel {
     topicBeta: p.topic_beta ?? {},
     mutedTopics: p.muted?.topics ?? [],
     mutedStories: p.muted?.stories ?? [],
+    mutedSources: p.muted?.sources ?? [],
     country: countryOfTz(p.tz),
     calm: p.calm,
   };
@@ -89,6 +90,8 @@ export async function loadCandidates(db: SupabaseClient, userId: string, profile
     const sents = sentences.get(s.id);
     if (!sents?.length || !s.embedding || !s.headline) return [];
     const arts = articles.get(s.id) ?? [];
+    // A muted outlet only hides stories it is the sole source of.
+    if (reader.mutedSources.length && arts.length && arts.every((a) => reader.mutedSources.includes(sources.get(a.source_id ?? '')?.name ?? ''))) return [];
     const regionCount = new Map<string, number>();
     for (const a of arts) { const r = sources.get(a.source_id ?? '')?.region; if (r) regionCount.set(r, (regionCount.get(r) ?? 0) + 1); }
     const region = [...regionCount.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? '';

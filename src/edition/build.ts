@@ -85,7 +85,9 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   const everyoneIds = new Set(everyone.map((c) => c.id));
   const pool = cands.filter((c) => !everyoneIds.has(c.id));
 
-  const scored = score(pool, reader, now);
+  const { data: co } = await db.rpc('coread_boost', { p_user: userId, p_story_ids: pool.map((c) => c.id) });
+  const coRead = new Map(((co ?? []) as { story_id: string; score: number }[]).map((r) => [r.story_id, r.score]));
+  const scored = score(pool, reader, now, coRead);
   const nMain = 1 + size.sections + size.briefs;
   const picks = mmr(scored, nMain);
   const pickedIds = new Set(picks.map((p) => p.cand.id));
