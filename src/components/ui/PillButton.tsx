@@ -19,12 +19,7 @@ function Inner({ children, icon }: { children: ReactNode; icon?: ReactNode }) {
     <>
       <span className="pbtn__label">{children}</span>
       <span className="pbtn__disc" aria-hidden>
-        {icon ?? (
-          <>
-            <Chevron className="pbtn__a1" />
-            <Chevron className="pbtn__a2" />
-          </>
-        )}
+        {icon ?? <Chevron className="pbtn__arrow" />}
       </span>
     </>
   );

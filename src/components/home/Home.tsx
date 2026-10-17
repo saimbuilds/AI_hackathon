@@ -18,7 +18,8 @@ import { SourcesSticker, SwipeSticker, TrustSticker, EndSticker } from "./Sticke
 export function Home({ edition }: { edition: Edition }) {
   const paper = paperFromEdition(edition);
   const slots = allSlots(edition);
-  const headlines = slots.map((s) => s.headline);
+  // Calm, short headlines for the swipe sticker: the landing page shouldn’t lead with tragedy.
+  const calmHeadlines = slots.filter((s) => s.distress === 0 && s.headline.length < 70).map((s) => s.headline).slice(0, 2);
   const english = giftEnglish(edition);
   const forYou = slots.find((s) => s.forYou && s !== edition.lead)?.forYou ?? edition.lead.forYou ?? "";
 
@@ -33,7 +34,7 @@ export function Home({ edition }: { edition: Edition }) {
       title: "Then we keep the ten that are yours.",
       body: "Tell us who you are in one sentence and swipe twelve of today’s headlines. Every swipe, skip and save teaches your editor what belongs in your paper.",
       cta: { label: "Try it in 90 seconds", href: "/start", tone: "cyan" as const },
-      sticker: <SwipeSticker headlines={headlines.slice(1, 4)} />,
+      sticker: <SwipeSticker headlines={calmHeadlines} />,
     },
     {
       title: "Every story says what it means for you.",
@@ -56,7 +57,7 @@ export function Home({ edition }: { edition: Edition }) {
       <main id="main" className={`relative z-10 ${nastaliq.variable}`}>
         <HomeTop paper={paper} />
         <section className="relative z-10 bg-newsprint" aria-label="How it works">
-          <Journey headlines={headlines} steps={steps} />
+          <Journey steps={steps} />
         </section>
         <ReadyCta />
         <GiftPanel urdu={URDU_SAMPLE} english={english} />

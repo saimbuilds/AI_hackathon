@@ -33,22 +33,25 @@ export function SourcesSticker() {
 }
 
 export function SwipeSticker({ headlines }: { headlines: string[] }) {
+  const [front, back] = headlines;
   return (
-    <div className="relative h-[250px] w-[290px]">
-      {headlines.slice(0, 3).map((h, i) => (
-        <div
-          key={h}
-          className="absolute left-0 top-0 w-[250px] rounded-[var(--r-md)] bg-sheet p-4 shadow-[0_1px_0_rgb(0_0_0/0.06)]"
-          style={{ transform: `translate(${i * 18}px, ${i * 26}px) rotate(${[-7, 3, -2][i]}deg)`, zIndex: 3 - i }}
-        >
-          <p className="font-serif text-[1.08rem] leading-[1.15] font-medium tracking-[-0.01em]">{h}</p>
-          {i === 0 && (
-            <span className="absolute -right-4 -top-4 rotate-[10deg] rounded-[var(--r-xs)] border-2 border-[var(--leaf-ink)] px-2 py-0.5 text-[0.85rem] font-semibold text-[var(--leaf-ink)] bg-sheet">
-              Keep
-            </span>
-          )}
+    <div className="relative h-[230px] w-[300px]">
+      {back && (
+        <div className="absolute top-0 left-6 w-[250px] rotate-[6deg] rounded-[var(--r-md)] bg-sheet p-5 opacity-80 shadow-[0_1px_0_rgb(0_0_0/0.06)]">
+          <span className="chip !h-6 !px-2.5 !text-[0.72rem]" data-tone="line">
+            Pass
+          </span>
+          <p className="mt-3 line-clamp-2 font-serif text-[1rem] leading-[1.2] text-ink-3">{back}</p>
         </div>
-      ))}
+      )}
+      {front && (
+        <div className="absolute top-12 left-0 w-[260px] -rotate-[4deg] rounded-[var(--r-md)] bg-sheet p-5 shadow-[0_18px_40px_-24px_rgb(28_29_26/0.45)]">
+          <span className="chip !h-6 !px-2.5 !text-[0.72rem]" data-tone="leaf">
+            Keep
+          </span>
+          <p className="mt-3 line-clamp-3 font-serif text-[1.1rem] leading-[1.18] font-medium tracking-[-0.01em]">{front}</p>
+        </div>
+      )}
     </div>
   );
 }

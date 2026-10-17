@@ -37,7 +37,8 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
   );
 
   // A loose loop that wraps around the two papers.
-  const d = "M-40,620 C140,700 380,720 520,600 C680,470 640,230 460,170 C270,110 110,250 190,410 C270,560 560,540 680,380 C760,280 800,170 860,100";
+  // One gentle band from left to right, under the papers: always upright, never covering them.
+  const d = "M-120,690 C120,620 330,760 560,690 C720,640 820,600 940,610";
   return (
     <section
       ref={root}
@@ -72,19 +73,19 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
         </div>
 
         <div className="relative h-[560px] md:col-span-7 md:h-[720px]">
-          <div className="gift-paper-en absolute left-[2%] top-[14%] w-[58%] max-w-[380px]">
+          <div className="gift-paper-en absolute left-[2%] top-[14%] z-10 w-[58%] max-w-[380px]">
             <FrontPage data={english} crop large />
           </div>
-          <div className="gift-paper-ur absolute right-[2%] top-[4%] w-[64%] max-w-[440px]">
+          <div className="gift-paper-ur absolute right-[2%] top-[4%] z-20 w-[64%] max-w-[440px]">
             <FrontPage data={urdu} crop large />
           </div>
           <svg
-            className="pointer-events-none absolute -inset-x-[12%] -inset-y-[6%] z-10 h-[112%] w-[124%] overflow-visible"
+            className="pointer-events-none absolute -inset-x-[12%] -inset-y-[6%] z-0 h-[112%] w-[124%] overflow-visible"
             viewBox="0 0 800 760"
             preserveAspectRatio="xMidYMid slice"
             aria-hidden
           >
-            <path id="gift-ribbon" d={d} fill="none" stroke="var(--sun)" strokeWidth="64" />
+            <path id="gift-ribbon" d={d} fill="none" stroke="var(--sun)" strokeWidth="58" />
             <text fill="var(--ink)" style={{ fontSize: 21, fontWeight: 550, letterSpacing: "-0.02em" }} dominantBaseline="central">
               <textPath href="#gift-ribbon" className="gift-ribbon-text" startOffset="0%">
                 {RIBBON.repeat(5)}

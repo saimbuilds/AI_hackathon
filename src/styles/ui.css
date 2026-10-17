@@ -84,12 +84,7 @@
     height: 46px;
   }
   .pbtn__disc svg {
-    transition: transform var(--dur-bounce) var(--ease-bounce);
-  }
-  /* Arrow leaves right, a twin arrives from the left */
-  .pbtn__disc .pbtn__a2 {
-    position: absolute;
-    transform: translateX(-160%);
+    transition: transform 260ms var(--ease-out);
   }
   @media (hover: hover) {
     .pbtn:hover .pbtn__label {
@@ -98,11 +93,9 @@
     .pbtn:hover .pbtn__disc {
       transform: scale(1.08);
     }
-    .pbtn:hover .pbtn__disc .pbtn__a1 {
-      transform: translateX(160%);
-    }
-    .pbtn:hover .pbtn__disc .pbtn__a2 {
-      transform: translateX(0);
+    /* One arrow, nudged forward: nothing slides in from outside the disc */
+    .pbtn:hover .pbtn__arrow {
+      transform: translateX(2.5px);
     }
   }
   .pbtn[data-look="solid"] {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { PillButton } from "@/components/ui/PillButton";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 
@@ -16,7 +16,7 @@ type Geo = { w: number; h: number; d: string; ribbon: number };
 /** Builds a ribbon that snakes past each card on the side opposite to it, with vertical tangents at every turn. */
 function buildPath(w: number, h: number, ys: number[], sides: ("l" | "r")[], ribbon: number): string {
   const mobile = w < 768;
-  const xFor = (side: "l" | "r") => (side === "r" ? (mobile ? 0.12 : 0.27) : mobile ? 0.88 : 0.73) * w;
+  const xFor = (side: "l" | "r") => (side === "r" ? (mobile ? 0.12 : 0.43) : mobile ? 0.88 : 0.57) * w;
   const pts: [number, number][] = [[w * 0.5, -ribbon]];
   ys.forEach((y, i) => pts.push([xFor(sides[i]), y]));
   pts.push([w * 0.5, h + ribbon]);
@@ -30,7 +30,7 @@ function buildPath(w: number, h: number, ys: number[], sides: ("l" | "r")[], rib
   return d;
 }
 
-export function Journey({ headlines, steps }: { headlines: string[]; steps: Step[] }) {
+export function Journey({ steps }: { steps: Step[] }) {
   const root = useRef<HTMLDivElement>(null);
   const [geo, setGeo] = useState<Geo | null>(null);
   const [len, setLen] = useState(0);
@@ -63,6 +63,18 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
     if (pathRef.current) setLen(pathRef.current.getTotalLength());
   }, [geo]);
 
+  useEffect(() => {
+    const els = [...(root.current?.querySelectorAll<HTMLElement>("[data-reveal]") ?? [])];
+    const show = (el: Element) => el.classList.add("is-in");
+    els.filter((el) => el.getBoundingClientRect().top < innerHeight).forEach(show);
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => (e.isIntersecting || e.boundingClientRect.top < 0) && (show(e.target), io.unobserve(e.target))),
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   useGSAP(
     () => {
       if (!geo || !len) return;
@@ -72,7 +84,7 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
         draw.forEach((p) => (p.style.strokeDashoffset = "0"));
         return;
       }
-      // The ribbon unrolls just ahead of the reader's eye; headlines stream along it.
+      // The ribbon unrolls just ahead of the reader's eye.
       gsap.fromTo(
         draw,
         { strokeDashoffset: len },
@@ -82,43 +94,11 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
           scrollTrigger: { trigger: root.current, start: "top 95%", end: "bottom 85%", scrub: 0.8 },
         },
       );
-      gsap.fromTo(
-        ".ribbon-text",
-        { attr: { startOffset: 0 } },
-        {
-          attr: { startOffset: -len * 0.55 },
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: 0.4 },
-        },
-      );
-      gsap.utils.toArray<HTMLElement>(".step-card").forEach((card) => {
-        gsap.from(card, {
-          y: 60,
-          rotate: card.dataset.side === "l" ? -2.5 : 2.5,
-          opacity: 0,
-          duration: 1,
-          ease: "expo.out",
-          scrollTrigger: { trigger: card, start: "top 85%", once: true },
-        });
-      });
-      gsap.utils.toArray<HTMLElement>(".sticker > *").forEach((s) => {
-        gsap.from(s, {
-          scale: 0.6,
-          rotate: -12,
-          opacity: 0,
-          duration: 0.9,
-          ease: "back.out(2.2)",
-          scrollTrigger: { trigger: s, start: "top 80%", once: true },
-        });
-      });
       ScrollTrigger.refresh();
     },
     { scope: root, dependencies: [geo?.d, len] },
   );
 
-  // Enough copy to cover the path twice so the scroll offset never runs dry.
-  const sep = "   ●   ";
-  const reel = Array.from({ length: 4 }, () => headlines.join(sep)).join(sep);
 
   return (
     <div ref={root} id="how" className="relative scroll-mt-24">
@@ -156,15 +136,9 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
             strokeDashoffset={len || 1}
           />
           <g mask="url(#ribbon-mask)">
-            <text
-              fill="var(--ink)"
-              style={{ fontSize: geo.ribbon * 0.3, fontWeight: 550, letterSpacing: "-0.02em" }}
-              dominantBaseline="central"
-            >
-              <textPath href="#ribbon-path" className="ribbon-text" startOffset={0}>
-                {reel}
-              </textPath>
-            </text>
+            <path d={geo.d} fill="none" stroke="var(--sun-deep)" strokeWidth={geo.ribbon} strokeOpacity={0.35} strokeDasharray={`1 ${Math.round(geo.ribbon * 0.24)}`} strokeLinecap="round" />
+            <path d={geo.d} fill="none" stroke="var(--sun)" strokeWidth={geo.ribbon - 16} />
+            <path d={geo.d} fill="none" stroke="var(--ink)" strokeOpacity={0.22} strokeWidth={1.5} strokeDasharray="10 9" />
           </g>
         </svg>
       )}
@@ -182,6 +156,7 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
               <div
                 className="step-card card relative w-full md:w-[min(460px,40vw)]"
                 data-side={side}
+                data-reveal
               >
                 <span className="t-sm text-ink-3">Step {i + 1} of {steps.length}</span>
                 <h3 className="t-lg mt-3">{s.title}</h3>
@@ -197,7 +172,7 @@ export function Journey({ headlines, steps }: { headlines: string[]; steps: Step
                   side === "r" ? "left-[8%]" : "right-[8%]"
                 }`}
               >
-                {s.sticker}
+                <div data-reveal>{s.sticker}</div>
               </div>
             </li>
           );
