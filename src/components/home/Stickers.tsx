@@ -4,11 +4,11 @@ import { Check } from "@/components/ui/icons";
 
 export function SourcesSticker() {
   const chips: [string, number, number, number][] = [
-    ["Dawn", -8, 0, 0],
+    ["NPR", -8, 0, 0],
     ["BBC News", 5, 46, 30],
     ["Al Jazeera", -3, 10, 82],
     ["Le Monde", 9, 70, 120],
-    ["The Express Tribune", -6, -6, 160],
+    ["The Guardian", -6, -6, 160],
   ];
   return (
     <div className="relative h-[230px] w-[300px]">

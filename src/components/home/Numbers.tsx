@@ -10,7 +10,7 @@ type Stat = { value: string; caption: string; bg: string; fg: string; icon: Reac
 const STATS: Stat[] = [
   {
     value: "530",
-    caption: "newsrooms read every night, in 50 countries, from Dawn and Geo to Le Monde and Al Jazeera.",
+    caption: "newsrooms read every night, in 50 countries, from NPR and the BBC to Le Monde and Al Jazeera.",
     bg: "var(--sheet)",
     fg: "var(--ink)",
     icon: <Globe />,

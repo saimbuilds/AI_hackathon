@@ -26,7 +26,7 @@ export function Home({ edition }: { edition: Edition }) {
   const steps = [
     {
       title: "While you slept, we read 530 newsrooms.",
-      body: "From the BBC, NPR and The Guardian to Le Monde, El País and Dawn, read overnight and grouped into the stories underneath the noise, so five articles about one event become one story.",
+      body: "From the BBC, NPR and The Guardian to Le Monde, El País and Al Jazeera, read overnight and grouped into the stories underneath the noise, so five articles about one event become one story.",
       cta: { label: "See who we read", href: "#sources", tone: "press" as const },
       sticker: <SourcesSticker />,
     },

@@ -5,7 +5,7 @@ import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 
 // Real outlets from the press's source catalog (worker/sources.json).
 const ROWS = [
-  ["BBC News", "Dawn", "Al Jazeera", "The Guardian", "Financial Times", "The Economist", "Le Monde", "DW", "France 24", "NPR"],
+  ["BBC News", "NPR", "Al Jazeera", "The Guardian", "Financial Times", "The Economist", "Le Monde", "DW", "France 24", "NPR"],
   ["The Express Tribune", "Geo News", "Business Recorder", "Arab News", "The National", "Scroll.in", "The Japan Times", "South China Morning Post", "CNA", "RNZ"],
   ["MIT Technology Review", "Ars Technica", "The Verge", "Wired", "TechCrunch", "Nature", "Quanta Magazine", "SpaceNews", "Politico", "The Conversation"],
 ];

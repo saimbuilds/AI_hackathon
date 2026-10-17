@@ -23,7 +23,7 @@ const TOPICS: [RegExp, string][] = [
   [/celebrit|gossip|showbiz|royals?\b/i, "Celebrity news"],
 ];
 
-const CITIES = ["Islamabad", "Rawalpindi", "Lahore", "Karachi", "Peshawar", "Quetta", "Multan", "London", "Dubai", "Toronto", "New York", "Manila", "Delhi", "Dhaka"];
+const CITIES = ["New York", "San Francisco", "Chicago", "London", "Toronto", "Dubai", "Singapore", "Sydney", "Manila", "Mexico City", "Lagos", "Delhi", "Dhaka", "Islamabad", "Rawalpindi", "Lahore", "Karachi", "Peshawar", "Quetta", "Multan"];
 
 export type Parsed = { interests: string[]; negatives: string[]; role?: string; city?: string };
 

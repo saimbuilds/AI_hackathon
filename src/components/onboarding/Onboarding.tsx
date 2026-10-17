@@ -30,10 +30,10 @@ const TONES = [
   { id: "new", label: "New to this", note: "Explains the background" },
   { id: "witty", label: "Witty", note: "A little personality" },
 ] as const;
-const EXTRAS = ["Weather", "Prayer times", "Markets", "Cricket scores", "On this day", "Daily quiz"] as const;
+const EXTRAS = ["Weather", "Markets", "Sports scores", "On this day", "Daily quiz", "Prayer times"] as const;
 const EXAMPLES = [
-  "I’m a software engineer in Islamabad into AI, startups and cricket, but no celebrity news.",
-  "Final-year student in Lahore, follow the economy and Formula 1, less politics please.",
+  "I’m a product designer in New York into AI, startups and the NBA, but no celebrity news.",
+  "Final-year student in London, follow the economy and Formula 1, less politics please.",
 ];
 
 type Profile = {
