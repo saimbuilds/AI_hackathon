@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { token } from "@/components/session/client";
 import { SAMPLE_EDITION_ID } from "@/components/reader/track";
+import { fitSheets } from "./fit";
 
 /** Screen-only controls: large print, and a real PDF (server-rendered) with the browser's print as the fallback.
     Also tells the PDF renderer when the page is ready (fonts loaded). */
@@ -12,7 +13,10 @@ export function PrintToolbar({ editionId, largeDefault = false }: { editionId: s
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    document.fonts.ready.then(() => (document.documentElement.dataset.printReady = "true"));
+    document.fonts.ready.then(() => {
+      fitSheets();
+      document.documentElement.dataset.printReady = "true";
+    });
   }, []);
 
   const download = async () => {
@@ -45,6 +49,7 @@ export function PrintToolbar({ editionId, largeDefault = false }: { editionId: s
           onClick={() => {
             setLarge((v) => !v);
             document.querySelector(".print-root")?.setAttribute("data-large", String(!large));
+            fitSheets();
           }}
           className={`chip !h-11 !px-4 text-[0.95rem] ${large ? "!bg-ink !text-[var(--on-dark)]" : "!bg-newsprint"}`}
         >
