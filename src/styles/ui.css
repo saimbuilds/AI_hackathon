@@ -316,9 +316,12 @@
   .field::placeholder {
     color: var(--ink-3);
   }
+  .field {
+    transition: box-shadow var(--dur-hover) ease;
+  }
   .field:focus-visible {
-    outline-color: var(--ink);
-    outline-offset: 0;
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ink) 20%, transparent);
   }
 
   /* ---------- Crop + registration marks (print-sheet details) ---------- */

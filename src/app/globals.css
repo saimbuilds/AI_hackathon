@@ -60,6 +60,12 @@ body {
   outline-offset: 3px;
   border-radius: var(--r-xs);
 }
+/* Text fields show focus on their own surface (soft ring), not with the hard outline used for buttons and links. */
+input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-radius: inherit;
+}
 button,
 a,
 input,
