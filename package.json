@@ -12,12 +12,14 @@
     "test": "tsx --test tests/*.test.mts",
     "sources:build": "tsx scripts/build-sources.mts",
     "nightly": "tsx --env-file-if-exists=.env.local worker/nightly.ts",
+    "load": "tsx --env-file-if-exists=.env.local scripts/load-test.mts",
     "press": "tsx --env-file-if-exists=.env.local worker/run.ts",
     "models:check": "tsx --env-file-if-exists=.env.local scripts/check-models.mts"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.3.1",
     "@mozilla/readability": "^0.6.0",
+    "@sentry/node": "^11.8.0",
     "@supabase/supabase-js": "^2.118.0",
     "linkedom": "^0.18.13",
     "next": "16.4.2",

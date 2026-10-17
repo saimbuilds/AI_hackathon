@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { BuildError, buildEdition, existingToday } from '@/edition/build';
-import { clientIp, fail, parseJson, rateLimit, requireUser, route } from '@/lib/http';
+import { clientIp, fail, parseJson, rateLimit, requireHuman, requireUser, route } from '@/lib/http';
+import { captureError } from '@/lib/monitor';
 import { adminClient } from '@/lib/supabase';
 import type { BuildProgress } from '@/types/events';
 
@@ -19,8 +20,9 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 // reader (EventSource cannot send the Authorization header).
 export const POST = route(async (req) => {
   const user = await requireUser(req);
-  rateLimit(`build:ip:${clientIp(req)}`, 20, 60_000);
+  rateLimit(`build:ip:${clientIp(req)}`, 150, 60_000);
   rateLimit(`build:user:${user.id}`, 6, 60_000);
+  await requireHuman(user);
   const { rebuild } = await parseJson(req, Body);
   const db = adminClient()!;
 
@@ -63,7 +65,7 @@ export const POST = route(async (req) => {
         await db.from('jobs').update({ status: 'done', result, finished_at: new Date().toISOString() }).eq('id', jobId);
       } catch (e) {
         const known = e instanceof BuildError;
-        if (!known) console.error('edition build failed', e);
+        if (!known) { console.error('edition build failed', e); await captureError(e, { task: 'edition-build', userId: user.id }); }
         if (jobId) await db.from('jobs').update({ status: 'failed', error: e instanceof Error ? e.message.slice(0, 300) : String(e), finished_at: new Date().toISOString() }).eq('id', jobId);
         send({ step: 'error', message: known ? e.message : 'Something went wrong printing your paper. Please try again.', retryable: known ? e.retryable : true });
       } finally {

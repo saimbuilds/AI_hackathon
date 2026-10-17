@@ -12,7 +12,7 @@ const MAX_BYTES = 4_000_000; // Vercel request bodies cap at ~4.5 MB
 // frontend falls back to the browser's Web Speech API.
 export const POST = route(async (req) => {
   const user = await requireUser(req);
-  rateLimit(`stt:ip:${clientIp(req)}`, 10, 60_000);
+  rateLimit(`stt:ip:${clientIp(req)}`, 60, 60_000);
   rateLimit(`stt:user:${user.id}`, 6, 60_000);
 
   const key = process.env.GROQ_API_KEY;

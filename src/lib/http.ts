@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminClient } from './supabase';
+import { captureError } from './monitor';
 
 export class HttpError extends Error {
   constructor(public status: number, message: string, public extra?: Record<string, unknown>) { super(message); }
@@ -23,6 +24,13 @@ export async function requireUser(req: Request): Promise<AuthedUser> {
   const { data, error } = await db.auth.getUser(token);
   if (error || !data.user) return fail(401, 'Invalid or expired session');
   return { id: data.user.id, isAnonymous: !!data.user.is_anonymous, email: data.user.email ?? null };
+}
+
+// When TURNSTILE_SECRET is set, expensive routes need a reader who passed the Turnstile check (POST /api/turnstile).
+export async function requireHuman(user: AuthedUser): Promise<void> {
+  if (!process.env.TURNSTILE_SECRET) return;
+  const { data } = await adminClient()!.from('profiles').select('extras').eq('id', user.id).single();
+  if (!(data?.extras as { human?: boolean } | null)?.human) fail(403, 'Please complete the human check first', { needsTurnstile: true });
 }
 
 export function isAdmin(req: Request): boolean {
@@ -67,6 +75,7 @@ export function route(handler: (req: Request, ctx: { params: Promise<Record<stri
         return NextResponse.json({ error: e.message, ...e.extra }, { status: e.status, headers: e.status === 429 && e.extra?.retryAfterSeconds ? { 'retry-after': String(e.extra.retryAfterSeconds) } : undefined });
       }
       console.error('route error', e);
+      await captureError(e, { url: req.url });
       return NextResponse.json({ error: 'Internal error' }, { status: 500 });
     }
   };

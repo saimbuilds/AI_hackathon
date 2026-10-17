@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { fail, parseJson, rateLimit, requireUser, route } from '@/lib/http';
+import { fail, parseJson, rateLimit, requireHuman, requireUser, route } from '@/lib/http';
 import { coldStart, type SwipeAction } from '@/lib/profile';
 import { adminClient } from '@/lib/supabase';
 import { TOPICS } from '@/lib/taxonomy';
@@ -42,6 +42,7 @@ const Body = z.object({
 export const POST = route(async (req) => {
   const user = await requireUser(req);
   rateLimit(`complete:user:${user.id}`, 6, 60_000);
+  await requireHuman(user);
   const b = await parseJson(req, Body);
   const db = adminClient()!;
 

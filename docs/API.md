@@ -35,6 +35,17 @@ Then read the edition with supabase-js: `from('editions').select('payload').eq('
 
 Citations: each `body[i].sources` is a list of 1-based indexes into that slot's `sources`.
 
+## Learning, trust and account
+
+| Call | Notes |
+|---|---|
+| `POST /api/events` | `{ events: ReaderEvent[] }` (max 100): batch every few seconds and on page hide. Log `edition_open`, `impression`, `open`, `dwell`, `read_end`, `click_original`, `save`, `more`, `less` (**needs `meta.reason`**: topic / source / too-long / already-knew), `skip`, `quiz_answer`, `caught_up`, `share`, `mute`. Returns `{ accepted, dropped, streak }`. The next build reflects it. **Use `caught_up` for the streak**: the server counts it once per local day |
+| `POST /api/feedback` | `{ kind: 'wrong-facts' \| 'broken-link' \| 'not-for-me' \| 'general' \| 'nps', message?, editionId?, storyId?, score? }`: the "Report a problem" menu on every story, and the one-question feedback |
+| `POST /api/turnstile` | `{ token }` from the Cloudflare widget. When `TURNSTILE_SECRET` is set, `/api/onboarding/complete` and `/api/edition/build` answer 403 `{ needsTurnstile: true }` until this succeeds |
+| `GET /api/me` | downloads the reader's own data as JSON |
+| `DELETE /api/me` | `{ confirm: "delete my paper" }`: "Delete my paper & data" |
+| `GET /api/admin/stats` | header `x-admin-key`. For `/newsroom`: readers, editions, queue depth, last press runs (**grounding rate** in `press.last.stats.enrich.grounding`), LLM calls and cost per provider, budget headroom, jobs, open feedback |
+
 ## Not built yet (coming from the backend)
 
-`POST /api/events` (batch of `ReaderEvent`), `GET /api/pdf/[id]`, `/api/lab`, `/api/admin/stats`, delete-my-data, report-a-problem, gifts / send-to-friend.
+`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route), `/api/lab`, gifts / send-to-friend, email delivery.
