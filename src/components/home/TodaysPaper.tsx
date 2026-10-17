@@ -54,7 +54,7 @@ export function TodaysPaper({ edition }: { edition: Edition }) {
         >
           <Topics s={lead} />
           <div>
-            <p className="t-sm text-[#c2321a]">{lead.kicker}</p>
+            <p className="t-sm text-[var(--kicker)]">{lead.kicker}</p>
             <h3 className="mt-3 font-serif text-[clamp(2rem,1.4rem+2.4vw,3.4rem)] leading-[0.98] font-medium tracking-[-0.03em] text-balance">
               {lead.headline}
             </h3>

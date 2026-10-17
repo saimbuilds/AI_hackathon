@@ -1,8 +1,8 @@
 /** The reader's own paper name in blackletter. With `animate`, each glyph drops in like set metal type. */
-export function Masthead({ name, animate = false }: { name: string; animate?: boolean }) {
+export function Masthead({ name, animate = false, as: Tag = "h2" }: { name: string; animate?: boolean; as?: "h1" | "h2" }) {
   const len = [...name].length;
   return (
-    <h2
+    <Tag
       className="paper-masthead"
       data-long={len > 16 || undefined}
       data-xlong={len > 21 || undefined}
@@ -16,6 +16,6 @@ export function Masthead({ name, animate = false }: { name: string; animate?: bo
             </span>
           ))
         : name}
-    </h2>
+    </Tag>
   );
 }

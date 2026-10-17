@@ -10,6 +10,7 @@ import { NextEdition } from "@/components/home/NextEdition";
 import { track } from "@/components/reader/track";
 import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 import { useStored, writeStored } from "@/components/ui/useStored";
+import { SavePaper } from "@/components/session/SavePaper";
 
 type Answer = { pick: number; correct: boolean };
 
@@ -35,7 +36,7 @@ function useStreak(editionDate: string) {
 }
 
 /** The last page: closure, recall, the shared Daily 3, and a reason to come back tomorrow. */
-export function Ending({ edition }: { edition: Edition }) {
+export function Ending({ edition, canSave = false }: { edition: Edition; canSave?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const quiz = edition.dailyThree;
   const [answers, setAnswers] = useState<(Answer | null)[]>(() => quiz.map(() => null));
@@ -87,7 +88,7 @@ export function Ending({ edition }: { edition: Edition }) {
         {/* ---------- Closure ---------- */}
         <section className="panel-bottom relative bg-sun pt-[calc(var(--nav-h)+var(--nav-top)+12vh)] pb-[14vh]">
           <div className="container-page flex flex-col items-center text-center">
-            <span className="end-stamp inline-block -rotate-[6deg] rounded-[var(--r-sm)] border-[3px] border-[#c2321a] px-5 py-2 text-[clamp(2rem,1.4rem+2.6vw,3.6rem)] leading-none font-semibold tracking-[-0.04em] text-[#c2321a]">
+            <span className="end-stamp inline-block -rotate-[6deg] rounded-[var(--r-sm)] border-[3px] border-[#c2321a] px-5 py-2 text-[clamp(2rem,1.4rem+2.6vw,3.6rem)] leading-none font-semibold tracking-[-0.04em] text-[var(--kicker)]">
               — 30 —
             </span>
             <h1 className="end-title t-mega mt-10 max-w-[12ch]">
@@ -245,6 +246,11 @@ export function Ending({ edition }: { edition: Edition }) {
             <div className="mt-8">
               <NextEdition />
             </div>
+            {canSave && (
+              <div className="mt-10 max-w-[460px]">
+                <SavePaper />
+              </div>
+            )}
           </div>
           <ul className="space-y-3 md:col-span-7">
             {edition.tomorrow.map((t) => (

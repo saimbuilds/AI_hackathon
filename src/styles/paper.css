@@ -93,7 +93,7 @@
     font-weight: 600;
     font-size: 0.85em;
     letter-spacing: -0.005em;
-    color: #c2321a;
+    color: var(--kicker);
     margin-bottom: 0.4em;
   }
   .paper-lead {
@@ -205,7 +205,7 @@
     font-weight: 600;
     font-size: 1em;
     letter-spacing: 0.02em;
-    color: #c2321a;
+    color: var(--kicker);
   }
   /* Fade the bottom of a cropped page so it reads as "continues below the fold" */
   .paper[data-crop="true"]::before {

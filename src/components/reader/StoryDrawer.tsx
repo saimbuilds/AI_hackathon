@@ -107,7 +107,7 @@ export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext
             style={{ willChange: "transform" }}
           >
             <div className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-sheet/95 px-6 pt-5 pb-3 backdrop-blur-[2px] md:px-9">
-              <span className="text-[0.85rem] font-semibold text-[#c2321a]">{story.kicker}</span>
+              <span className="text-[0.85rem] font-semibold text-[var(--kicker)]">{story.kicker}</span>
               <button type="button" onClick={onClose} className="menu-disc !h-10 !w-10 !bg-newsprint" aria-label="Close story">
                 <Close />
               </button>

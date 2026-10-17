@@ -27,7 +27,11 @@ const unifraktur = UnifrakturMaguntia({
   display: "swap",
 });
 
+// Absolute URLs for share images: APP_URL when set, else the Vercel production domain, else local dev.
+const siteUrl = process.env.APP_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: `${BRAND.name}: ${BRAND.tagline}`,
   description:
     "A morning paper written for you. About ten stories, each checked across outlets, each with a line on what it means for you. Six minutes, then it ends.",

@@ -5,6 +5,39 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Wordmark } from "./Wordmark";
 import { SheetGlyph } from "./icons";
+import { useUser, isSaved, signInWithGoogle, signOut } from "@/components/session/auth";
+
+/** Bottom of the menu: who holds this paper, or a way back into one on a new device. */
+function Account() {
+  const user = useUser();
+  const [note, setNote] = useState<string | null>(null);
+  return (
+    <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line px-2 pt-4 pb-1">
+      {isSaved(user) ? (
+        <>
+          <span className="t-sm text-ink-3">Signed in as {user!.email}</span>
+          <button type="button" className="tbtn !min-h-0 text-[0.9rem]" onClick={() => signOut()}>
+            Sign out
+          </button>
+        </>
+      ) : (
+        <>
+          <span className="t-sm text-ink-3">{note ?? "Already have a paper?"}</span>
+          <button
+            type="button"
+            className="tbtn !min-h-0 text-[0.9rem]"
+            onClick={async () => {
+              const msg = await signInWithGoogle("/paper");
+              if (msg) setNote(msg.includes("not enabled") ? "Google sign-in isn’t switched on yet." : msg);
+            }}
+          >
+            Sign in with Google
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
 
 const PRIMARY = [
   { href: "/#how", label: "How it works" },
@@ -111,6 +144,7 @@ export function Nav({
               </Link>
             ))}
           </div>
+          <Account />
         </div>
       </div>
 

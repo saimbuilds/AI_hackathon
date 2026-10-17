@@ -71,3 +71,31 @@
   --paper-rule: rgb(236 233 225 / 0.18);
   color-scheme: dark;
 }
+
+/* Colored plates keep dark ink in the Evening Edition: light text on yellow, cyan or red is unreadable. */
+:root[data-edition="evening"] .edition-scope :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press, .chip[data-tone="sun"], .chip[data-tone="cyan"], .chip[data-tone="leaf"], .chip[data-tone="press"], .paper-foryou, .pbtn[data-look="solid"]),
+.edition-scope[data-edition="evening"] :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press, .chip[data-tone="sun"], .chip[data-tone="cyan"], .chip[data-tone="leaf"], .chip[data-tone="press"], .paper-foryou, .pbtn[data-look="solid"]) {
+  --ink: #1c1d1a;
+  --sheet: #fbfaf6;
+  --newsprint: #ece9e1;
+  --line: rgb(28 29 26 / 0.12);
+  color: #1c1d1a;
+}
+
+/* Kicker red: deep on paper, lifted at night; muted ink on colored plates stays readable in both editions. */
+:root {
+  --kicker: #c2321a;
+}
+:root[data-edition="evening"] .edition-scope {
+  --kicker: #ff7f61;
+}
+.edition-scope :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press),
+:is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press) {
+  --ink-2: #33342f;
+  --ink-3: #33342f;
+  --kicker: #a8240e;
+}
+.edition-scope .bg-cyan,
+.bg-cyan {
+  --kicker: #1c1d1a; /* red on cyan is unreadable */
+}

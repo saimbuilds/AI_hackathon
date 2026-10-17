@@ -13,6 +13,7 @@ import { StoryItem } from "./StoryItem";
 import { StoryDrawer } from "./StoryDrawer";
 import { StoriesMode } from "./StoriesMode";
 import { EditionToggle } from "./EditionToggle";
+import { Shortcuts } from "./Shortcuts";
 import { useReadState } from "./useReadState";
 import { track } from "./track";
 
@@ -62,6 +63,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
   const { read, saved, markRead, toggleSave } = useReadState(edition.id);
   const [open, setOpen] = useState<StorySlot | null>(null);
   const [stories, setStories] = useState(false);
+  const [keys, setKeys] = useState(false);
   const next = useNextEdition();
   const { week, day } = weekDay(edition.date);
   const minutes = Math.round(slots.reduce((m, s) => m + s.readMinutes, 0));
@@ -110,7 +112,8 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
   // Keyboard: J/K move between stories, Enter opens (native button).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (open || stories || e.metaKey || e.ctrlKey || (e.target as Element | null)?.closest?.("input,textarea")) return;
+      if (open || stories || keys || e.metaKey || e.ctrlKey || (e.target as Element | null)?.closest?.("input,textarea")) return;
+      if (e.key === "?") return setKeys(true);
       if (e.key !== "j" && e.key !== "k") return;
       const items = [...document.querySelectorAll<HTMLButtonElement>(".story-item")];
       const i = items.indexOf(document.activeElement as HTMLButtonElement);
@@ -120,7 +123,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
     };
     addEventListener("keydown", onKey);
     return () => removeEventListener("keydown", onKey);
-  }, [open, stories]);
+  }, [open, stories, keys]);
 
   const idx = open ? slots.findIndex((s) => s.storyId === open.storyId) : -1;
   const nextStory = idx >= 0 ? slots[idx + 1] : undefined;
@@ -161,7 +164,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
                 </div>
               </div>
               <div className="mx-auto mt-2 max-w-[1100px] [&_.paper-masthead]:!m-0 [&_.paper-masthead]:text-[clamp(2.6rem,1rem+7.4vw,8.4rem)]">
-                <Masthead name={edition.paperName} />
+                <Masthead name={edition.paperName} as="h1" />
               </div>
               <div className="t-sm mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-y-2 border-[var(--paper-ink)] py-2.5">
                 <span>{formatEditionDate(edition.date)}</span>
@@ -211,7 +214,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
               <section className="rounded-[var(--r-lg)] bg-cyan p-6 text-ink md:col-span-7 md:p-9" aria-label="Off your beat">
                 <p className="t-sm font-semibold">Off your beat</p>
                 <p className="t-xs mt-1 opacity-75">One story outside your usual interests, picked to keep your paper wide.</p>
-                <div className="mt-6 space-y-8 [&_.text-\[\#c2321a\]]:!text-ink">{edition.offYourBeat.map((s) => item(s, "major"))}</div>
+                <div className="mt-6 space-y-8">{edition.offYourBeat.map((s) => item(s, "major"))}</div>
               </section>
               <section className="md:col-span-5" aria-label="In other news">
                 <SectionHead title="In other news" />
@@ -227,7 +230,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
 
             {/* ---------- The end of the paper ---------- */}
             <section id="paper-end" className="mt-20 flex scroll-mt-28 flex-col items-center rounded-[var(--r-lg)] bg-sun px-6 py-16 text-center text-ink">
-              <p className="text-[3rem] leading-none font-semibold tracking-[-0.04em] text-[#c2321a]">— 30 —</p>
+              <p className="text-[3rem] leading-none font-semibold tracking-[-0.04em] text-[var(--kicker)]">— 30 —</p>
               <h2 className="t-xl mt-6 max-w-[14ch]">That’s the whole paper.</h2>
               <p className="t-body-lg mt-5 max-w-[38ch] text-ink-2">
                 Three things to remember, three questions everyone gets today, and you’re done until 7 tomorrow.
@@ -279,6 +282,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
         nextHeadline={nextStory?.headline}
         onNext={nextStory ? () => openStory(nextStory) : undefined}
       />
+      {keys && <Shortcuts onClose={() => setKeys(false)} />}
       {stories && (
         <StoriesMode
           edition={edition}

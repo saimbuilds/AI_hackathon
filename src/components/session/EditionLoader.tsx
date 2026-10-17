@@ -40,7 +40,7 @@ function SampleBadge() {
   return (
     <Link
       href="/start"
-      className="fixed bottom-20 left-1/2 z-40 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-[0.95rem] font-medium whitespace-nowrap text-[var(--on-dark)] shadow-[0_12px_30px_-12px_rgb(0_0_0/0.5)] md:bottom-6"
+      className="fixed bottom-20 left-1/2 z-40 -translate-x-1/2 rounded-full bg-sun px-5 py-3 text-[0.95rem] font-medium whitespace-nowrap text-ink shadow-[0_12px_30px_-12px_rgb(0_0_0/0.5)] md:bottom-6"
     >
       This is a sample paper. <span className="underline underline-offset-4">Print your own</span>
     </Link>

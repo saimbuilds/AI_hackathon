@@ -42,7 +42,7 @@ export function StoryItem({
       data-story={s.storyId}
       aria-label={`${s.headline}${read ? " (read)" : ""}`}
     >
-      <span className="flex items-center gap-2 text-[0.82rem] font-semibold tracking-[-0.005em] text-[#c2321a]">
+      <span className="flex items-center gap-2 text-[0.82rem] font-semibold tracking-[-0.005em] text-[var(--kicker)]">
         {s.kicker}
         {read && (
           <span className="inline-flex items-center gap-1 font-medium text-ink-3">

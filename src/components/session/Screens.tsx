@@ -10,5 +10,5 @@ export function PaperScreen({ sample }: { sample: Edition }) {
 }
 
 export function EndScreen({ sample }: { sample: Edition }) {
-  return <EditionLoader sample={sample}>{(e) => <Ending key={e.id} edition={e} />}</EditionLoader>;
+  return <EditionLoader sample={sample}>{(e, isSample) => <Ending key={e.id} edition={e} canSave={!isSample} />}</EditionLoader>;
 }

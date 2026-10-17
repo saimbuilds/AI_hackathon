@@ -6,6 +6,7 @@ import { PillButton } from "@/components/ui/PillButton";
 import { Check } from "@/components/ui/icons";
 import { useSavedName } from "@/components/home/useSavedName";
 import { api } from "@/components/session/client";
+import { SavePaper } from "@/components/session/SavePaper";
 
 type Lang = "en" | "ur";
 type Delivery = "whatsapp" | "email" | "print";
@@ -161,6 +162,9 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
               {busy ? "Making it…" : `Make ${to}’s paper`}
             </PillButton>
             <p className="t-sm mt-3 text-ink-3">$5 a month per paper after a free first week. Cancel any time.</p>
+            <div className="mt-6">
+              <SavePaper reason="So you can see their streak and change their paper from any device." />
+            </div>
           </div>
         )}
       </form>

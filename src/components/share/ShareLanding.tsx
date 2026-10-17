@@ -37,7 +37,7 @@ export function ShareLanding({ token }: { token: string }) {
             <>
               <p className="t-md">{data.fromName} thinks you’d like this.</p>
               <article className="mt-6 rounded-[var(--r-lg)] bg-sheet p-8 md:p-10">
-                <p className="t-sm text-[#c2321a]">{data.story.category ?? "Today"}</p>
+                <p className="t-sm text-[var(--kicker)]">{data.story.category ?? "Today"}</p>
                 <h1 className="mt-3 font-serif text-[clamp(2rem,1.4rem+2.4vw,3.2rem)] leading-[1] font-medium tracking-[-0.03em] text-balance">{data.story.headline}</h1>
                 {data.story.dek && <p className="mt-5 font-serif text-[1.25rem] leading-[1.4] text-ink-2 italic">{data.story.dek}</p>}
                 {data.story.outlets ? (
