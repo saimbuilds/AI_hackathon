@@ -119,7 +119,7 @@ export async function checkWatch(db: SupabaseClient, w: WatchRow): Promise<'upda
   }
   const cited = [...new Set(out.stories ?? [])].filter((n) => n >= 1 && n <= docs.length).map((n) => docs[n - 1]);
   const summary = out.summary?.trim();
-  const grounded = !!summary && cited.length > 0 && numbersSupported(summary, cited.map((d) => `${d.headline} ${d.dek} ${d.text}`).join(' '));
+  const grounded = !!summary && cited.length > 0 && numbersSupported(summary, cited.map((d) => `${d.headline} ${d.dek} ${d.text} ${d.updatedAt.slice(0, 10)}`).join(' '));
   if (out.changes && grounded) {
     const sources = cited.filter((d) => d.source).map((d) => ({ name: d.source!.name, url: d.source!.url }));
     await db.from('watch_updates').insert({ watch_id: w.id, user_id: w.user_id, summary, story_ids: cited.map((d) => d.id), sources });

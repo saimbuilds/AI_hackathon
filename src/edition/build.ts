@@ -242,7 +242,12 @@ async function assemble(a: {
   const { weather, extras } = await a.extrasP;
   const { data: daily } = await db.from('daily_three').select('questions').lte('date', a.date).order('date', { ascending: false }).limit(1).maybeSingle();
   const { data: run } = await db.from('press_runs').select('stats').not('finished_at', 'is', null).order('started_at', { ascending: false }).limit(1).maybeSingle();
-  const grounding = (run?.stats as { enrich?: { grounding?: number | null } } | null)?.enrich?.grounding;
+  let grounding = (run?.stats as { enrich?: { grounding?: number | null } } | null)?.enrich?.grounding;
+  if (typeof grounding !== 'number') {
+    // Enrichment can run without a press run (backfills, re-enrich): average what was written in the last 2 days.
+    const { data: g } = await db.from('stories').select('grounding').not('grounding', 'is', null).gte('enriched_at', new Date(a.now - 48 * 3_600_000).toISOString()).limit(2000);
+    if (g?.length) grounding = Math.round((g.reduce((t, r) => t + Math.min(1, Number(r.grounding)), 0) / g.length) * 1000) / 1000;
+  }
 
   return {
     id: randomUUID(), userId: a.userId, date: a.date, number: 1,

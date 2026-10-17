@@ -100,3 +100,20 @@ Citations: each `body[i].sources` is a list of 1-based indexes into that slot's 
 ## Not built yet (coming from the backend)
 
 Nothing on the build table; see `docs/BACKEND_STATUS.md` for what is unverified without LLM keys.
+
+## Follow & Ask ("Since you asked")
+
+A reader asks a question; the answer comes **only** from stories the press has verified in the last 14 days, with citations. If the news doesn't cover it, `covered: false` and the answer says so (offer "Follow this"). Following a question or a story puts a **"Since you asked"** update at the top of the next paper (and in the morning email) when new stories change the answer. Free plan: **3 follows**; the 4th returns **402 `{ needsPlus: true, limit: 3 }`** (show the Plus upsell).
+
+| Call | Body → Response |
+|---|---|
+| `POST /api/ask` | `{ question (3-300 chars), follow?: boolean }` → `{ answer, sentences: [{ text, sources: number[] }], sources: [{ storyId, headline, name, url }], covered, watchId?, needsPlus?, limit? }`. `sentences[i].sources` are 1-based indexes into `sources` (render as superscripts, like story bodies). With `follow: true` it also follows the question (`watchId`), or returns `needsPlus: true` (200) when the free limit is reached. 3-9 s. Rate limit 5/min, 20/hour |
+| `POST /api/follow` | `{ storyId }` or `{ question }` → story: `{ watchId, kind: 'story', question }` (question = the headline); question: `{ watchId, kind: 'ask', question, answer, sentences, sources, covered }`. Following the same story twice returns the existing follow. 402 `{ needsPlus: true, limit: 3 }` over the free limit; 404 if the story is gone |
+| `GET /api/follows` | → `{ follows: [{ id, kind: 'ask'\|'story', question, storyId, topic, answer, sources: [{storyId, headline, name, url}], createdAt, lastCheckedAt, unseen, latestUpdate: { id, summary, sources: [{name, url}], storyIds, createdAt, seenAt } \| null }], plan: 'free'\|'plus', limit: 3 \| null }` |
+| `DELETE /api/follow/[id]` | → `{ ok: true }` (404 if not yours) |
+
+Also readable with supabase-js under RLS (own rows): `watches`, `watch_updates`.
+
+**In the paper** (contract, additive): `Edition.updates?: [{ watchId, question, summary, sources: [{ name, url }], storyId? }]`. Absent when nothing changed. Render first, under a "Since you asked" rule: the question as a small-caps kicker, the one-sentence `summary`, source links; `storyId` opens the story. Updates are marked seen when the paper that carries them is built, so each appears once. Example in `fixtures/edition.sample.json`.
+
+How updates are made: after each press run (and during each reader's build, max 8 s) every follow is checked against stories newer than its `lastCheckedAt` (keyword full-text search, plus the same story thread for story follows). A model decides whether a new story adds a concrete fact that changes the answer and writes one cited sentence; figures must appear in the cited stories or it is dropped.

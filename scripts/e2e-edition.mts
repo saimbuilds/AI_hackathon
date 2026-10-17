@@ -31,6 +31,11 @@ try {
   }).eq('id', userId);
   if (upErr) throw upErr;
 
+  // Follow & Ask: a follow last checked 3 days ago, so stories since then can produce a "Since you asked" update.
+  if (!process.argv.includes('--no-follow')) {
+    await db.from('watches').insert({ user_id: userId, kind: 'ask', question: 'What is happening with gold prices in Pakistan?', keywords: ['gold', 'tola', 'pakistan'], answer: 'We had no figures for this yet.', last_checked_at: new Date(Date.now() - 3 * 86_400_000).toISOString() });
+  }
+
   const steps: string[] = [];
   const t0 = Date.now();
   const result = await buildEdition(userId, { onProgress: (p) => steps.push(`${p.step}@${Date.now() - t0}ms`) });
@@ -43,6 +48,10 @@ try {
   console.log(`\n${ed.paperName} · ${ed.city} Edition · No. ${ed.number} · ${ed.date}  (fallback=${ed.meta.fallback})`);
   console.log('weather:', ed.weather, '| onThisDay:', ed.extras.onThisDay?.slice(0, 70));
   console.log('\nNOTE:', ed.editorNote);
+  const all = [ed.lead, ...ed.sections.flatMap((x) => x.slots), ...ed.offYourBeat];
+  console.log(`grounding=${ed.meta.grounding ?? 'n/a'} | forYou lines: ${all.filter((x) => x.forYou).length}/${all.length}`);
+  all.filter((x) => x.forYou).slice(0, 3).forEach((x) => console.log(`  for you: ${x.forYou}`));
+  console.log('SINCE YOU ASKED:', JSON.stringify(ed.updates ?? [], null, 1));
   console.log('\nLEAD\n' + slotLine(ed.lead));
   for (const s of ed.sections) { console.log(`SECTION ${s.name}`); s.slots.forEach((x) => console.log(slotLine(x))); }
   console.log('OFF YOUR BEAT'); ed.offYourBeat.forEach((x) => console.log(slotLine(x)));

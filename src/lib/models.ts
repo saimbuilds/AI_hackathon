@@ -148,8 +148,8 @@ export const TASK_DEFAULTS: Record<Task, { timeoutMs: number; maxTokens: number;
   enrich: { timeoutMs: 60_000, maxTokens: 6000, temperature: 0.2 },
   factcheck: { timeoutMs: 20_000, maxTokens: 1500, temperature: 0 },
   parse: { timeoutMs: 12_000, maxTokens: 700, temperature: 0 },
-  editor: { timeoutMs: 25_000, maxTokens: 3000, temperature: 0.5 },
-  translate: { timeoutMs: 30_000, maxTokens: 3500, temperature: 0.2 },
+  editor: { timeoutMs: 30_000, maxTokens: 6000, temperature: 0.5 },
+  translate: { timeoutMs: 45_000, maxTokens: 8000, temperature: 0.2 }, // Urdu needs ~2.5x the tokens of English
   sim: { timeoutMs: 20_000, maxTokens: 800, temperature: 0.7 },
   memo: { timeoutMs: 15_000, maxTokens: 300, temperature: 0.3 },
   daily3: { timeoutMs: 30_000, maxTokens: 1500, temperature: 0.3 },

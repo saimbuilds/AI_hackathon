@@ -142,7 +142,7 @@ export function groundAnswer(out: z.infer<typeof AnswerSchema>, docs: StoryDoc[]
     if (!out.covered) break; // not covered: say so plainly instead of padding with loosely related facts
     const cited = [...new Set(s.stories)].filter((n) => n >= 1 && n <= docs.length).map((n) => docs[n - 1]);
     if (!cited.length) continue;
-    if (!numbersSupported(s.text, cited.map((d) => `${d.headline} ${d.dek} ${d.text}`).join(' '))) continue;
+    if (!numbersSupported(s.text, cited.map((d) => `${d.headline} ${d.dek} ${d.text} ${d.updatedAt.slice(0, 10)}`).join(' '))) continue;
     const idx = cited.map((d) => { if (!used.includes(d)) used.push(d); return used.indexOf(d) + 1; });
     sentences.push({ text: s.text.trim(), sources: idx });
   }
