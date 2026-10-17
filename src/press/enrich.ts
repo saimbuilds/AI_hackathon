@@ -5,7 +5,7 @@ import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { adminClient } from '../lib/supabase';
 import { llm, LLMUnavailableError, wrapUntrusted, type Attempt } from '../lib/llm';
-import { CATEGORIES, COUNTRY_NAMES } from '../lib/taxonomy';
+import { CATEGORIES, COUNTRY_NAMES, TOPICS } from '../lib/taxonomy';
 import { domainOf } from './normalize';
 
 const log = (...a: unknown[]) => console.log(new Date().toISOString().slice(11, 19), ...a);
@@ -45,6 +45,8 @@ export function renderStory(s: StoryInput): string {
 
 // ---------------------------------------------------------------------- schemas ----
 
+const TOPIC_SLUGS = Object.keys(TOPICS) as [string, ...string[]];
+
 export const EnrichedStorySchema = z.object({
   id: z.string(),
   headline: z.string().min(8).max(160),
@@ -52,7 +54,7 @@ export const EnrichedStorySchema = z.object({
   brief: z.array(z.object({ text: z.string().min(15), sources: z.array(z.number().int()).min(1) })).min(1).max(6),
   whyItMatters: z.string().min(8).max(300),
   category: z.enum(CATEGORIES),
-  topics: z.array(z.string()).max(8),
+  topics: z.array(z.enum(TOPIC_SLUGS)).min(1).max(4),
   entities: z.array(z.object({ name: z.string(), type: z.enum(['person', 'org', 'place', 'product', 'event', 'other']) })).max(10),
   importance: z.number().int().min(1).max(10),
   distress: z.number().int().min(0).max(3),
@@ -71,7 +73,7 @@ Rules:
 - brief: 3 to 5 short sentences. Every sentence must be fully supported by the articles it cites (field "sources": the article numbers). Never add a fact, number, name, date or cause that the cited articles do not state. No opinion, no speculation, no advice. Attribute claims ("police say").
 - headline: neutral, specific, at most 12 words, no clickbait. dek: one sentence that adds information beyond the headline.
 - whyItMatters: one grounded sentence on why a general reader should care (no financial or medical advice).
-- category: one of ${CATEGORIES.join(', ')}. topics: 2-6 lowercase kebab-case tags. entities: main people/orgs/places.
+- category: one of ${CATEGORIES.join(', ')}. topics: 1-4 slugs chosen ONLY from this list: ${TOPIC_SLUGS.join(', ')}. entities: main people/orgs/places.
 - importance: 1-10 for global significance (a routine local item is 1-3; war, major markets, major disasters are 8-10).
 - distress: 0 calm, 1 mild, 2 upsetting, 3 graphic or tragic (deaths, violence against children).
 - unknowns: what the sources say is still unclear or unconfirmed (omit if nothing).

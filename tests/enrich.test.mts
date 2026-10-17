@@ -57,7 +57,7 @@ test('story prompt wraps articles as untrusted data and defuses delimiter inject
 });
 
 test('enrichment schema rejects bad shapes the model might return', () => {
-  const ok = { id: 'S1', headline: 'A clear headline here', dek: 'A dek that adds some information.', brief: [{ text: 'A sentence that is long enough.', sources: [1] }], whyItMatters: 'Because it matters a lot.', category: 'world', topics: ['a'], entities: [], importance: 5, distress: 1 };
+  const ok = { id: 'S1', headline: 'A clear headline here', dek: 'A dek that adds some information.', brief: [{ text: 'A sentence that is long enough.', sources: [1] }], whyItMatters: 'Because it matters a lot.', category: 'world', topics: ['ai'], entities: [], importance: 5, distress: 1 };
   assert.ok(EnrichBatchSchema.safeParse({ stories: [ok] }).success);
   assert.ok(!EnrichBatchSchema.safeParse({ stories: [{ ...ok, category: 'nonsense' }] }).success);
   assert.ok(!EnrichBatchSchema.safeParse({ stories: [{ ...ok, brief: [{ text: 'A sentence that is long enough.', sources: [] }] }] }).success);
