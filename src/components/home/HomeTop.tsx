@@ -92,7 +92,7 @@ export function HomeTop({ paper }: { paper: PaperData }) {
             onSubmit={() => setName(name.trim())}
             data-intro
           >
-            <label className="flex min-h-[56px] flex-1 items-center gap-2 rounded-[var(--r-sm)] bg-sheet px-4 text-[1.0625rem] tracking-[-0.02em] sm:min-h-0 sm:px-3">
+            <label className="flex min-h-[56px] flex-1 items-center gap-2 rounded-[var(--r-sm)] bg-sheet px-4 transition-shadow focus-within:shadow-[0_0_0_2px_rgb(28_29_26/0.2)] text-[1.0625rem] tracking-[-0.02em] sm:min-h-0 sm:px-3">
               <span className="text-ink-3">The</span>
               <input
                 name="name"

@@ -13,7 +13,9 @@ export function AuthCallback() {
 
   useEffect(() => {
     const q = new URLSearchParams(location.search + location.hash.replace(/^#/, "&"));
-    const next = q.get("next")?.startsWith("/") ? q.get("next")! : "/paper";
+    const want = q.get("next");
+    // Only same-site paths (not "//host"): back to where the reader came from.
+    const next = want && want.startsWith("/") && !want.startsWith("//") && !want.startsWith("/auth/") ? want : "/paper";
     const code = q.get("error_code");
     let live = true;
     (async () => {

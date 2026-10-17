@@ -61,17 +61,10 @@ export function Ending({ edition, canSave = false }: { edition: Edition; canSave
     { scope: root },
   );
 
-  const grid = answers.map((a) => (a ? (a.correct ? "🟩" : "🟥") : "⬜")).join("");
+  const headline = `Endpaper No. ${edition.number}. Daily 3: ${score}/${quiz.length}${streak ? `. ${streak}-day streak` : ""}`;
   const shareText = useMemo(
-    () =>
-      [
-        `Endpaper #${edition.number} · 🧠 ${score}/${quiz.length}${streak ? ` · 🔥 ${streak}` : ""}`,
-        grid,
-        "",
-        "3 things I learned this morning:",
-        ...edition.threeThings.map((t, i) => `${i + 1}. ${t}`),
-      ].join("\n"),
-    [edition, score, quiz.length, streak, grid],
+    () => [headline, "", "3 things I learned this morning:", ...edition.threeThings.map((t, i) => `${i + 1}. ${t}`)].join("\n"),
+    [edition, headline],
   );
 
   const answer = (qi: number, pick: number) => {
@@ -203,7 +196,7 @@ export function Ending({ edition, canSave = false }: { edition: Edition; canSave
               <div className="flex flex-col justify-between gap-6 rounded-[var(--r-md)] bg-sheet p-7 text-ink">
                 <div>
                   <p className="t-md">Share it without spoilers</p>
-                  <pre className="t-sm mt-3 overflow-hidden font-sans whitespace-pre-wrap text-ink-2">{shareText.split("\n").slice(0, 2).join("\n")}</pre>
+                  <pre className="t-sm mt-3 overflow-hidden font-sans whitespace-pre-wrap text-ink-2">{headline}</pre>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <PillButton
