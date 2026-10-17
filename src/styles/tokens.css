@@ -1,0 +1,54 @@
+/* Endpaper design tokens. Source of truth: docs/DESIGN_DIRECTION.md §4, §7.
+   Morning Edition (light) and Evening Edition (dark) follow the reader's clock;
+   data-edition is set on <html> before paint by the inline script in layout.tsx. */
+
+:root,
+:root[data-edition="morning"] {
+  --paper: #f3efe6;
+  --paper-raised: #faf8f3;
+  --paper-sunk: #e9e4d8;
+  --ink: #141413;
+  --ink-2: #4a463f;
+  --ink-3: #6f6a5f;
+  --rule: rgb(20 20 19 / 0.14);
+  --rule-mid: rgb(20 20 19 / 0.32);
+  --rule-strong: #141413;
+  --accent: #c8102e;
+  --confirm: #2f6b3b;
+  --on-ink: #f3efe6;
+  --selection: rgb(200 16 46 / 0.16);
+  color-scheme: light;
+}
+
+:root[data-edition="evening"] {
+  --paper: #121110;
+  --paper-raised: #1b1a18;
+  --paper-sunk: #0b0a09;
+  --ink: #ede8dd;
+  --ink-2: #bdb7aa;
+  --ink-3: #9a9488;
+  --rule: rgb(237 232 221 / 0.14);
+  --rule-mid: rgb(237 232 221 / 0.3);
+  --rule-strong: #ede8dd;
+  --accent: #ff5a47;
+  --confirm: #7fbf8a;
+  --on-ink: #121110;
+  --selection: rgb(255 90 71 / 0.22);
+  color-scheme: dark;
+}
+
+:root {
+  /* Motion: house curves (DESIGN_REFERENCES.md §3, §6) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-hover: 120ms;
+  --dur-ui: 200ms;
+  --dur-drawer: 280ms;
+  --dur-scene: 600ms;
+
+  /* Layout */
+  --gutter: clamp(16px, 3.2vw, 44px);
+  --col-gap: clamp(16px, 2vw, 28px);
+  --page-max: 1440px;
+}
