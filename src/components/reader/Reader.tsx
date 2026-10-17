@@ -14,6 +14,9 @@ import { StoryDrawer } from "./StoryDrawer";
 import { StoriesMode } from "./StoriesMode";
 import { EditionToggle } from "./EditionToggle";
 import { Shortcuts } from "./Shortcuts";
+import { AskBox } from "@/components/follow/AskBox";
+import { SinceYouAsked } from "@/components/follow/SinceYouAsked";
+import { editionUpdates } from "@/components/follow/api";
 import { useReadState } from "./useReadState";
 import { track } from "./track";
 
@@ -174,6 +177,14 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
                 <span className="t-num text-ink-3">Next edition in {next ?? "…"}</span>
               </div>
             </header>
+
+            {/* ---------- Since you asked + Ask your paper ---------- */}
+            <SinceYouAsked updates={editionUpdates(edition)} />
+            {!gift && (
+              <div className="mt-6">
+                <AskBox />
+              </div>
+            )}
 
             {/* ---------- Front: note | lead | everyone's front page ---------- */}
             <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-0">

@@ -143,7 +143,7 @@ export function Press({ paper }: { paper: PaperData }) {
           )}
           {error && (
             <div className="t-body mt-8 max-w-[46ch] rounded-[var(--r-sm)] bg-sheet p-4" role="alert">
-              <p>{error.message}.</p>
+              <p>{error.message.replace(/\.+$/, "")}.</p>
               {error.retryable && (
                 <button
                   type="button"

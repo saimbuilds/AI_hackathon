@@ -292,3 +292,14 @@
 .edition-large .edition-sheet {
   zoom: 1.16;
 }
+
+/* Story text picks its own direction from its first strong character, so an Arabic or Urdu headline in an
+   English paper (or the reverse) reads right-to-left without per-story markup. */
+.font-serif,
+.paper-lead,
+.paper-h2,
+.paper-h3,
+.paper-dek,
+.paper-small {
+  unicode-bidi: plaintext; /* alignment follows: the default text-align is start */
+}

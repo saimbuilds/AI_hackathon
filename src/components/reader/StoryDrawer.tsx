@@ -7,6 +7,7 @@ import { LESS_REASONS } from "@/types/events";
 import { Close, Check, Plus } from "@/components/ui/icons";
 import { TrustChip } from "./StoryItem";
 import { api } from "@/components/session/client";
+import { followStory } from "@/components/follow/api";
 
 const PROBLEMS = [
   { kind: "wrong-facts", label: "Something’s wrong" },
@@ -37,6 +38,8 @@ type Props = {
 export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext, nextHeadline }: Props) {
   const [report, setReport] = useState<{ id: string; v: "open" | "sent" } | null>(null);
   const reportState = report && story && report.id === story.storyId ? report.v : null;
+  const [follow, setFollow] = useState<{ id: string; v: "busy" | "done" | "plus" | "error" } | null>(null);
+  const followState = follow && story && follow.id === story.storyId ? follow.v : null;
   const panel = useRef<HTMLDivElement>(null);
   // Feedback belongs to one story; opening another story starts fresh.
   const [fb, setFb] = useState<{ id: string; v: "more" | "less" | "less-done" } | null>(null);
@@ -276,8 +279,39 @@ export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext
                     >
                       Send to a friend
                     </button>
+                    <button
+                      type="button"
+                      className="chip !h-11 !px-4"
+                      data-tone={followState === "done" ? "leaf" : undefined}
+                      disabled={followState === "busy" || followState === "done"}
+                      onClick={async () => {
+                        setFollow({ id: story.storyId, v: "busy" });
+                        const r = await followStory(story.storyId);
+                        setFollow({ id: story.storyId, v: r.ok ? "done" : r.needsPlus ? "plus" : "error" });
+                      }}
+                    >
+                      {followState === "done" ? (
+                        <>
+                          <Check size={12} /> Following
+                        </>
+                      ) : followState === "busy" ? (
+                        "Following…"
+                      ) : (
+                        "Follow this story"
+                      )}
+                    </button>
                   </div>
                 )}
+                {followState === "plus" && (
+                  <p className="t-sm mt-3 px-1">
+                    Free papers follow 3 stories or questions.{" "}
+                    <a href="/pricing" className="underline underline-offset-4">
+                      Endpaper+ follows as many as you like
+                    </a>
+                    .
+                  </p>
+                )}
+                {followState === "error" && <p className="t-sm mt-3 px-1 text-ink-3">Couldn’t follow that right now. Try again.</p>}
               </section>
 
               <div className="mt-3 px-1">
