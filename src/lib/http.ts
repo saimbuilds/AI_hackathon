@@ -71,6 +71,8 @@ export function route(handler: (req: Request, ctx: { params: Promise<Record<stri
     try {
       return await handler(req, ctx);
     } catch (e) {
+      // Next uses thrown signals for "this route is dynamic" during prerender; never swallow those.
+      if (e && typeof e === 'object' && ('digest' in e || /bail out of prerendering/.test(String((e as Error).message)))) throw e;
       if (e instanceof HttpError) {
         return NextResponse.json({ error: e.message, ...e.extra }, { status: e.status, headers: e.status === 429 && e.extra?.retryAfterSeconds ? { 'retry-after': String(e.extra.retryAfterSeconds) } : undefined });
       }

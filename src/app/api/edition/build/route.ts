@@ -11,7 +11,7 @@ const MAX_CONCURRENT_BUILDS = 5; // Groq's free tier allows ~30 req/min; this ke
 const MAX_WAIT_MS = 90_000;
 const POLL_MS = 700;
 
-const Body = z.object({ rebuild: z.boolean().default(false) });
+const Body = z.object({ rebuild: z.boolean().default(false), giftId: z.uuid().optional() }); // giftId: build a gift paper you made
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // POST /api/edition/build  { rebuild?: boolean }   Authorization: Bearer <access_token>
@@ -23,11 +23,19 @@ export const POST = route(async (req) => {
   rateLimit(`build:ip:${clientIp(req)}`, 150, 60_000);
   rateLimit(`build:user:${user.id}`, 6, 60_000);
   await requireHuman(user);
-  const { rebuild } = await parseJson(req, Body);
+  const { rebuild, giftId } = await parseJson(req, Body);
   const db = adminClient()!;
 
+  // Whose paper is this? The caller's own, or a gift paper they made.
+  let subjectId = user.id;
+  if (giftId) {
+    const { data: gift } = await db.from('gifts').select('recipient_user_id').eq('id', giftId).eq('from_user_id', user.id).maybeSingle();
+    if (!gift?.recipient_user_id) return fail(404, 'Gift paper not found.');
+    subjectId = gift.recipient_user_id;
+  }
+
   // Double-click guard: one in-flight build per reader.
-  const { data: inflight } = await db.from('jobs').select('id').eq('kind', 'edition').eq('user_id', user.id).in('status', ['queued', 'running']).gt('created_at', new Date(Date.now() - 3 * 60_000).toISOString()).limit(1);
+  const { data: inflight } = await db.from('jobs').select('id').eq('kind', 'edition').eq('user_id', subjectId).in('status', ['queued', 'running']).gt('created_at', new Date(Date.now() - 3 * 60_000).toISOString()).limit(1);
   if (inflight?.length) return fail(409, 'Your paper is already being printed.');
 
   const encoder = new TextEncoder();
@@ -39,10 +47,10 @@ export const POST = route(async (req) => {
       let jobId: string | null = null;
       try {
         // A reprint of today's paper needs no queue slot.
-        const today = !rebuild ? await existingToday(user.id) : null;
+        const today = !rebuild ? await existingToday(subjectId) : null;
         if (today) { send({ step: 'done', editionId: today.editionId }); return; }
 
-        const { data: job, error } = await db.from('jobs').insert({ kind: 'edition', user_id: user.id, payload: { rebuild } }).select('id').single();
+        const { data: job, error } = await db.from('jobs').insert({ kind: 'edition', user_id: subjectId, payload: { rebuild, giftId: giftId ?? null } }).select('id').single();
         if (error) throw new Error(error.message);
         jobId = job.id;
 
@@ -61,7 +69,7 @@ export const POST = route(async (req) => {
           await sleep(POLL_MS);
         }
 
-        const result = await buildEdition(user.id, { rebuild, onProgress: send });
+        const result = await buildEdition(subjectId, { rebuild, onProgress: send });
         await db.from('jobs').update({ status: 'done', result, finished_at: new Date().toISOString() }).eq('id', jobId);
       } catch (e) {
         const known = e instanceof BuildError;

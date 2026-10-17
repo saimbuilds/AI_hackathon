@@ -57,8 +57,32 @@ export async function loadCandidates(db: SupabaseClient, userId: string, profile
   });
   if (idErr) throw new Error(`candidates: ${idErr.message}`);
   const idList = (ids as { id: string }[]).map((r) => r.id);
-  if (!idList.length) return [];
+  const cands = idList.length ? await hydrate(db, idList, reader) : [];
 
+  // Stories friends sent to this reader's paper: allowed to be older than 36 h, still unseen and printable.
+  const friends = await loadFriendPicks(db, userId);
+  if (friends.size) {
+    const missing = [...friends.keys()].filter((id) => !cands.some((c) => c.id === id));
+    const extra = missing.length ? await hydrate(db, missing, reader) : [];
+    for (const c of [...cands, ...extra]) if (friends.has(c.id)) c.friend = friends.get(c.id)!;
+    cands.push(...extra);
+  }
+  return cands;
+}
+
+// Pending shares for this reader: story id -> who sent it.
+export async function loadFriendPicks(db: SupabaseClient, userId: string): Promise<Map<string, string>> {
+  const { data: claims } = await db.from('share_claims').select('share_id').eq('recipient_id', userId).is('consumed_at', null);
+  if (!claims?.length) return new Map();
+  const { data: shares } = await db.from('shares').select('story_id,from_name,created_at').in('id', claims.map((c) => c.share_id)).gte('created_at', new Date(Date.now() - 7 * 86_400_000).toISOString());
+  if (!shares?.length) return new Map();
+  const { data: seen } = await db.from('edition_stories').select('story_id').eq('user_id', userId).in('story_id', shares.map((x) => x.story_id));
+  const seenIds = new Set((seen ?? []).map((r) => r.story_id));
+  return new Map(shares.filter((x) => !seenIds.has(x.story_id)).map((x) => [x.story_id as string, x.from_name as string]));
+}
+
+// Story rows + verified sentences + sources -> candidates.
+export async function hydrate(db: SupabaseClient, idList: string[], reader: ReaderModel): Promise<Cand[]> {
   const stories: StoryRow[] = [];
   for (const part of chunk(idList, 100)) {
     const { data, error } = await db.from('stories').select('id,headline,dek,why_it_matters,category,topics,entities,importance,distress,source_count,is_primary,updated_at,first_seen_at,day_count,parent_story_id,unknowns,quiz,world,image_url,embedding').in('id', part);

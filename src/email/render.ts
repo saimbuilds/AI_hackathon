@@ -27,9 +27,9 @@ export const editionUrl = (e: Pick<Edition, 'id' | 'date'>) => (process.env.EDIT
 
 const INK = '#141414', PAPER = '#F3EFE6', RED = '#C8102E';
 
-export function renderEmail(e: Edition, userId: string): { subject: string; html: string; text: string; unsubscribeUrl: string } {
+export function renderEmail(e: Edition, userId: string, opts: { url?: string } = {}): { subject: string; html: string; text: string; unsubscribeUrl: string } {
   const unsubscribeUrl = `${appUrl()}/api/unsubscribe?t=${unsubscribeToken(userId)}`;
-  const url = editionUrl(e);
+  const url = opts.url ?? editionUrl(e);
   const headlines = [...e.sections.flatMap((s) => s.slots.map((x) => ({ section: s.name, x }))), ...e.offYourBeat.map((x) => ({ section: 'Off your beat', x }))].slice(0, 8);
   const dateLabel = new Date(`${e.date}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   const subject = `${e.paperName}: ${e.lead.headline}`.slice(0, 120);

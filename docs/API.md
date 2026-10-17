@@ -46,6 +46,30 @@ Citations: each `body[i].sources` is a list of 1-based indexes into that slot's 
 | `DELETE /api/me` | `{ confirm: "delete my paper" }`: "Delete my paper & data" |
 | `GET /api/admin/stats` | header `x-admin-key`. For `/newsroom`: readers, editions, queue depth, last press runs (**grounding rate** in `press.last.stats.enrich.grounding`), LLM calls and cost per provider, budget headroom, jobs, open feedback |
 
+## Share to a friend
+
+| Call | Notes |
+|---|---|
+| `POST /api/share` | `{ storyId }` -> `{ token, url, text, whatsappUrl }`. Link is `{APP_URL}/s/{token}` (override with `SHARE_URL_TEMPLATE`). Open `whatsappUrl` for the prefilled WhatsApp share |
+| `GET /api/share/[token]` | public, no auth -> `{ fromName, story: { storyId, headline, dek, category, outlets, imageUrl } }`: the landing page for the link. Use the story as the friend's first swipe |
+| `POST /api/share/[token]/claim` | auth (anonymous is fine) -> `{ ok, fromName, storyId }`. Call once the friend has a session. Their next paper includes the story with `fromFriend: "<name> thinks you'd like this"` |
+
+## Gift papers ("Make one for someone you love")
+
+| Call | Notes |
+|---|---|
+| `POST /api/gifts` | `{ forName, relation, fromName?, text?, interests?, language:'en'|'ur', largePrint, city?, tz?, tone?, size?, emailEveryMorning?, recipientEmail? }` -> `{ giftId, token, url }`. `text` is parsed like onboarding. Link is `{APP_URL}/gift/{token}` (`GIFT_URL_TEMPLATE`). Max 5 per giver |
+| `GET /api/gifts` | the giver's gifts with `latestEdition` |
+| `POST /api/edition/build` | add `giftId` to build a gift paper through the same queue (404 unless you made it) |
+| `GET /api/gift/[token]` | **public, no account**: `{ gift: { forName, fromName, relation, language, largePrint }, edition: Edition | null, needsBuild }`: the recipient's read-only paper ("Compiled for Abbu by Saim") |
+| `POST /api/gift/[token]` | public: prints today's paper if `needsBuild` -> `{ editionId }` (can take 10-60 s; show the press animation) |
+
+## Contract change (additive, on `main`)
+
+`Edition` now has `language: 'en' | 'ur'` and `largePrint: boolean` (defaults `'en'` / `false`, fixture updated).
+- `language: 'ur'` means the copy is Urdu: render right-to-left in Noto Nastaliq. It is only `'ur'` when translation really succeeded; if the model was unavailable the paper stays English and says `'en'` (`gift.language` is the same).
+- `largePrint: true`: typeset large; the paper is also shorter (about 4-6 stories).
+
 ## Not built yet (coming from the backend)
 
-`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route), `/api/lab`, gifts / send-to-friend, email delivery.
+`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route), `/api/lab`.

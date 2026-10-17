@@ -5,7 +5,7 @@ import { adminClient } from '../lib/supabase';
 import { captureError } from '../lib/monitor';
 import { buildEdition, localDate } from '../edition/build';
 import { EditionSchema } from '../types/edition';
-import { renderEmail } from './render';
+import { appUrl, renderEmail } from './render';
 
 const log = (...a: unknown[]) => console.log(new Date().toISOString().slice(11, 19), ...a);
 
@@ -66,7 +66,12 @@ export async function deliverDue(opts: DeliverOptions = {}): Promise<{ due: numb
       const built = await buildEdition(p.id, { now });
       const { data: row } = await db.from('editions').select('payload').eq('id', built.editionId).single();
       const edition = EditionSchema.parse(row!.payload);
-      const msg = renderEmail(edition, p.id);
+      let url: string | undefined;
+      if (edition.gift) {
+        const { data: g } = await db.from('gifts').select('token').eq('recipient_user_id', p.id).maybeSingle();
+        if (g) url = (process.env.GIFT_URL_TEMPLATE ?? `${appUrl()}/gift/{token}`).replace('{token}', g.token);
+      }
+      const msg = renderEmail(edition, p.id, { url });
       const info = await mail.send({
         to: opts.toOverride ?? (p.email as string), subject: msg.subject, html: msg.html, text: msg.text,
         headers: { 'List-Unsubscribe': `<${msg.unsubscribeUrl}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },

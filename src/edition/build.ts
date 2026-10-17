@@ -13,6 +13,7 @@ import { exploreTopics, mmr, score, type Cand, type ReaderModel, type Scored } f
 import { FALLBACK_SECTION, SLOT_COUNTS, pickQuiz, pickTomorrow, sectionOf, templateNote, templateThreeThings, templateWhy, toSlot } from './assemble';
 import { runEditor, type Entry, type EditorPlan } from './editor';
 import { loadExtras } from './extras';
+import { translateEdition } from './translate';
 
 export class BuildError extends Error {
   constructor(public status: number, message: string, public retryable = false) { super(message); }
@@ -80,7 +81,7 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   const cands = await loadCandidates(db, userId, profile, reader, now);
   if (!cands.length) throw new BuildError(503, "The press hasn't printed any stories yet. Try again in a few minutes.", true);
 
-  const size = SLOT_COUNTS[profile.size] ?? SLOT_COUNTS.standard;
+  const size = profile.large_print ? SLOT_COUNTS.espresso : (SLOT_COUNTS[profile.size] ?? SLOT_COUNTS.standard); // large print = fewer, bigger stories
   const everyone = pickEveryones(cands, size.everyone);
   const everyoneIds = new Set(everyone.map((c) => c.id));
   const pool = cands.filter((c) => !everyoneIds.has(c.id));
@@ -90,6 +91,10 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   const scored = score(pool, reader, now, coRead);
   const nMain = 1 + size.sections + size.briefs;
   const picks = mmr(scored, nMain);
+  // A friend's pick is guaranteed a place: it replaces the lowest-ranked pick if the ranking left it out.
+  for (const f of scored.filter((s) => s.cand.friend).slice(0, 2)) {
+    if (!picks.some((p) => p.cand.id === f.cand.id)) picks.splice(Math.max(1, picks.length - 1), 1, f);
+  }
   const pickedIds = new Set(picks.map((p) => p.cand.id));
   const offBeat = exploreTopics(scored.filter((s) => !pickedIds.has(s.cand.id)), reader, size.offBeat, opts.rand ?? Math.random);
   if (!picks.length) throw new BuildError(503, 'Not enough stories to print a paper yet.', true);
@@ -116,10 +121,23 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   const { data: last } = await db.from('editions').select('number').eq('user_id', userId).order('number', { ascending: false }).limit(1);
   const number = (last?.[0]?.number ?? 0) + 1;
   const editionId = randomUUID();
-  const payload: Edition = EditionSchema.parse({ ...edition, id: editionId, number, meta: { ...edition.meta, fallback } });
+  const giftMeta = (profile.extras as { gift?: { fromName: string; relation: string } }).gift;
+  let built: Edition = EditionSchema.parse({
+    ...edition, id: editionId, number, meta: { ...edition.meta, fallback },
+    language: 'en', largePrint: profile.large_print,
+    ...(giftMeta ? { gift: { forName: profile.name ?? 'you', fromName: giftMeta.fromName, relation: giftMeta.relation, language: 'en', largePrint: profile.large_print } } : {}), // 'ur' only once the translation really succeeded
+  });
+  let translation: { translated: number; total: number; failedChunks: number } | null = null;
+  if (profile.language === 'ur') {
+    const t = await translateEdition(built, 'ur');
+    translation = { translated: t.translated, total: t.total, failedChunks: t.failedChunks };
+    // Honest labelling: only call it Urdu if most of the paper actually translated; otherwise it stays English.
+    if (t.translated / Math.max(1, t.total) >= 0.8) built = EditionSchema.parse({ ...t.edition, language: 'ur', ...(giftMeta ? { gift: { ...t.edition.gift!, language: 'ur' } } : {}) });
+  }
+  const payload: Edition = built;
 
   const stats = {
-    candidates: cands.length, picks: picks.length, offBeat: offBeat.length, fallback, ms: Date.now() - t0,
+    translation, candidates: cands.length, picks: picks.length, offBeat: offBeat.length, fallback, ms: Date.now() - t0,
     llm: 'model' in editor ? { model: editor.model, tokensIn: editor.tokensIn, tokensOut: editor.tokensOut, costUsd: editor.costUsd, attempts: editor.attempts } : { attempts: editor.attempts, reason: editor.reason },
   };
   const { error } = await db.from('editions').insert({ id: editionId, user_id: userId, date, number, payload, stats });
@@ -134,20 +152,28 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   ];
   await db.from('edition_stories').insert(slots.map(({ slot, kind }, position) => ({ edition_id: editionId, user_id: userId, story_id: slot.storyId, slot: kind, position })));
 
+  // Friends' picks that made the paper are delivered: stop offering them.
+  const shownIds = slots.map((x) => x.slot.storyId);
+  const { data: myClaims } = await db.from('share_claims').select('share_id').eq('recipient_id', userId).is('consumed_at', null);
+  if (myClaims?.length) {
+    const { data: delivered } = await db.from('shares').select('id').in('id', myClaims.map((c) => c.share_id)).in('story_id', shownIds);
+    if (delivered?.length) await db.from('share_claims').update({ consumed_at: new Date().toISOString() }).eq('recipient_id', userId).in('share_id', delivered.map((d) => d.id));
+  }
+
   emit({ step: 'done', editionId });
   return { editionId, number, fallback, reused: false, ms: Date.now() - t0 };
 }
 
 async function assemble(a: {
   db: SupabaseClient; userId: string; profile: Profile; reader: ReaderModel; date: string; entries: Entry[]; briefPicks: Scored[]; everyone: Cand[]; plan: EditorPlan | null; now: number; extrasP: ReturnType<typeof loadExtras>;
-}): Promise<Omit<Edition, 'id' | 'number'> & { id: string; number: number }> {
+}): Promise<Omit<Edition, 'id' | 'number' | 'language' | 'largePrint' | 'gift'> & { id: string; number: number }> {
   const { db, profile, reader, entries, briefPicks, everyone, plan } = a;
   const byKey = new Map(entries.map((e) => [e.key, e]));
   const main = entries.filter((e) => e.kind !== 'offBeat');
   const leadKey = plan?.lead && byKey.get(plan.lead)?.kind !== 'offBeat' ? plan.lead : main[0].key;
 
   // Sections: the editor's grouping when valid, else by topic. Anything unplaced is grouped by topic.
-  const counts = SLOT_COUNTS[profile.size] ?? SLOT_COUNTS.standard;
+  const counts = profile.large_print ? SLOT_COUNTS.espresso : (SLOT_COUNTS[profile.size] ?? SLOT_COUNTS.standard);
   const rest = main.filter((e) => e.key !== leadKey);
   const placed = new Set<string>();
   const sections: { name: string; keys: string[] }[] = [];
