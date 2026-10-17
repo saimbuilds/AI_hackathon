@@ -61,6 +61,8 @@ export function Plans() {
   const [interest, setInterest] = useState<Plan["id"] | null>(null);
   const [email, setEmail] = useState("");
   const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <div className="container-page mt-16">
@@ -116,25 +118,45 @@ export function Plans() {
       {interest && (
         <div className="mt-6 rounded-[var(--r-lg)] bg-ink p-7 text-[var(--on-dark)] md:p-10" role="status">
           {saved ? (
-            <p className="t-md text-[var(--on-dark)]">Thanks. That tells us to build {interest === "plus" ? "Endpaper+" : "Teams"} next.</p>
+            <p className="t-md text-[var(--on-dark)]">You’re on the list. Check your inbox for a confirmation.</p>
           ) : (
             <form
               className="grid items-end gap-4 md:grid-cols-[1fr_auto]"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                if (!email.includes("@")) return;
+                const data = new FormData(e.currentTarget);
+                if (!email.includes("@") || busy) return;
+                setBusy(true);
+                setError(null);
                 try {
-                  localStorage.setItem("ep-waitlist", JSON.stringify({ plan: interest, email, at: new Date().toISOString() }));
-                } catch {}
-                setSaved(true);
+                  const res = await fetch("/api/waitlist", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({ email: email.trim(), plan: interest, source: "pricing", website: String(data.get("website") ?? "") }),
+                  });
+                  if (res.status === 400) setError("That email doesn’t look right. Check it and try again.");
+                  else if (res.status === 429) setError("Too many tries. Please wait a little and try again.");
+                  else if (!res.ok) setError("Couldn’t save that just now. Try again in a moment.");
+                  else setSaved(true);
+                } catch {
+                  setError("Couldn’t reach the server. Try again in a moment.");
+                } finally {
+                  setBusy(false);
+                }
               }}
             >
               <label>
                 <span className="t-md block text-[var(--on-dark)]">{interest === "plus" ? "Endpaper+ opens soon." : "Teams is in private testing."} Want to be first?</span>
                 <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="field mt-4 max-w-[420px] text-ink" autoComplete="email" />
+                <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" defaultValue="" />
+                {error && (
+                  <span className="t-sm mt-3 block text-[var(--sun)]" role="alert">
+                    {error}
+                  </span>
+                )}
               </label>
-              <PillButton type="submit" tone="sun" look="solid">
-                Tell me when it opens
+              <PillButton type="submit" tone="sun" look="solid" disabled={busy}>
+                {busy ? "Saving…" : "Tell me when it opens"}
               </PillButton>
             </form>
           )}
