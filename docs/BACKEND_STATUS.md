@@ -1,66 +1,61 @@
 # Backend status (fold-core / branch `core`)
 
 Last updated: 2026-10-17. Working name "Fold"; the name lives only in `src/lib/brand.ts` (+ `package.json` name).
-Branch `core` and `main` are in sync after the Lab merge (see git log).
+**Every row of the build table in `briefs/BACKEND.md` is now built.** What remains is verification that needs keys or the frontend (below).
 
-## Things only the owner can unblock
+## Things only the owner (or the frontend) can unblock
 
 | Needed | Why | Where |
 |---|---|---|
-| **LLM keys**: `GROQ_API_KEY`, `MISTRAL_API_KEY`, `OPENROUTER_API_KEY` (+ optional `GEMINI_API_KEY`) | Every LLM path is built and unit-tested with stubs but **never run against a real model**: write-once enrichment, fact-check, editor, Daily 3, parse, translation (Urdu), memo, Lab reader | `.env.local`, Vercel env, GitHub secrets. Then run `pnpm models:check` (Groq/Mistral/Gemini model IDs and the daily caps in `src/lib/models.ts` are unverified guesses; only OpenRouter IDs were checked live) |
+| **LLM keys**: `GROQ_API_KEY`, `MISTRAL_API_KEY`, `OPENROUTER_API_KEY` (+ optional `GEMINI_API_KEY`) | Every LLM path is built and unit-tested with stubs but **never run against a real model**: write-once enrichment, fact-check, editor, Daily 3, parse, translation (Urdu), memo, scout vetting, Lab reader | `.env.local`, Vercel env, GitHub secrets. Then `pnpm models:check` (Groq/Mistral/Gemini model IDs and the daily caps in `src/lib/models.ts` are unverified guesses; only OpenRouter IDs were checked live) |
 | Supabase: **Authentication → Sign In → allow anonymous sign-ins** | Onboarding is anonymous-first | Supabase dashboard (not verified on) |
-| **GitHub Actions secrets**: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, LLM keys, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `APP_URL` | `press.yml`, `nightly.yml`, `email.yml` exist but have never run in CI; Actions minutes are unlimited only on a public repo | repo Settings → Secrets |
-| `ADMIN_KEY`, optional `TURNSTILE_SECRET`, `SENTRY_DSN`, `PRINT_SECRET` | `/api/admin/stats`, human check, error tracking, PDF tokens | Vercel env |
-| Frontend `/print/[id]` route | The PDF route (item 8) renders it | `fold-web` |
+| **GitHub Actions secrets**: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, LLM keys, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `APP_URL` | `press.yml`, `nightly.yml`, `email.yml`, `scout.yml` exist but have **never run in CI**; Actions minutes are unlimited only on a public repo | repo Settings → Secrets |
+| `ADMIN_KEY`, optional `TURNSTILE_SECRET`, `SENTRY_DSN`, `PRINT_SECRET`, `GITHUB_DISPATCH_TOKEN` | `/api/admin/stats`, human check, error tracking, PDF tokens, instant scouting | Vercel env |
+| Frontend `src/app/print/[id]/page.tsx` | The PDF renders it; contract in `docs/API.md` → PDF | `fold-web` |
+| Run `pnpm backfill --email=<demo account> --days=7` once the demo account exists | gives the demo account an archive | after the account signs up |
 
-## Built and tested (on `main`)
+## Build table status (all on `main` except the last commits listed by `git log`)
 
 | # | Item | State | How it was verified |
 |---|---|---|---|
-| setup | Next.js app, worktrees, Vercel (auto-deploys `main`, Seoul region), Supabase schema + 10 migrations, RLS | done | advisors clean (INFO only); prod deploys Ready |
-| contract | `src/types/edition.ts`, `events.ts`, `fixtures/edition.sample.json` (real 16-17 Oct headlines) | done; **additive change**: `Edition.language`, `Edition.largePrint` | `pnpm check:contract` |
-| llm | `models.ts` + `llm.ts`: task routing, fallback chain, 429 cooldown, per-model daily budget guard, usage logging, `LLM_DISABLED=1` kill switch | done, **stub-tested only** | 7 unit tests |
-| 1 | Source catalog `worker/sources.json`: **530 live feeds** (curated, primary sources, 115 world-press, Kite sample), 28 languages | done | `pnpm sources:build` validates every feed |
-| 2 | Press worker: fetch (per-host limits), dedupe, e5 fingerprints, clustering (threshold **0.90**, tuned on 1.5k real articles), threading, importance, Readability extraction | done | first real run: 5,877 articles → 4,778 stories (332 multi-outlet) in 7.4 min |
-| 3 | Write-once enrichment (4 stories/call, cited sentences) + fact-check + number/citation guards + verbatim fallback; grounding rate to `press_runs` | built; **fallback path run for real, LLM path stub-tested only** | 6 unit tests; 156 stories fallback-enriched |
-| 4 | Daily 3 (LLM, falls back to stored per-story quizzes) | built, never run (needs enriched stories + keys) | none |
-| 5 | `press.yml` (3-hourly + dispatch, model cache), `nightly.yml`, `email.yml` | written, **never run in CI** | none |
-| 6 | `/api/onboarding/parse` (LLM or keyword heuristic), `/deck` (farthest-point sampling), `/complete` (cold-start vectors), `/api/transcribe` (Whisper on Groq) | done; transcribe **untested** (needs Groq key) | HTTP e2e with a real session |
-| 7 | Edition builder: candidates in Postgres (pgvector) → score → MMR → Thompson "Off Your Beat" → everyone's front page → editor (validated) → template fallback → immutable snapshot; `/api/edition/build` SSE with Postgres semaphore (max 5) | done; **editor LLM path never run** | e2e: 6-9 s with **no LLM**; RLS isolation checked |
-| 9 | Learning: `/api/events`, Rocchio vectors, Beta topics, mutes, streak, co-read boost, nightly decay + memo | done | "less like this" visibly changes the next build (energy 21% → 0%); 11 unit tests |
-| 10 | Launch hardening: `/api/admin/stats`, `/api/me` (export/delete), `/api/feedback`, `/api/turnstile`, rate limits, Sentry hook, `scripts/load-test.mts` | done except Sentry/Turnstile not exercised | **30-user load test: 30/30 in 79 s** (limit 2 min) |
-| 11 | Email: hourly delivery, Gmail SMTP, signed one-click unsubscribe, dry-run mode | done; **no real email ever sent** | dry-run e2e, 4 unit tests |
-| 12 | Send-to-friend (`/api/share*`, friend picks guaranteed a place) and gift papers (`/api/gifts`, public `/api/gift/[token]`, large print, Urdu translation with figure-preserving guards) | done; **real Urdu translation never run** (needs keys) | two-account e2e; stub-tested translation |
+| setup | Next.js app, worktrees, Vercel (auto-deploys `main`, Seoul region), Supabase schema + 12 migrations, RLS | done | advisors clean (INFO only); prod deploys Ready |
+| contract | `src/types/edition.ts`, `events.ts`, `fixtures/edition.sample.json` (real 16-17 Oct headlines) | done; additive change `Edition.language`, `Edition.largePrint` | `pnpm check:contract` |
+| llm | `models.ts` + `llm.ts`: task routing, fallback chain, 429 cooldown, per-model budget guard, usage log, `LLM_DISABLED=1` | done, **stub-tested only** | 7 unit tests |
+| 1 | Source catalog: **530 live feeds** (curated, primary, 115 world-press, Kite sample), 28 languages | done | `pnpm sources:build` validates every feed |
+| 2 | Press worker: fetch, dedupe, e5 fingerprints, clustering (**0.90**, tuned on 1.5k real articles), threading, importance, Readability extraction | done | real runs: 5,877 + 2,797 articles → 6,727 stories |
+| 3 | Write-once enrichment + fact-check + number/citation guards + verbatim fallback; grounding rate to `press_runs` | built; **fallback path run for real (~600 stories), LLM path stub-tested only** | unit tests |
+| 4 | Daily 3 | built, never run (needs enriched stories + keys) | none |
+| 5 | `press.yml`, `nightly.yml`, `email.yml`, `scout.yml` | written, **never run in CI** | none |
+| 6 | `/api/onboarding/{parse,deck,complete}`, `/api/transcribe` | done; transcribe **untested** (needs Groq key) | HTTP e2e with a real session |
+| 7 | Edition builder + `/api/edition/build` SSE with Postgres semaphore (max 5) | done; **editor LLM path never run** | e2e 6-9 s with no LLM; RLS isolation |
+| 8 | **PDF** `/api/pdf/[id]`, `/api/gift/[token]/pdf`, `/api/print/[id]`: headless Chromium, 7-day Storage cache, signed print tokens, client-print fallback | done **against a stand-in print page** and local Chrome; **not tested on Vercel** (Chromium pack download) **or with the real `/print` page** | `scripts/e2e-pdf.mts`: real 3-page PDF, cache hit, auth/token checks; 4 unit tests |
+| 9 | Learning: `/api/events`, Rocchio vectors, Beta topics, mutes, streak, co-read boost, nightly decay + memo | done | "less like this" changes the next build (energy 21% → 0%); 11 unit tests |
+| 10 | Launch hardening: admin stats, `/api/me`, `/api/feedback`, Turnstile verify, rate limits, Sentry hook, load test | done; Sentry/Turnstile not exercised | **30-user load test: 30/30 in 79 s** |
+| 11 | Email: hourly delivery, Gmail SMTP, signed one-click unsubscribe, dry-run | done; **no real email sent** | dry-run e2e, unit tests |
+| 12 | Send-to-friend + gift papers (large print, Urdu translation, public link) | done; **real Urdu translation never run** | two-account e2e; stub-tested translation |
+| 13 | **Learning Lab** `pnpm lab`, `GET /api/lab` | done (keyword reader) | see below |
+| 14 | **Source scout** `POST /api/scout`, `pnpm scout`, `scout.yml`; press reads scout-added sources | done; **LLM vetting never run** | live run on "formula e": 32 outlets found, 5 sources added in 55 s (two beat-specific tag feeds); 6 unit tests |
+| 15 | **Backfill** `pnpm backfill` (+ `--ingest --enrich`) builds one edition per past day "as of 07:00 local" | done | e2e on a throwaway account: 7 distinct dated editions, 0 repeated stories, 36 s |
 
-Totals: 61 unit tests, typecheck + lint + `next build` clean. API reference for the frontend: `docs/API.md`.
+Totals: 72 unit tests, typecheck + lint + `next build` clean. API reference for the frontend: `docs/API.md`.
 
-## Learning Lab (item 13): done
+## Learning Lab results (item 13)
 
-`pnpm lab [--judge=auto|llm|keywords --days --size --seed --no-save]`, `GET /api/lab`, 6 unit tests (synthetic world: fold 0.57 -> 0.93, onboarding-only flat ~0.55, random ~0.4).
-Real run on today's pool (4,778 stories, 7 simulated days, keyword reader, 4 seeds): **Fold +18-19 pts vs onboarding-only, +14-22 pts vs random**, diversity 0.79-0.83 (floor 0.45). Fold's own relevance is flat (~30%) while the static profile decays 31% -> ~15%, so the chart should show the **gap growing (+0 on day 1 to +15..31 by day 5-7)**, not a rising absolute line. Tried a liked-story "anchor" memory to make it climb: no gain, reverted.
-Caveats: the reader is a keyword matcher until LLM keys exist (rerun with `--judge=llm`); days are slices of a ~48 h pool until backfill (item 15); 3 personas x 14 stories is a small sample.
-
-## Not done
-
-| # | Item | Notes |
-|---|---|---|
-| 8 | **PDF** `/api/pdf/[id]` | Blocked on the frontend `/print/[id]` page. Plan: short-lived HMAC print token, `GET /api/print/[id]?pt=` returns the edition for the print page, puppeteer-core + `@sparticuz/chromium-min`, 7-day Storage cache, client-print fallback flag |
-| 14 | **Source scout** `scout.yml` | Google News RSS search → domains → RSS autodiscovery → recency check → LLM vet → add to catalog |
-| 15 | **Backfill** 7 days of editions for the demo account | RSS carries only a few days; press currently fetches `maxAgeHours=48` (needs a wider window run) |
-| – | README with eval numbers | after the Lab runs |
-| – | `/newsroom` page | frontend; data is in `GET /api/admin/stats` |
+Real pool (4,778 stories, 7 simulated days, keyword reader, 4 seeds): **Fold +18-19 pts vs onboarding-only, +14-22 pts vs random**, diversity 0.79-0.83 (floor 0.45). Fold's own relevance is flat (~30%) while the static profile decays 31% → ~15%, so the chart should show the **gap growing (+0 on day 1 → +15..31 by day 5-7)**, not a rising absolute line. A liked-story "anchor" memory was tried to make it climb: no gain, reverted. Synthetic world (known answer): fold 0.57 → 0.93, onboarding-only flat ~0.55, random ~0.4.
+Caveats: keyword reader until LLM keys exist (rerun `pnpm lab --judge=llm`); days are slices of a ~48 h pool (not a real week); 3 personas × 14 stories is a small sample.
 
 ## Known weaknesses (honest list)
 
-- The Lab reader is a keyword matcher until LLM keys exist.
-- Everything user-visible that depends on an LLM (headlines/briefs/for-you/editor note/quiz/translation) is **unproven with a real model**. Without enrichment, editions use source titles and one verbatim sentence per story.
-- Fallback classification (category from source feed, topics from nearest topic fingerprint) is noisy: e.g. a local news item filed under "Technology".
-- Dev-machine builds take 6-9 s mostly from database round-trips to Seoul; production runs in `icn1`, expected faster, not yet measured.
+- Everything user-visible that depends on an LLM (headlines, briefs, for-you, editor note, quiz, translation, scout vetting) is **unproven with a real model**. Without enrichment, editions use source titles and one verbatim sentence per story.
+- Fallback classification (category from the source feed, topics from nearest topic fingerprint) is noisy.
+- **RSS has almost no history**: the backfilled week is thin before Oct 15 (e.g. Oct 12 has 3 stories); only the last ~2 days are rich. Old-day leads can be dry (research or central-bank pieces) until LLM importance exists.
+- The scout's no-LLM heuristic let a sponsor-only feed through once (tightened since); LLM vetting is the real filter.
+- Local builds take 4-9 s mostly from database round-trips to Seoul; production runs in `icn1`, not yet measured.
 - One "less like this" on a topic the reader listed at onboarding does not remove it (by design); several do.
 - In-memory rate limits are per serverless instance (speed bumps, not walls). Per-IP limits are high on purpose (a venue shares one IP).
-- `PRESS` writes ~5k rows per first run; Supabase free tier is 500 MB; article text pruning (14 days) is not implemented yet.
+- Supabase free tier is 500 MB: ~7k stories and ~9k articles with embeddings so far; article text pruning (14 days) is not implemented.
 
 ## Commands
 
-`pnpm dev -p 3001` · `pnpm press [--dry --sources=N --no-extract --no-enrich --skip-press]` · `pnpm nightly` · `pnpm email [--force --user=<id> --to=<addr>]` · `pnpm sources:build` · `pnpm models:check` · `pnpm load [N]` · `pnpm test` · `pnpm typecheck && pnpm lint`
-E2E scripts (need the dev server on :3001 and `.env.local`): `scripts/e2e-http.mts`, `e2e-learning.mts`, `e2e-share.mts`, `e2e-gift.mts`, `e2e-email.mts`, `e2e-edition.mts`.
+`pnpm dev -p 3001` · `pnpm press [--dry --sources=N --no-extract --no-enrich --skip-press --max-age-hours=N --only-beat=X --enrich-max=N --enrich-since-hours=N]` · `pnpm nightly` · `pnpm email [--force --user=<id> --to=<addr>]` · `pnpm lab [--judge=keywords|llm]` · `pnpm scout --beat="..."` · `pnpm backfill --email=... [--ingest --enrich --days=7]` · `pnpm sources:build` · `pnpm models:check` · `pnpm load [N]` · `pnpm test` · `pnpm typecheck && pnpm lint`
+E2E scripts (dev server on :3001 + `.env.local`): `scripts/e2e-http.mts`, `e2e-learning.mts`, `e2e-share.mts`, `e2e-gift.mts`, `e2e-email.mts`, `e2e-edition.mts`, `e2e-backfill.mts`, `e2e-pdf.mts` (needs `PRINT_BASE_URL=http://localhost:4010` on the dev server).
