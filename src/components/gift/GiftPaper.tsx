@@ -7,6 +7,9 @@ import { Reader } from "@/components/reader/Reader";
 import { Nav } from "@/components/ui/Nav";
 import { PillButton } from "@/components/ui/PillButton";
 
+// One print per gift link per page load, even when an effect runs twice (dev) or the reader navigates back.
+const printing = new Map<string, Promise<unknown>>();
+
 type GiftInfo = { forName: string; fromName: string; relation: string; language: "en" | "ur"; largePrint: boolean };
 type State = { kind: "loading" } | { kind: "printing"; gift: GiftInfo } | { kind: "ready"; edition: Edition } | { kind: "error"; message: string };
 
@@ -22,7 +25,8 @@ export function GiftPaper({ token }: { token: string }) {
         let r = await read();
         if (r.needsBuild || !r.edition) {
           if (live) setState({ kind: "printing", gift: r.gift });
-          await api(`/api/gift/${token}`, { method: "POST", auth: false, json: {} });
+          if (!printing.has(token)) printing.set(token, api(`/api/gift/${token}`, { method: "POST", auth: false, json: {} }));
+          await printing.get(token);
           r = await read();
         }
         const parsed = EditionSchema.safeParse(r.edition);

@@ -83,6 +83,8 @@ export function Press({ paper }: { paper: PaperData }) {
   const at = STEP_ORDER.indexOf(step as (typeof STEP_ORDER)[number]);
   const progress = step === "done" ? 1 : Math.max(0.06, (at + 0.5) / STEP_ORDER.length);
   const done = step === "done";
+  // Already printed today: the server answers "done" at once, with no counts to show.
+  const reused = done && counts.articles === 0;
 
   return (
     <div className="min-h-dvh bg-newsprint">
@@ -94,11 +96,13 @@ export function Press({ paper }: { paper: PaperData }) {
             {step === "needs-onboarding"
               ? "First, whose paper is it?"
               : done
-                ? `Your paper is ready${forName === "you" ? "" : `, ${forName}`}.`
+                ? reused
+                  ? "Today’s paper is already printed."
+                  : `Your paper is ready${forName === "you" ? "" : `, ${forName}`}.`
                 : `Printing ${forName === "you" ? "your" : `${forName}’s`} paper`}
           </h1>
 
-          <dl className="mt-12 grid max-w-[560px] grid-cols-2 gap-3">
+          <dl className={`mt-12 grid max-w-[560px] grid-cols-2 gap-3 ${reused ? "hidden" : ""}`}>
             {[
               { k: "Articles read", v: articles },
               { k: "Sources", v: sources },
