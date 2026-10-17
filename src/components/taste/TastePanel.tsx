@@ -44,6 +44,11 @@ export function TastePanel() {
   if (!t || !t.topics.length) return <p className="t-body text-ink-2">Read a paper or two and this fills in: what you read, what you skip, and how sure your editor is.</p>;
   return (
     <div className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+      {t.week && t.week.reads + t.week.saves + t.week.less > 0 && (
+        <p className="t-sm text-ink-3 md:col-span-2">
+          This week your paper learned from {t.week.reads} {t.week.reads === 1 ? "read" : "reads"}, {t.week.saves} {t.week.saves === 1 ? "save" : "saves"} and {t.week.less} “less like this”.
+        </p>
+      )}
       {t.headline && <p className="font-serif text-[1.3rem] leading-[1.35] text-pretty md:col-span-2">{t.headline}</p>}
       <div>
         <p className="t-sm font-semibold">What you read</p>

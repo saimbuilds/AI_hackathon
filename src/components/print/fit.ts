@@ -34,11 +34,27 @@ function trimOne(boxes: HTMLElement[]): boolean {
     sp[sp.length - 1].style.display = "none";
     return true;
   }
+  // 4. Everything is already one sentence: shrink headlines (Nastaliq heads are tall), down to 60%.
+  for (const b of boxes)
+    for (const h of b.querySelectorAll<HTMLElement>(".hed")) {
+      const k = Number(h.dataset.shrink ?? 1);
+      if (k > 0.6) {
+        h.dataset.base ??= h.style.fontSize;
+        h.dataset.shrink = String(k - 0.1);
+        h.style.fontSize = `calc(${h.dataset.base} * ${k - 0.1})`;
+        return true;
+      }
+    }
   return false;
 }
 
 function fitSheet(sheet: HTMLElement) {
   sheet.querySelectorAll<HTMLElement>("[data-fit-group], [data-fit] h2, .story, .just > span").forEach((el) => (el.style.display = ""));
+  sheet.querySelectorAll<HTMLElement>(".hed[data-shrink]").forEach((h) => {
+    h.style.fontSize = h.dataset.base ?? "";
+    delete h.dataset.shrink;
+    delete h.dataset.base;
+  });
   const boxes = [...sheet.querySelectorAll<HTMLElement>("[data-fit]")];
   const shared = !!sheet.querySelector("[data-fit-group]");
   for (let guard = 0; guard < 120; guard++) {
