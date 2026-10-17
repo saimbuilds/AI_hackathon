@@ -29,11 +29,12 @@ export type PaperData = {
 export const trustLabel = (t: Trust) =>
   t.label === "confirmed" ? `Confirmed by ${t.outlets} outlets` : t.label === "developing" ? "Developing" : "Single source";
 
+// Reading order, as the paper lays it out: lead, everyone’s front page, sections, off your beat, briefs.
 export const allSlots = (e: Edition): StorySlot[] => [
   e.lead,
+  ...e.everyonesFrontPage,
   ...e.sections.flatMap((s) => s.slots),
   ...e.offYourBeat,
-  ...e.everyonesFrontPage,
   ...e.briefs,
 ];
 

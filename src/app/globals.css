@@ -3,6 +3,7 @@
 @import "../styles/type.css";
 @import "../styles/ui.css";
 @import "../styles/paper.css";
+@import "../styles/print.css"; /* A4 edition */
 @import "lenis/dist/lenis.css";
 
 @theme inline {
@@ -29,12 +30,15 @@
 
 /* ---------- Base ---------- */
 html {
+  /* clip, not hidden: tilted papers may overhang the edge, and sticky sections keep working */
+  overflow-x: clip;
   background: var(--newsprint);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }
 body {
+  overflow-x: clip;
   background: var(--newsprint);
   color: var(--ink);
   font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;

@@ -20,10 +20,10 @@ const SECONDARY = [
 ];
 
 export function Nav({
-  cta = { href: "/start", label: "Print my paper" },
+  cta = { href: "/start", label: "Print my paper", short: "Print" },
   right,
 }: {
-  cta?: { href: string; label: string } | null;
+  cta?: { href: string; label: string; short?: string } | null;
   right?: ReactNode; // replaces the CTA box (e.g. reading progress)
 }) {
   const [open, setOpen] = useState(false);
@@ -32,8 +32,12 @@ export function Nav({
   const discRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Close on route change, Esc and outside click; return focus to the disc.
-  useEffect(() => setOpen(false), [pathname]);
+  // Close on route change (adjusted during render), Esc and outside click; return focus to the disc.
+  const [shownFor, setShownFor] = useState(pathname);
+  if (shownFor !== pathname) {
+    setShownFor(pathname);
+    setOpen(false);
+  }
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -114,7 +118,7 @@ export function Nav({
       {!right && cta && (
         <Link href={cta.href} className="nav-box group gap-3 pl-4 md:pl-5" aria-label={cta.label}>
           <span className="hidden text-[1.0625rem] font-medium tracking-[-0.025em] sm:inline">{cta.label}</span>
-          <span className="sm:hidden text-[1rem] font-medium tracking-[-0.025em]">Print</span>
+          <span className="sm:hidden text-[1rem] font-medium tracking-[-0.025em]">{cta.short ?? "Print"}</span>
           <span className="menu-disc !bg-press transition-transform group-hover:scale-[1.07]" aria-hidden>
             <SheetGlyph className="text-ink transition-transform duration-500 [transition-timing-function:var(--ease-bounce)] group-hover:-rotate-12" />
           </span>

@@ -377,3 +377,32 @@
     transform: translateY(8px);
   }
 }
+
+/* ---------- Page transitions (React <ViewTransition>, route navigations) ---------- */
+.nav {
+  view-transition-name: site-nav;
+}
+::view-transition-old(.page) {
+  animation: page-out 200ms var(--ease-out) both;
+}
+::view-transition-new(.page) {
+  animation: page-in 460ms var(--ease-out) 60ms both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.99);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.page),
+  ::view-transition-new(.page) {
+    animation: none;
+  }
+}

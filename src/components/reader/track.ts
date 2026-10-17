@@ -4,7 +4,7 @@ import type { EventType, ReaderEvent } from "@/types/events";
 
 // Batches reader events and posts them to /api/events (contract: src/types/events.ts).
 // Fire-and-forget: a missing or failing endpoint never breaks reading.
-let queue: ReaderEvent[] = [];
+const queue: ReaderEvent[] = [];
 let timer: ReturnType<typeof setTimeout> | null = null;
 
 function flush() {

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ViewTransition } from "react";
 import { Newsreader, Schibsted_Grotesk, UnifrakturMaguntia } from "next/font/google";
 import { BRAND } from "@/lib/brand";
 import "./globals.css";
@@ -56,7 +57,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        {children}
+        {/* Route changes cross-fade with a short rise (see .page in ui.css); the nav keeps its own name and stays put. */}
+        <ViewTransition default="page">{children}</ViewTransition>
       </body>
     </html>
   );

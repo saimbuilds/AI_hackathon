@@ -1,51 +1,45 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
+import { useStored, writeStored } from "@/components/ui/useStored";
+
+type Saved = { read?: string[]; saved?: string[] };
+
+const parse = (raw: string | null): Saved => {
+  try {
+    return raw ? (JSON.parse(raw) as Saved) : {};
+  } catch {
+    return {};
+  }
+};
 
 /** Which stories this reader has opened in this edition, plus saved ones. Kept per edition in localStorage. */
 export function useReadState(editionId: string) {
   const key = `ep-read-${editionId}`;
-  const [read, setRead] = useState<Set<string>>(new Set());
-  const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [raw] = useStored(key);
+  const data = useMemo(() => parse(raw), [raw]);
+  const read = useMemo(() => new Set(data.read ?? []), [data]);
+  const saved = useMemo(() => new Set(data.saved ?? []), [data]);
 
-  useEffect(() => {
-    try {
-      const raw = JSON.parse(localStorage.getItem(key) ?? "{}") as { read?: string[]; saved?: string[] };
-      setRead(new Set(raw.read ?? []));
-      setSaved(new Set(raw.saved ?? []));
-    } catch {}
-  }, [key]);
-
-  const persist = useCallback(
-    (r: Set<string>, s: Set<string>) => {
+  // Writes start from what's stored right now, so two quick updates never overwrite each other.
+  const update = useCallback(
+    (fn: (d: Required<Saved>) => Required<Saved>) => {
+      let cur: Saved = {};
       try {
-        localStorage.setItem(key, JSON.stringify({ read: [...r], saved: [...s] }));
+        cur = parse(localStorage.getItem(key));
       } catch {}
+      writeStored(key, JSON.stringify(fn({ read: cur.read ?? [], saved: cur.saved ?? [] })));
     },
     [key],
   );
 
   const markRead = useCallback(
-    (id: string) =>
-      setRead((prev) => {
-        if (prev.has(id)) return prev;
-        const next = new Set(prev).add(id);
-        setSaved((s) => (persist(next, s), s));
-        return next;
-      }),
-    [persist],
+    (id: string) => update((d) => (d.read.includes(id) ? d : { ...d, read: [...d.read, id] })),
+    [update],
   );
-
   const toggleSave = useCallback(
-    (id: string) =>
-      setSaved((prev) => {
-        const next = new Set(prev);
-        if (next.has(id)) next.delete(id);
-        else next.add(id);
-        setRead((r) => (persist(r, next), r));
-        return next;
-      }),
-    [persist],
+    (id: string) => update((d) => ({ ...d, saved: d.saved.includes(id) ? d.saved.filter((x) => x !== id) : [...d.saved, id] })),
+    [update],
   );
 
   return { read, saved, markRead, toggleSave };

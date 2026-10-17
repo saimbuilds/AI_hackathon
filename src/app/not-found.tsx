@@ -1,5 +1,8 @@
 import { Nav } from "@/components/ui/Nav";
+import type { Metadata } from "next";
 import { PillButton } from "@/components/ui/PillButton";
+
+export const metadata: Metadata = { title: "Not in this edition · Endpaper" };
 
 export default function NotFound() {
   return (

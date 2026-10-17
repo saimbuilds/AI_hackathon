@@ -10,6 +10,7 @@ import { Nav } from "@/components/ui/Nav";
 import { PillButton } from "@/components/ui/PillButton";
 import { Close, Mic, Plus } from "@/components/ui/icons";
 import { useSavedName } from "@/components/home/useSavedName";
+import { useClientValue } from "@/components/ui/useStored";
 import { parseSentence, guessCity } from "./parse";
 import { SwipeDeck, type DeckCard, type SwipeAction } from "./SwipeDeck";
 
@@ -31,8 +32,8 @@ const EXAMPLES = [
 ];
 
 type Profile = {
-  name: string;
-  city: string;
+  name: string | null; // null until the reader edits it: shows the remembered name
+  city: string | null; // null until edited: shows the city guessed from the time zone
   sentence: string;
   interests: string[];
   negatives: string[];
@@ -83,8 +84,8 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
   const [listening, setListening] = useState(false);
   const [newChip, setNewChip] = useState("");
   const [p, setP] = useState<Profile>({
-    name: "",
-    city: "",
+    name: null,
+    city: null,
     sentence: "",
     interests: [],
     negatives: [],
@@ -101,23 +102,25 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
     startedAt.current = Date.now();
   }, []);
 
-  useEffect(() => {
-    setP((x) => ({ ...x, name: x.name || savedName, city: x.city || guessCity() }));
-  }, [savedName]);
+  const guessedCity = useClientValue(guessCity, "");
+  const name = p.name ?? savedName;
+  const city = p.city ?? guessedCity;
 
-  // Re-read the sentence as it's typed, keeping chips the reader removed out.
+  // Read the sentence as it's typed, keeping chips the reader removed out.
   const removed = useRef(new Set<string>());
-  useEffect(() => {
-    if (!p.sentence.trim()) return;
-    const r = parseSentence(p.sentence);
-    setP((x) => ({
-      ...x,
-      interests: [...new Set([...x.interests, ...r.interests])].filter((t) => !removed.current.has(t)),
-      negatives: [...new Set([...x.negatives, ...r.negatives])].filter((t) => !removed.current.has(`-${t}`)),
-      role: r.role ?? x.role,
-      city: x.city || r.city || "",
-    }));
-  }, [p.sentence]);
+  const setSentence = (text: string) =>
+    setP((x) => {
+      if (!text.trim()) return { ...x, sentence: text };
+      const r = parseSentence(text);
+      return {
+        ...x,
+        sentence: text,
+        interests: [...new Set([...x.interests, ...r.interests])].filter((t) => !removed.current.has(t)),
+        negatives: [...new Set([...x.negatives, ...r.negatives])].filter((t) => !removed.current.has(`-${t}`)),
+        role: r.role ?? x.role,
+        city: x.city ?? r.city ?? null,
+      };
+    });
 
   // The live preview: every answer changes the page on the right.
   const kept = p.swipes.filter((s) => s.action !== "no").map((s) => deck.find((d) => d.storyId === s.storyId)!).filter(Boolean);
@@ -128,14 +131,14 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
     const side = [...loved, ...kept].filter((c) => c !== lead).slice(0, 3);
     return {
       ...preview,
-      paperName: BRAND.defaultPaperName(p.name.trim() || null),
-      city: p.city || preview.city,
+      paperName: BRAND.defaultPaperName(name.trim() || null),
+      city: city || preview.city,
       stats: `${size.stories} stories, ${size.min} min`,
       lead: lead ? { kicker: lead.kicker, headline: lead.headline, dek: lead.dek } : preview.lead,
       side: side.length ? side.map((c) => ({ kicker: c.kicker, headline: c.headline })) : preview.side,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [p.name, p.city, p.swipes, p.size, preview]);
+  }, [name, city, p.swipes, p.size, preview]);
 
   const listen = () => {
     type SR = { lang: string; interimResults: boolean; onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void; onend: () => void; start: () => void };
@@ -145,17 +148,17 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
     const rec = new Ctor();
     rec.lang = navigator.language || "en-GB";
     rec.interimResults = true;
-    rec.onresult = (e) => set("sentence", Array.from(e.results).map((r) => r[0].transcript).join(" "));
+    rec.onresult = (e) => setSentence(Array.from(e.results).map((r) => r[0].transcript).join(" "));
     rec.onend = () => setListening(false);
     setListening(true);
     rec.start();
   };
 
-  const canNext = step === 0 ? p.name.trim().length > 0 : step === 1 ? p.interests.length > 0 || p.sentence.trim().length > 8 : true;
+  const canNext = step === 0 ? name.trim().length > 0 : step === 1 ? p.interests.length > 0 || p.sentence.trim().length > 8 : true;
   const finish = (forSomeoneElse: boolean) => {
-    setSavedName(p.name.trim());
+    setSavedName(name.trim());
     try {
-      localStorage.setItem("ep-profile", JSON.stringify({ ...p, seconds: Math.round((Date.now() - startedAt.current) / 1000) }));
+      localStorage.setItem("ep-profile", JSON.stringify({ ...p, name: name.trim(), city, seconds: Math.round((Date.now() - startedAt.current) / 1000) }));
     } catch {}
     router.push(forSomeoneElse ? "/gift" : "/press");
   };
@@ -174,6 +177,13 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
               </li>
             ))}
           </ol>
+          {/* Phones: the preview pane is hidden, so the masthead itself shows the paper taking shape */}
+          <p className="mt-6 flex items-baseline justify-between gap-3 rounded-[var(--r-sm)] bg-sun px-4 py-3 lg:hidden" aria-hidden>
+            <span className="truncate font-blackletter text-[1.7rem] leading-none" translate="no">
+              {live.paperName}
+            </span>
+            <span className="t-xs flex-none">{live.stats}</span>
+          </p>
 
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -193,11 +203,11 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                   <div className="mt-10 grid max-w-[520px] gap-3">
                     <label className="block">
                       <span className="t-sm text-ink-3">First name</span>
-                      <input className="field mt-1.5" value={p.name} onChange={(e) => set("name", e.target.value.slice(0, 18))} placeholder="Saim" autoComplete="given-name" autoFocus />
+                      <input className="field mt-1.5" value={name} onChange={(e) => set("name", e.target.value.slice(0, 18))} placeholder="Saim" autoComplete="given-name" autoFocus />
                     </label>
                     <label className="block">
                       <span className="t-sm text-ink-3">City</span>
-                      <input className="field mt-1.5" value={p.city} onChange={(e) => set("city", e.target.value)} placeholder="Islamabad" autoComplete="address-level2" />
+                      <input className="field mt-1.5" value={city} onChange={(e) => set("city", e.target.value)} placeholder="Islamabad" autoComplete="address-level2" />
                     </label>
                   </div>
                 </>
@@ -213,7 +223,7 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                     <textarea
                       className="field min-h-[132px] resize-none pr-16 leading-[1.45]"
                       value={p.sentence}
-                      onChange={(e) => set("sentence", e.target.value)}
+                      onChange={(e) => setSentence(e.target.value)}
                       placeholder={EXAMPLES[0]}
                       aria-label="One sentence about you"
                     />
@@ -230,7 +240,7 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                   {!p.sentence && (
                     <div className="mt-3 flex max-w-[620px] flex-wrap gap-2">
                       {EXAMPLES.map((ex) => (
-                        <button key={ex} type="button" className="chip !h-auto !py-2 text-left !whitespace-normal" data-tone="line" onClick={() => set("sentence", ex)}>
+                        <button key={ex} type="button" className="chip !h-auto !py-2 text-left !whitespace-normal" data-tone="line" onClick={() => setSentence(ex)}>
                           {ex}
                         </button>
                       ))}

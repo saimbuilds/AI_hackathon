@@ -20,6 +20,7 @@ const TOPICS: [RegExp, string][] = [
   [/music|film|movies?|books?|culture|art\b/i, "Culture"],
   [/design|ux|ui\b/i, "Design"],
   [/education|university|student|exams?/i, "Education"],
+  [/celebrit|gossip|showbiz|royals?\b/i, "Celebrity news"],
 ];
 
 const CITIES = ["Islamabad", "Rawalpindi", "Lahore", "Karachi", "Peshawar", "Quetta", "Multan", "London", "Dubai", "Toronto", "New York", "Manila", "Delhi", "Dhaka"];
@@ -29,14 +30,18 @@ export type Parsed = { interests: string[]; negatives: string[]; role?: string; 
 export function parseSentence(text: string): Parsed {
   const interests = new Set<string>();
   const negatives = new Set<string>();
-  // Clauses after "not", "no", "less", "hate", "skip", "without" are things to keep out.
-  const parts = text.split(/(?:\bbut\b|[.;])/i);
+  // Within each clause, words after "not", "no", "less", "hate", "skip", "without" are things to keep out.
+  const parts = text.split(/(?:\bbut\b|[.;,])/i);
   for (const part of parts) {
-    const neg = /\b(not|no|never|less|hate|skip|without|avoid|don'?t)\b/i.test(part);
-    for (const [re, topic] of TOPICS) if (re.test(part)) (neg ? negatives : interests).add(topic);
+    const at = part.search(/\b(not|no|never|less|hate|skip|without|avoid|don['’]?t)\b/i);
+    const [yes, no] = at < 0 ? [part, ""] : [part.slice(0, at), part.slice(at)];
+    for (const [re, topic] of TOPICS) {
+      if (re.test(no)) negatives.add(topic);
+      else if (re.test(yes)) interests.add(topic);
+    }
   }
   for (const n of negatives) interests.delete(n);
-  const role = text.match(/\b(?:i'?m|i am|work as|working as)\s+(?:an?\s+)?([a-z][a-z \-]{2,32}?)(?=\s+(?:in|at|from|who|and|,)|[,.]|$)/i)?.[1]?.trim();
+  const role = text.match(/\b(?:i['’]?m|i am|work as|working as)\s+(?:an?\s+)?([a-z][a-z \-]{2,32}?)(?=\s+(?:in|at|from|who|and|,)|[,.]|$)/i)?.[1]?.trim();
   const city = CITIES.find((c) => new RegExp(`\\b${c}\\b`, "i").test(text));
   return { interests: [...interests], negatives: [...negatives], role, city };
 }

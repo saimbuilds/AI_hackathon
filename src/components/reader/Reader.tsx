@@ -31,7 +31,7 @@ function Progress({ read, total }: { read: number; total: number }) {
   const c = 2 * Math.PI * r;
   return (
     <Link href="/paper/end" className="nav-box group gap-3 pl-4 md:pl-5" aria-label={`${read} of ${total} stories read. Go to the last page`}>
-      <span className="t-num text-[1.0625rem] font-medium tracking-[-0.025em]">
+      <span className="t-num text-[1.0625rem] font-medium tracking-[-0.025em] whitespace-nowrap">
         {read} of {total}
         <span className="hidden sm:inline"> read</span>
       </span>
@@ -221,6 +221,9 @@ export function Reader({ edition }: { edition: Edition }) {
                   Finish my paper
                 </PillButton>
               </div>
+              <Link href={`/print/${edition.id}`} className="tbtn mt-4">
+                Print it, or save it as a PDF
+              </Link>
             </section>
           </div>
         </div>

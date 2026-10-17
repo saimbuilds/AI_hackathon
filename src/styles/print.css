@@ -1,0 +1,149 @@
+/* The printed edition: A4 sheets, black ink, red only in the masthead rule and the end mark. */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@layer components {
+  .print-desk {
+    background: var(--ink);
+    min-height: 100dvh;
+    padding: 96px 16px 64px;
+  }
+  .sheet {
+    --pi: #111;
+    --pr: rgb(17 17 17 / 0.28);
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 28px;
+    padding: 12mm 13mm 14mm;
+    background: #fff;
+    color: var(--pi);
+    font-family: var(--font-newsreader), Georgia, serif;
+    font-size: 8.6pt;
+    line-height: 1.36;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6);
+  }
+  .print-root[data-large="true"] .sheet {
+    font-size: 11pt;
+    line-height: 1.42;
+  }
+  .sheet-cols {
+    columns: 3;
+    column-gap: 5mm;
+    column-rule: 0.25pt solid var(--pr);
+    column-fill: auto;
+    flex: 1;
+    min-height: 0;
+  }
+  .print-root[data-large="true"] .sheet-cols {
+    columns: 2;
+  }
+  .sheet-cols.c2 {
+    columns: 2;
+  }
+  .sheet p.just {
+    text-align: justify;
+    hyphens: auto;
+    text-wrap: pretty;
+  }
+  .sheet .story {
+    break-inside: avoid-column;
+    margin-bottom: 4mm;
+    padding-bottom: 3.5mm;
+    border-bottom: 0.25pt solid var(--pr);
+  }
+  .sheet .story:last-child {
+    border-bottom: 0;
+  }
+  .sheet .story > * + * {
+    margin-top: 1.4mm;
+  }
+  .sheet .kick {
+    font-family: var(--font-grotesk), sans-serif;
+    font-weight: 650;
+    font-size: 0.8em;
+    letter-spacing: 0.01em;
+  }
+  .sheet .hed {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .sheet .dek {
+    font-style: italic;
+  }
+  .sheet .foryou {
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 0.9em;
+    border-left: 2pt solid var(--pi);
+    padding-left: 2mm;
+  }
+  .sheet .meta {
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 0.78em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2mm;
+  }
+  .sheet .qr svg {
+    width: 13mm;
+    height: 13mm;
+  }
+  .sheet .drop::first-letter {
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.8;
+    padding: 0.06em 0.08em 0 0;
+    font-weight: 600;
+  }
+  .sheet sup {
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 0.62em;
+    font-weight: 600;
+    vertical-align: super;
+    line-height: 0;
+  }
+  .sheet-foot {
+    margin-top: auto;
+    padding-top: 2mm;
+    border-top: 0.6pt solid var(--pi);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 7pt;
+  }
+  .sheet .upside {
+    transform: rotate(180deg);
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 7pt;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print,
+  .nav,
+  .skip-link {
+    display: none !important;
+  }
+  .print-desk {
+    padding: 0;
+    background: #fff;
+  }
+  .sheet {
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+}

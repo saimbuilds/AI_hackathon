@@ -28,10 +28,12 @@ type Props = {
 /** The story, opened. A sheet from the right on desktop, from the bottom on phones. */
 export function StoryDrawer({ story, saved, onClose, onAction, onNext, nextHeadline }: Props) {
   const panel = useRef<HTMLDivElement>(null);
-  const [feedback, setFeedback] = useState<null | "more" | "less" | "less-done">(null);
+  // Feedback belongs to one story; opening another story starts fresh.
+  const [fb, setFb] = useState<{ id: string; v: "more" | "less" | "less-done" } | null>(null);
+  const feedback = fb && story && fb.id === story.storyId ? fb.v : null;
+  const setFeedback = (v: "more" | "less" | "less-done") => story && setFb({ id: story.storyId, v });
 
   useEffect(() => {
-    setFeedback(null);
     if (!story) return;
     const prev = document.activeElement as HTMLElement | null;
     panel.current?.focus();

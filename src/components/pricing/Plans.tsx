@@ -116,13 +116,17 @@ export function Plans() {
       {interest && (
         <div className="mt-6 rounded-[var(--r-lg)] bg-ink p-7 text-[var(--on-dark)] md:p-10" role="status">
           {saved ? (
-            <p className="t-md text-[var(--on-dark)]">You’re on the list. We’ll write once, when {interest === "plus" ? "Endpaper+" : "Teams"} opens.</p>
+            <p className="t-md text-[var(--on-dark)]">Thanks. That tells us to build {interest === "plus" ? "Endpaper+" : "Teams"} next.</p>
           ) : (
             <form
               className="grid items-end gap-4 md:grid-cols-[1fr_auto]"
               onSubmit={(e) => {
                 e.preventDefault();
-                if (email.includes("@")) setSaved(true);
+                if (!email.includes("@")) return;
+                try {
+                  localStorage.setItem("ep-waitlist", JSON.stringify({ plan: interest, email, at: new Date().toISOString() }));
+                } catch {}
+                setSaved(true);
               }}
             >
               <label>

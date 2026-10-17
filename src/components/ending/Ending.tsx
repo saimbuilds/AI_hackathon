@@ -9,25 +9,29 @@ import { Check, Close } from "@/components/ui/icons";
 import { NextEdition } from "@/components/home/NextEdition";
 import { track } from "@/components/reader/track";
 import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
+import { useStored, writeStored } from "@/components/ui/useStored";
 
 type Answer = { pick: number; correct: boolean };
 
+/** Counts consecutive finished editions. Recording happens once per edition date; the count is read back from storage. */
 function useStreak(editionDate: string) {
-  const [streak, setStreak] = useState<number | null>(null);
+  const [raw] = useStored("ep-streak");
   useEffect(() => {
     try {
-      const raw = JSON.parse(localStorage.getItem("ep-streak") ?? "{}") as { last?: string; n?: number };
+      const prev = JSON.parse(localStorage.getItem("ep-streak") ?? "{}") as { last?: string; n?: number };
+      if (prev.last === editionDate) return;
       const y = new Date(`${editionDate}T00:00:00Z`);
       y.setUTCDate(y.getUTCDate() - 1);
-      const yesterday = y.toISOString().slice(0, 10);
-      const n = raw.last === editionDate ? (raw.n ?? 1) : raw.last === yesterday ? (raw.n ?? 0) + 1 : 1;
-      localStorage.setItem("ep-streak", JSON.stringify({ last: editionDate, n }));
-      setStreak(n);
-    } catch {
-      setStreak(1);
-    }
+      const n = prev.last === y.toISOString().slice(0, 10) ? (prev.n ?? 0) + 1 : 1;
+      writeStored("ep-streak", JSON.stringify({ last: editionDate, n }));
+    } catch {}
   }, [editionDate]);
-  return streak;
+  try {
+    const v = raw ? (JSON.parse(raw) as { last?: string; n?: number }) : null;
+    return v?.last === editionDate ? (v.n ?? 1) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** The last page: closure, recall, the shared Daily 3, and a reason to come back tomorrow. */
@@ -75,7 +79,7 @@ export function Ending({ edition }: { edition: Edition }) {
 
   return (
     <div ref={root} className="min-h-dvh bg-newsprint">
-      <Nav cta={{ href: "/paper", label: "Back to the paper" }} />
+      <Nav cta={{ href: "/paper", label: "Back to the paper", short: "Paper" }} />
       <main id="main">
         {/* ---------- Closure ---------- */}
         <section className="panel-bottom relative bg-sun pt-[calc(var(--nav-h)+var(--nav-top)+12vh)] pb-[14vh]">
