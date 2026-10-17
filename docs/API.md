@@ -117,3 +117,12 @@ Also readable with supabase-js under RLS (own rows): `watches`, `watch_updates`.
 **In the paper** (contract, additive): `Edition.updates?: [{ watchId, question, summary, sources: [{ name, url }], storyId? }]`. Absent when nothing changed. Render first, under a "Since you asked" rule: the question as a small-caps kicker, the one-sentence `summary`, source links; `storyId` opens the story. Updates are marked seen when the paper that carries them is built, so each appears once. Example in `fixtures/edition.sample.json`.
 
 How updates are made: after each press run (and during each reader's build, max 8 s) every follow is checked against stories newer than its `lastCheckedAt` (keyword full-text search, plus the same story thread for story follows). A model decides whether a new story adds a concrete fact that changes the answer and writes one cited sentence; figures must appear in the cited stories or it is dropped.
+
+## Learning made visible: `GET /api/me/taste`
+
+"What your paper has learned about you" (judging criterion: learning). Auth as everywhere. Response:
+`{ headline, likes: [{ topic, label, score (0-1), strength: 'new'|'growing'|'strong', origin: 'you said'|'learned', last24h, last7d }], avoids: [{ topic, label, muted }], signals: { last7d: { reads, saves, lessLikeThis }, total }, streak, memo: string|null, firstPaperDate }`.
+- `headline` is a ready sentence: "Since yesterday you leaned into AI and pulled back from Formula 1. Tomorrow's paper reflects it." (or how to teach it, for a new reader).
+- `likes`: top 8 topics. `origin: 'you said'` = still just the onboarding choice; `'learned'` = backed by reading signals. `last24h`/`last7d` are signed signal weight (positive = leaned in): show as arrows/sparks.
+- `avoids`: topics the reader muted or consistently skips. `memo`: the nightly one-line reader memo (may be null early).
+- New topics added: `american-football`, `baseball` (and `basketball` now covers WNBA/March Madness).
