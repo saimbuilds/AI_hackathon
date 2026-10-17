@@ -170,7 +170,7 @@ export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Re
                   ))}
                 </ul>
               </div>
-              <p className="mt-auto text-center font-sans text-[16pt] font-semibold text-[#c8102e]">— 30 —</p>
+              <p className="mt-auto text-center font-sans text-[16pt] font-semibold text-[#c8102e]">The end. See you tomorrow at 7.</p>
             </div>
           </div>
           <Foot e={e} page={4} />

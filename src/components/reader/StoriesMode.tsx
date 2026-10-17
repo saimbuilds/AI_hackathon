@@ -151,7 +151,7 @@ export function StoriesMode({
               animate={{ y: 0, opacity: 1 }}
               className="absolute inset-x-3 top-0 bottom-[max(12px,env(safe-area-inset-bottom))] flex flex-col items-center justify-center rounded-[var(--r-lg)] bg-sun p-6 text-center"
             >
-              <p className="text-[2.6rem] font-semibold tracking-[-0.04em] text-[var(--kicker)]">— 30 —</p>
+              <p className="text-[2.6rem] font-semibold tracking-[-0.04em] text-[var(--kicker)]">The end.</p>
               <h2 className="t-xl mt-4">You’re all caught up.</h2>
               <p className="t-body mt-4 max-w-[28ch] text-ink-2">Three things to remember and today’s three questions are on the last page.</p>
               <Link href={endHref} className="pbtn mt-8" data-tone="press" data-look="solid">

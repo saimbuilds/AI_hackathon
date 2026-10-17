@@ -19,7 +19,7 @@ export type PaperData = {
   weather?: string;
   lead: PaperStory;
   side: PaperStory[];
-  credit?: string; // "Compiled for Abbu by Saim"
+  credit?: string; // "Compiled for Abbu"
   dir?: "ltr" | "rtl";
   lang?: string;
   ears?: { left: string[]; right: string[] }; // overrides the default ears (other languages)
@@ -153,7 +153,7 @@ export function FrontPage({
             ))}
           </aside>
         </div>
-        {!crop && <div className="paper-endmark">— 30 —</div>}
+        {!crop && <div className="paper-endmark">The end. See you tomorrow.</div>}
       </article>
     </div>
   );

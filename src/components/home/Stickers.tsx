@@ -33,25 +33,22 @@ export function SourcesSticker() {
 }
 
 export function SwipeSticker({ headlines }: { headlines: string[] }) {
-  const [front, back] = headlines;
+  const [headline] = headlines;
+  if (!headline) return null;
+  // One card, the way the real deck looks: a headline and the three answers.
   return (
-    <div className="relative h-[230px] w-[300px]">
-      {back && (
-        <div className="absolute top-0 left-6 w-[250px] rotate-[6deg] rounded-[var(--r-md)] bg-sheet p-5 opacity-80 shadow-[0_1px_0_rgb(0_0_0/0.06)]">
-          <span className="chip !h-6 !px-2.5 !text-[0.72rem]" data-tone="line">
-            Pass
-          </span>
-          <p className="mt-3 line-clamp-2 font-serif text-[1rem] leading-[1.2] text-ink-3">{back}</p>
-        </div>
-      )}
-      {front && (
-        <div className="absolute top-12 left-0 w-[260px] -rotate-[4deg] rounded-[var(--r-md)] bg-sheet p-5 shadow-[0_18px_40px_-24px_rgb(28_29_26/0.45)]">
-          <span className="chip !h-6 !px-2.5 !text-[0.72rem]" data-tone="leaf">
-            Keep
-          </span>
-          <p className="mt-3 line-clamp-3 font-serif text-[1.1rem] leading-[1.18] font-medium tracking-[-0.01em]">{front}</p>
-        </div>
-      )}
+    <div className="w-[290px] -rotate-[3deg] rounded-[var(--r-md)] bg-sheet p-5 shadow-[0_18px_40px_-24px_rgb(28_29_26/0.45)]">
+      <p className="t-xs text-ink-3">1 of 12</p>
+      <p className="mt-2 line-clamp-3 font-serif text-[1.2rem] leading-[1.15] font-medium tracking-[-0.01em]">{headline}</p>
+      <div className="mt-5 grid grid-cols-3 gap-1.5">
+        <span className="chip !h-9 justify-center !bg-newsprint !text-[0.8rem]">Pass</span>
+        <span className="chip !h-9 justify-center !text-[0.8rem]" data-tone="sun">
+          Love
+        </span>
+        <span className="chip !h-9 justify-center !text-[0.8rem] ring-2 ring-ink" data-tone="leaf">
+          Keep
+        </span>
+      </div>
     </div>
   );
 }
@@ -72,12 +69,19 @@ export function TrustSticker({ forYou }: { forYou: string }) {
 }
 
 export function EndSticker() {
+  // What the last page feels like: done, remembered, and a score to share.
   return (
-    <div className="grid h-[200px] w-[300px] place-items-center">
-      <span className="-rotate-[7deg] rounded-[var(--r-sm)] border-[3px] border-press px-6 py-3 text-[3.4rem] leading-none font-semibold tracking-[-0.04em] text-press">
-        — 30 —
+    <div className="w-[280px] rotate-[3deg] rounded-[var(--r-md)] bg-sun p-5 shadow-[0_18px_40px_-24px_rgb(28_29_26/0.45)]">
+      <span className="grid h-10 w-10 place-items-center rounded-full bg-ink text-sun">
+        <Check size={16} />
       </span>
-      <span className="t-sm -mt-6 rotate-[2deg] text-ink-3">the old newsroom sign for “the end”</span>
+      <p className="t-md mt-4">Done for today.</p>
+      <p className="t-sm mt-1 text-ink-2">Daily 3: 3 of 3</p>
+      <div className="mt-3 flex gap-1.5" aria-hidden>
+        {[0, 1, 2].map((i) => (
+          <span key={i} className="h-7 w-7 rounded-[var(--r-xs)] bg-leaf" />
+        ))}
+      </div>
     </div>
   );
 }

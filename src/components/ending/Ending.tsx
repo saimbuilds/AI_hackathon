@@ -89,7 +89,7 @@ export function Ending({ edition, canSave = false }: { edition: Edition; canSave
         <section className="panel-bottom relative bg-sun pt-[calc(var(--nav-h)+var(--nav-top)+12vh)] pb-[14vh]">
           <div className="container-page flex flex-col items-center text-center">
             <span className="end-stamp inline-block -rotate-[6deg] rounded-[var(--r-sm)] border-[3px] border-[#c2321a] px-5 py-2 text-[clamp(2rem,1.4rem+2.6vw,3.6rem)] leading-none font-semibold tracking-[-0.04em] text-[var(--kicker)]">
-              — 30 —
+              Done for today
             </span>
             <h1 className="end-title t-mega mt-10 max-w-[12ch]">
               <span className="block">You’re all</span>

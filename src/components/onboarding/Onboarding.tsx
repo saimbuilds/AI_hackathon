@@ -326,7 +326,7 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
                   <div className="mt-10 grid max-w-[520px] gap-3">
                     <label className="block">
                       <span className="t-sm text-ink-3">First name</span>
-                      <input className="field mt-1.5" value={name} onChange={(e) => set("name", e.target.value.slice(0, 18))} placeholder="Saim" autoComplete="given-name" autoFocus />
+                      <input className="field mt-1.5" value={name} onChange={(e) => set("name", e.target.value.slice(0, 18))} placeholder="Your first name" autoComplete="given-name" autoFocus />
                     </label>
                     <label className="block">
                       <span className="t-sm text-ink-3">City</span>

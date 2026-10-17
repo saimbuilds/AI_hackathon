@@ -15,7 +15,7 @@ export function HomeTop({ paper }: { paper: PaperData }) {
   const [name, setName] = useSavedName();
   const [typed, setTyped] = useState(false);
   const root = useRef<HTMLDivElement>(null);
-  const paperName = BRAND.defaultPaperName(name.trim() || "Saim");
+  const paperName = BRAND.defaultPaperName(name.trim() || null);
 
   useGSAP(
     () => {
@@ -145,7 +145,7 @@ export function HomeTop({ paper }: { paper: PaperData }) {
                 </div>
               </div>
               <p className="t-sm mx-auto mt-4 max-w-[560px] text-ink-3">
-                A real front page from this morning’s press, set for {name.trim() || "Saim"} in Islamabad.
+                {name.trim() ? `A real front page from this morning’s press, set for ${name.trim()}.` : "A real front page from this morning’s press. Type your name above and it’s yours."}
               </p>
             </div>
           </div>

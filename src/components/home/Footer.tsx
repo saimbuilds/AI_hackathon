@@ -62,7 +62,7 @@ export function Footer() {
 
         <div className="t-sm mt-14 flex flex-col justify-between gap-3 border-t border-[rgb(28_29_26/0.2)] pt-6 sm:flex-row">
           <span>© 2026 Endpaper. Built in Islamabad for NaSCon ’26.</span>
-          <span className="font-semibold tracking-[0.02em]">— 30 —</span>
+          <span className="font-semibold">Done for today.</span>
         </div>
       </div>
     </footer>

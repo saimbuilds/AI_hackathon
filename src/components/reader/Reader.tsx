@@ -241,7 +241,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
 
             {/* ---------- The end of the paper ---------- */}
             <section id="paper-end" className="mt-20 flex scroll-mt-28 flex-col items-center rounded-[var(--r-lg)] bg-sun px-6 py-16 text-center text-ink">
-              <p className="text-[3rem] leading-none font-semibold tracking-[-0.04em] text-[var(--kicker)]">— 30 —</p>
+              <p className="text-[3rem] leading-none font-semibold tracking-[-0.04em] text-[var(--kicker)]">The end.</p>
               <h2 className="t-xl mt-6 max-w-[14ch]">That’s the whole paper.</h2>
               <p className="t-body-lg mt-5 max-w-[38ch] text-ink-2">
                 Three things to remember, three questions everyone gets today, and you’re done until 7 tomorrow.

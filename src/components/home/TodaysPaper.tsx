@@ -33,13 +33,12 @@ export function TodaysPaper({ edition }: { edition: Edition }) {
   const majors = edition.sections.flatMap((s) => s.slots).filter((s) => s.size === "major");
   const [wide, ...rest] = [...majors, ...edition.offYourBeat];
   const small = rest.slice(0, 2);
-  const name = edition.paperName.replace(/^The | Times$/g, "");
 
   return (
     <div className="container-page" aria-labelledby="today-title">
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <h2 id="today-title" className="t-xl max-w-[14ch]">
-          This morning, for {name}
+          This morning’s front page
         </h2>
         <p className="t-body max-w-[40ch] text-ink-2">
           Edition No. {edition.number}, {formatEditionDate(edition.date, "short")}, {edition.city}. Every card below is a

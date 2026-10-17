@@ -24,7 +24,7 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
   const [done, setDone] = useState<{ giftId: string; url: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const from = fromName.trim() || "Saim";
+  const from = fromName.trim() || "you";
   const to = forName.trim() || "Abbu";
 
   const preview: PaperData = useMemo(() => {
@@ -34,7 +34,7 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
     return {
       ...english,
       paperName: `The ${to} Times`,
-      ears: { left: english.ears!.left, right: [`Compiled for ${to}`, `by ${from}`] },
+      ears: { left: english.ears!.left, right: [`Compiled for ${to}`, from === "you" ? "with love" : `from ${from}`] },
     };
   }, [lang, to, from, english, urdu]);
 
@@ -83,7 +83,7 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
           </label>
           <label className="sm:col-span-2">
             <span className="t-sm text-ink-3">From</span>
-            <input className="field mt-1.5" value={fromName} placeholder="Saim" onChange={(e) => setFromName(e.target.value.slice(0, 16))} />
+            <input className="field mt-1.5" value={fromName} placeholder="Your name" onChange={(e) => setFromName(e.target.value.slice(0, 16))} />
           </label>
         </div>
         <label>

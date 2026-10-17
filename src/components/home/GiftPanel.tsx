@@ -5,7 +5,8 @@ import { FrontPage, type PaperData } from "@/components/paper/FrontPage";
 import { PillButton } from "@/components/ui/PillButton";
 import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 
-const RIBBON = "Make one for someone you love   ●   Compiled for Abbu by Saim   ●   Large print   ●   اردو میں   ●   On his doorstep at 7   ●   ";
+const REPEATS = 5;
+const RIBBON = "Make one for someone you love   \u25CF   In their language   \u25CF   Large print for tired eyes   \u25CF   اردو میں   \u25CF   Signed with love from you   \u25CF   On their doorstep at 7   \u25CF   ";
 
 /** The gift: a large-print paper in another language, wrapped in a ribbon that runs as you scroll. */
 export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperData }) {
@@ -13,15 +14,13 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
   useGSAP(
     () => {
       if (prefersReducedMotion()) return;
-      gsap.fromTo(
-        ".gift-ribbon-text",
-        { attr: { startOffset: "0%" } },
-        {
-          attr: { startOffset: "-50%" },
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: 0.5 },
-        },
-      );
+      // A slow, endless marquee: shift by exactly one repeat of the phrase, then loop without a seam.
+      const tp = root.current!.querySelector<SVGTextPathElement>(".gift-ribbon-text");
+      const text = tp?.parentElement as unknown as SVGTextElement | null;
+      if (tp && text) {
+        const repeat = text.getComputedTextLength() / REPEATS;
+        gsap.fromTo(tp, { attr: { startOffset: 0 } }, { attr: { startOffset: -repeat }, duration: repeat / 45, ease: "none", repeat: -1 });
+      }
       gsap.fromTo(
         ".gift-paper-ur",
         { rotate: 7, y: 80 },
@@ -36,7 +35,6 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
     { scope: root },
   );
 
-  // A loose loop that wraps around the two papers.
   // One gentle band from left to right, under the papers: always upright, never covering them.
   const d = "M-120,690 C120,620 330,760 560,690 C720,640 820,600 940,610";
   return (
@@ -63,11 +61,11 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
           <dl className="mt-12 grid max-w-[420px] grid-cols-2 gap-6 border-t border-[rgb(236_233_225/0.16)] pt-6">
             <div>
               <dt className="t-sm text-[color-mix(in_oklab,var(--on-dark)_60%,transparent)]">Languages</dt>
-              <dd className="t-md mt-1">Urdu, English, more coming</dd>
+              <dd className="t-body-lg mt-1 text-[var(--on-dark)]">Urdu, English, more coming</dd>
             </div>
             <div>
               <dt className="t-sm text-[color-mix(in_oklab,var(--on-dark)_60%,transparent)]">Delivered by</dt>
-              <dd className="t-md mt-1">Email, WhatsApp or print</dd>
+              <dd className="t-body-lg mt-1 text-[var(--on-dark)]">Email, WhatsApp or print</dd>
             </div>
           </dl>
         </div>
@@ -87,8 +85,8 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
           >
             <path id="gift-ribbon" d={d} fill="none" stroke="var(--sun)" strokeWidth="58" />
             <text fill="var(--ink)" style={{ fontSize: 21, fontWeight: 550, letterSpacing: "-0.02em" }} dominantBaseline="central">
-              <textPath href="#gift-ribbon" className="gift-ribbon-text" startOffset="0%">
-                {RIBBON.repeat(5)}
+              <textPath href="#gift-ribbon" className="gift-ribbon-text" startOffset={0}>
+                {RIBBON.repeat(REPEATS)}
               </textPath>
             </text>
           </svg>

@@ -7,7 +7,7 @@ export const contentType = "image/png";
 
 const HEAD = ["Read less.", "Remember more."];
 const TAG = "The morning paper that ends.";
-const MAST = "The Saim Times";
+const MAST = "The Morning Paper";
 
 export default async function Image() {
   const [grotesk, black] = await Promise.all([
