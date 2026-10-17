@@ -46,3 +46,13 @@ test('three-things takeaways reject fragments and mid-quote starts', async () =>
   assert.equal(cleanTakeaway('for families mourning the loss of their children, the pain is deep.'), false);
   assert.equal(cleanTakeaway('Formula 1 and Rwanda have agreed a 10-year deal for an African Grand Prix.'), true);
 });
+
+test('parse cleanup: skipped topics are not liked, and country topics need evidence in the text', async () => {
+  const { cleanParsed, chipTopics } = await import('../src/lib/onboarding');
+  const base = { interests: [], entities: [], negatives: [], role: null, city: null, goals: null, depth: null };
+  const a = cleanParsed({ ...base, topics: ['ai', 'celebrity', 'pakistan-society', 'south-asia', 'hockey'], negativeTopics: ['celebrity'] }, 'Retired teacher in Manila, family and the Philippines. Skip celebrity gossip');
+  assert.deepEqual(a.topics, ['ai', 'hockey']);
+  const b = cleanParsed({ ...base, topics: ['pakistan-economy'], negativeTopics: [] }, 'I follow Karachi business news');
+  assert.deepEqual(b.topics, ['pakistan-economy']);
+  assert.deepEqual(chipTopics(['the NBA', 'S&P', 'Maple Leafs']).sort(), ['basketball', 'canada', 'hockey', 'markets']);
+});

@@ -20,7 +20,7 @@ export type ParsedProfile = z.infer<typeof ParsedProfileSchema>;
 
 const SYSTEM = `You turn one sentence a person writes about their mornings and interests into a structured reading profile for a personal newspaper.
 - interests: short chips (1-4 words) naming what they want to read about, in their own words ("AI startups", "Formula 1", "US politics", "the NBA", "UK property market").
-- topics: map interests onto this fixed list of slugs (use only these): ${slugs.join(', ')}.
+- topics: map ONLY the interests the person actually wants onto this fixed list of slugs (use only these): ${slugs.join(', ')}. Never put a skipped topic here. Use a country or region slug only if they name that place. Pick the sport of the named team (Maple Leafs = hockey, Lakers = basketball, Cowboys = american-football, Yankees = baseball).
 - entities: specific people, teams, companies or places they mention.
 - negatives: things they want to skip, as short chips; negativeTopics: the closest slugs from the list.
 - role: their job or study if stated; city: only if stated (any city worldwide is equally valid: New York, Austin, Toronto, London, Berlin, Dubai, Lahore, Manila); goals: why they read, if stated; depth: espresso (very short) / standard / long only if they say so.
@@ -58,12 +58,30 @@ export function heuristicParse(text: string): ParsedProfile {
 }
 
 // Chips that map onto none of the fixed topics are niche interests: the frontend can ask the source scout about them.
-export const nicheChips = (chips: string[]): string[] => chips.filter((c) => c.trim().length > 2 && heuristicParse(c).topics.length === 0).slice(0, 4);
+export const nicheChips = (chips: string[]): string[] => chips.filter((c) => c.trim().length > 2 && heuristicParse(c).topics.length === 0 && chipTopics([c]).length === 0).slice(0, 4);
+
+// Models sometimes (a) list a skipped topic as liked and (b) reach for a country topic the reader never mentioned.
+// Country/region topics must be backed by words in what the reader wrote (or their city); the rest is deterministic cleanup.
+const GEO_EVIDENCE: Record<string, RegExp> = {
+  'pakistan-economy': /pakistan|karachi|lahore|islamabad|rupee|psx|psl/i, 'pakistan-politics': /pakistan|karachi|lahore|islamabad|pti|psl/i,
+  'pakistan-society': /pakistan|karachi|lahore|islamabad/i, india: /india|delhi|mumbai|bangalore|bollywood|ipl/i,
+  'south-asia': /south asia|pakistan|india|bangladesh|sri lanka|nepal|afghan|karachi|lahore|delhi|dhaka/i,
+  africa: /africa|nigeria|kenya|egypt|ghana|ethiopia|south africa|lagos|nairobi|cairo/i, 'latin-america': /latin|brazil|mexico|argentina|colombia|chile|peru|são paulo|bogot/i,
+  'middle-east': /middle east|gulf|israel|gaza|iran|saudi|uae|dubai|qatar|syria|lebanon|iraq|riyadh/i, china: /china|chinese|beijing|shanghai|hong kong/i,
+  'russia-ukraine': /russia|ukrain|putin|kyiv|moscow/i, canada: /canad|toronto|vancouver|ottawa|montreal|calgary/i, 'southeast-asia': /philippines|manila|indonesia|jakarta|vietnam|thailand|bangkok|singapore|malaysia|asean/i,
+};
+export function cleanParsed(p: ParsedProfile, text: string): ParsedProfile {
+  const evidence = `${text} ${p.city ?? ''}`;
+  const negatives = new Set(p.negativeTopics);
+  const topics = p.topics.filter((t) => !negatives.has(t) && (!(t in GEO_EVIDENCE) || GEO_EVIDENCE[t].test(evidence)));
+  return { ...p, topics };
+}
 
 export async function parseOnboarding(text: string): Promise<{ parsed: ParsedProfile; source: 'llm' | 'heuristic'; niche: string[] }> {
   try {
     const res = await llm({ task: 'parse', system: SYSTEM, user: wrapUntrusted('reader text', text), schema: ParsedProfileSchema });
-    return { parsed: res.data, source: 'llm', niche: nicheChips(res.data.interests) };
+    const parsed = cleanParsed(res.data, text);
+    return { parsed, source: 'llm', niche: nicheChips(parsed.interests) };
   } catch (e) {
     if (!(e instanceof LLMUnavailableError)) throw e;
     const parsed = heuristicParse(text);
@@ -84,12 +102,14 @@ const CHIP_ALIASES: Record<string, (all: Set<string>) => string[]> = {
   crypto: () => ['crypto'], markets: () => ['markets'], space: () => ['space'], gaming: () => ['gaming'], movies: () => ['movies'],
   music: () => ['music'], books: () => ['books'], education: () => ['education'], jobs: () => ['jobs-careers'], careers: () => ['jobs-careers'],
   celebrity: () => ['celebrity'], 'celebrity news': () => ['celebrity'], 'celebrity gossip': () => ['celebrity'], gossip: () => ['celebrity'],
+  hockey: () => ['hockey'], nhl: () => ['hockey'], 'maple leafs': () => ['hockey', 'canada'], canada: () => ['canada'], philippines: () => ['southeast-asia'], 'housing market': () => ['real-estate'],
+  's p': () => ['markets'], 's p 500': () => ['markets'], 'stock market': () => ['markets'], stocks: () => ['markets'], fed: () => ['global-economy', 'markets'], 'federal reserve': () => ['global-economy', 'markets'], inflation: () => ['global-economy'], 'eu regulation': () => ['europe'], 'uk politics': () => ['uk-politics'], 'us politics': () => ['us-politics'], 'climate tech': () => ['climate', 'startups'],
   sports: () => ['cricket', 'football', 'american-football', 'basketball', 'baseball'], world: () => ['geopolitics'], 'world news': () => ['geopolitics'],
 };
 
 // Onboarding chips -> topic slugs (server-side safety net when the client sends chips but no topics).
 export function chipTopics(chips: string[]): string[] {
-  const norm = chips.map((c) => c.toLowerCase().replace(/[^\p{L}\p{N} ]+/gu, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const norm = chips.map((c) => c.toLowerCase().replace(/[^\p{L}\p{N} ]+/gu, ' ').replace(/\s+/g, ' ').trim().replace(/^(the|a|an) /, '')).filter(Boolean);
   const all = new Set(norm);
   const out = new Set<string>();
   for (const c of norm) {
