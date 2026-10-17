@@ -61,9 +61,6 @@ export function HomeTop({ paper }: { paper: PaperData }) {
       <section className="sticky top-0 z-0 h-[100svh] min-h-[640px] overflow-hidden bg-sun" aria-labelledby="hero-title">
         <CropMarks />
         <div className="hero-inner container-page flex h-full flex-col items-center pt-[calc(var(--nav-h)+var(--nav-top)+7vh)] text-center">
-          <p className="hero-sub t-sm mb-5 rounded-full bg-sheet px-4 py-1.5 md:mb-7" data-intro>
-            The personal morning newspaper<span className="hidden sm:inline">. Free, at 7, on web, PDF and email</span>
-          </p>
           <h1 id="hero-title" className="t-mega relative" data-intro>
             <span className="sr-only">{HEADLINE.join(" ")}</span>
             <span aria-hidden className="relative block">
@@ -140,7 +137,7 @@ export function HomeTop({ paper }: { paper: PaperData }) {
               </PillButton>
             </div>
           </div>
-          <div className="order-1 -mt-[18svh] md:order-2 md:col-span-6 md:col-start-7 md:-mt-[21svh]">
+          <div className="order-1 mt-6 md:order-2 md:col-span-6 md:col-start-7 md:-mt-[12svh]">
             <div className="md:sticky md:top-[calc(var(--nav-h)+var(--nav-top)+24px)]">
               <div className="hero-paper mx-auto w-full max-w-[560px]" data-intro>
                 <div className="hero-paper-tilt origin-bottom">
