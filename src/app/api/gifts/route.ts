@@ -55,7 +55,7 @@ export const POST = route(async (req) => {
 
   try {
     await applyOnboarding(db, giftUserId, OnboardingSchema.parse({
-      name: b.forName, city: b.city, tz: b.tz, tone: b.tone, size: b.size, language: b.language, largePrint: b.largePrint, calm: b.calm,
+      name: b.forName, city: b.city ?? giver?.city ?? undefined, tz: b.tz ?? giver?.tz, tone: b.tone, size: b.size, language: b.language, largePrint: b.largePrint, calm: b.calm,
       interests: interests ?? { chips: [], topics: [], entities: [], negatives: [], negativeTopics: [] },
       ...(b.emailEveryMorning && b.recipientEmail ? { email: b.recipientEmail, emailOptIn: true } : {}),
     }), { gift: { fromName, relation: b.relation, giverId: user.id } });

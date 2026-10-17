@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   press:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -47,4 +47,5 @@ jobs:
           key: transformers-multilingual-e5-small-v1
 
       - name: Run the press
-        run: pnpm press ${{ inputs.sources != '' && format('--sources={0}', inputs.sources) || '' }}
+        # 60 new write-ups per run x 8 runs a day = at most ~$0.65/day, leaving the paid budget (LLM_PAID_DAILY_USD) for readers' papers.
+        run: pnpm press --enrich-max=60 --enrich-since-hours=12 --enrich-concurrency=4 ${{ inputs.sources != '' && format('--sources={0}', inputs.sources) || '' }}
