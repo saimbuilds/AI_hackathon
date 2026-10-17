@@ -7,7 +7,7 @@ import { nastaliq } from "@/components/paper/nastaliq";
 import { HomeTop } from "./HomeTop";
 import { Journey } from "./Journey";
 import { ReadyCta } from "./ReadyCta";
-import { LiveStory } from "./LiveStory";
+import { LiveStory, STORY } from "./LiveStory";
 import { GiftPanel } from "./GiftPanel";
 import { Numbers } from "./Numbers";
 import { BusinessModel } from "./BusinessModel";
@@ -17,7 +17,13 @@ import { Footer } from "./Footer";
 import { SourcesSticker, SwipeSticker, TrustSticker, EndSticker } from "./Stickers";
 
 export function Home({ edition }: { edition: Edition }) {
-  const paper = paperFromEdition(edition);
+  const base = paperFromEdition(edition);
+  // The front page leads with a real story from this morning's press (3 outlets); the sample's own lead moves to the side column.
+  const paper = {
+    ...base,
+    lead: { kicker: STORY.kicker, headline: STORY.headline, dek: STORY.dek, body: [STORY.matters, STORY.unknown], trust: { outlets: 3, label: "confirmed" as const } },
+    side: [{ kicker: base.lead.kicker, headline: base.lead.headline, dek: base.lead.dek, trust: base.lead.trust }, ...base.side].slice(0, 3),
+  };
   const slots = allSlots(edition);
   // Calm, short headlines for the swipe sticker: the landing page shouldn’t lead with tragedy.
   const calmHeadlines = slots.filter((s) => s.distress === 0 && s.headline.length < 70).map((s) => s.headline).slice(0, 2);

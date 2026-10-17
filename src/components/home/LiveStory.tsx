@@ -2,7 +2,7 @@ import { PillButton } from "@/components/ui/PillButton";
 
 // A real story from the press, captured on 17 October 2026 (stories table, 3 outlets, enriched by the pipeline).
 // Shown on the landing page as a live example of what a story in your paper looks like: grounded, sourced, honest about unknowns.
-const STORY = {
+export const STORY = {
   kicker: "Cars · Developing",
   headline: "Tesla shows Roadster stunts; reactions mix praise and skepticism",
   dek: "Tesla’s demonstration at a SpaceX facility in Texas drew praise from some figures and doubts from others about the company’s claims.",
