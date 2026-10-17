@@ -40,7 +40,7 @@ export type ReaderModel = {
   calm: boolean;
 };
 
-export const WEIGHTS = { relevance: 0.4, topic: 0.2, importance: 0.15, freshness: 0.1, sources: 0.1, local: 0.05 } as const;
+export const WEIGHTS = { relevance: 0.35, topic: 0.32, importance: 0.13, freshness: 0.1, sources: 0.1, local: 0.05 } as const;
 export const MMR_LAMBDA = 0.7;
 // A topic the reader has clearly turned down (posterior mean below this, with some evidence) is demoted, not just nudged,
 // so a single "less like this" is visible in the very next paper.
@@ -69,7 +69,9 @@ export function dislike(topics: string[], beta: Record<string, [number, number]>
 
 export function topicAffinity(topics: string[], beta: Record<string, [number, number]>): number {
   if (!topics.length) return 0.5;
-  return topics.reduce((s, t) => s + betaMean(beta[t]), 0) / topics.length;
+  // Best-matching topic counts most: a story tagged [ai, software, startups] should win on its AI match, not be averaged down.
+  const means = topics.map((t) => betaMean(beta[t]));
+  return 0.6 * Math.max(...means) + 0.4 * (means.reduce((a, b) => a + b, 0) / means.length);
 }
 
 // e5 cosine lives in a narrow band, so rescale relevance across today's candidates (0..1).
