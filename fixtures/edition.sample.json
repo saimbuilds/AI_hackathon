@@ -754,6 +754,8 @@
     }
   ],
   "calm": false,
+  "language": "en",
+  "largePrint": false,
   "extras": {
     "onThisDay": "1989: the Loma Prieta earthquake strikes the San Francisco Bay Area during the World Series."
   },

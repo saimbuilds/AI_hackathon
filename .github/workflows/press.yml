@@ -1,0 +1,50 @@
+name: press
+
+# The press: reads ~500 feeds, clusters articles into stories, writes each story once,
+# fact-checks it, and stores the Daily 3. Runs every 3 hours; trigger by hand any time.
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: 'Limit to N sources (smoke test); empty = all'
+        required: false
+        default: ''
+
+concurrency:
+  group: press
+  cancel-in-progress: false
+
+jobs:
+  press:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      TRANSFORMERS_CACHE: ${{ github.workspace }}/.cache/transformers
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4 # version comes from package.json "packageManager"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # multilingual-e5-small is ~120 MB: cache it so most runs skip the download.
+      - uses: actions/cache@v4
+        with:
+          path: .cache/transformers
+          key: transformers-multilingual-e5-small-v1
+
+      - name: Run the press
+        run: pnpm press ${{ inputs.sources != '' && format('--sources={0}', inputs.sources) || '' }}

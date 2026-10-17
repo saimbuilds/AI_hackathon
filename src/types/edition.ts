@@ -69,6 +69,10 @@ export const EditionSchema = z.object({
   tomorrow: z.array(z.string()), // cliffhangers from developing stories
   everyonesFrontPage: z.array(StorySlotSchema), // 1-2 shared top stories (anti-bubble)
   calm: z.boolean(),
+  // Added after v1 (defaults keep older snapshots valid): the language the copy is written in ('ur' = Urdu,
+  // render right-to-left in Nastaliq) and whether to typeset large print.
+  language: z.enum(['en', 'ur']).default('en'),
+  largePrint: z.boolean().default(false),
   gift: z
     .object({
       forName: z.string(),
