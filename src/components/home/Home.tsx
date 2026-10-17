@@ -7,6 +7,7 @@ import { nastaliq } from "@/components/paper/nastaliq";
 import { HomeTop } from "./HomeTop";
 import { Journey } from "./Journey";
 import { ReadyCta } from "./ReadyCta";
+import { LiveStory } from "./LiveStory";
 import { GiftPanel } from "./GiftPanel";
 import { Numbers } from "./Numbers";
 import { BusinessModel } from "./BusinessModel";
@@ -59,6 +60,7 @@ export function Home({ edition }: { edition: Edition }) {
         <section className="relative z-10 bg-newsprint" aria-label="How it works">
           <Journey steps={steps} />
         </section>
+        <LiveStory />
         <ReadyCta />
         <GiftPanel urdu={URDU_SAMPLE} english={english} />
         <Numbers />
