@@ -162,4 +162,4 @@ export const TASK_DEFAULTS: Record<Task, { timeoutMs: number; maxTokens: number;
 export const TRANSCRIBE = { provider: 'groq', id: 'whisper-large-v3-turbo' } as const;
 
 // Daily USD ceiling for paid providers (OpenRouter prepaid is the hard stop anyway).
-export const PAID_DAILY_USD = Number(process.env.LLM_PAID_DAILY_USD ?? 5);
+export const PAID_DAILY_USD = Number(process.env.LLM_PAID_DAILY_USD ?? 1);

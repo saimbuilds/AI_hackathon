@@ -39,3 +39,10 @@ test('not covered = plain "not yet" answer with no padding', () => {
 });
 
 test('free plan follows', () => assert.equal(FREE_FOLLOW_LIMIT, 3));
+
+test('three-things takeaways reject fragments and mid-quote starts', async () => {
+  const { cleanTakeaway } = await import('../src/edition/editor');
+  assert.equal(cleanTakeaway('Pires said, "For families mourning the loss of children, the pain is deep and lasting.'), false);
+  assert.equal(cleanTakeaway('for families mourning the loss of their children, the pain is deep.'), false);
+  assert.equal(cleanTakeaway('Formula 1 and Rwanda have agreed a 10-year deal for an African Grand Prix.'), true);
+});

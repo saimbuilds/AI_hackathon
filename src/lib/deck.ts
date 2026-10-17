@@ -1,6 +1,7 @@
 // Adaptive onboarding deck: 12 real headlines chosen by farthest-point sampling over story
 // fingerprints, weighted by importance, so 12 swipes cover the reader's interest space
 // instead of 12 tech stories.
+import { isMostlyLatin } from './lang';
 import { adminClient } from './supabase';
 import { dot, fromPg } from './vec';
 
@@ -41,7 +42,11 @@ async function loadPool(): Promise<Candidate[]> {
   const since = new Date(Date.now() - 30 * 3_600_000).toISOString();
   const { data, error } = await db.from('stories').select('id,headline,dek,category,source_count,importance,image_url,embedding').gte('updated_at', since).not('headline', 'is', null).not('embedding', 'is', null).lte('distress', 2).order('importance', { ascending: false }).order('source_count', { ascending: false }).limit(250);
   if (error) throw new Error(error.message);
-  const items = (data ?? []).map((s) => ({
+  // English headlines with a dek only (enriched stories); fall back to any English-script headline if that is too few.
+  const english = (data ?? []).filter((s) => isMostlyLatin(`${s.headline} ${s.dek ?? ''}`));
+  const withDek = english.filter((s) => s.dek);
+  const rows = withDek.length >= 30 ? withDek : english;
+  const items = rows.map((s) => ({
     card: { storyId: s.id as string, headline: s.headline as string, dek: (s.dek as string | null) ?? null, category: (s.category as string | null) ?? null, outlets: s.source_count as number, imageUrl: (s.image_url as string | null) ?? null },
     emb: fromPg(s.embedding as string),
     weight: Math.min(1, ((s.importance as number) + Math.min(5, s.source_count as number)) / 15),

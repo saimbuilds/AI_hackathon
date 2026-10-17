@@ -1,0 +1,21 @@
+// Rebuild today's paper for one reader and print the personalization signals: `tsx --env-file=.env.local scripts/rebuild-user.mts <userId-prefix>`
+import { adminClient } from '../src/lib/supabase';
+import { buildEdition } from '../src/edition/build';
+import { EditionSchema } from '../src/types/edition';
+const db = adminClient()!;
+const prefix = process.argv[2] ?? '';
+const { data: ps } = await db.from('profiles').select('id,name').not('onboarded_at', 'is', null);
+const p = (ps ?? []).find((x) => x.id.startsWith(prefix));
+if (!p) throw new Error('no such reader');
+const r = await buildEdition(p.id, { rebuild: true });
+const { data } = await db.from('editions').select('payload').eq('id', r.editionId).single();
+const ed = EditionSchema.parse(data!.payload);
+const all = [ed.lead, ...ed.sections.flatMap((s) => s.slots), ...ed.offYourBeat, ...ed.briefs];
+console.log(`${p.name}: fallback=${r.fallback} ${r.ms}ms stories=${all.length} grounding=${ed.meta.grounding}`);
+console.log('NOTE:', ed.editorNote);
+for (const s of ed.sections) console.log(`SECTION ${s.name}: ${s.slots.map((x) => x.headline.slice(0, 45)).join(' | ')}`);
+console.log('LEAD:', ed.lead.headline, '\n  forYou:', ed.lead.forYou ?? '(none)');
+console.log(`forYou lines: ${all.filter((x) => x.forYou).length}/${all.length}`);
+all.filter((x) => x.forYou).forEach((x) => console.log(`  - ${x.headline.slice(0, 50)} -> ${x.forYou}`));
+console.log('three things:', ed.threeThings);
+console.log('topics in paper:', [...new Set(all.flatMap((x) => x.topics))].join(', '));

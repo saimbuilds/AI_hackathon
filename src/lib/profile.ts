@@ -24,7 +24,7 @@ export function coldStart(input: ColdStartInput): { vec: Float32Array | null; to
   if (!dim) return { vec: null, topicBeta };
 
   const sum = new Float32Array(dim);
-  for (const t of input.topics) { addScaled(sum, t.vec, TOPIC_PRIOR); bump(t.slug, 1, 0); }
+  for (const t of input.topics) { addScaled(sum, t.vec, TOPIC_PRIOR); bump(t.slug, 2, 0); } // stated interests outweigh a few swipes
   for (const t of input.negativeTopics) { addScaled(sum, t.vec, NEGATIVE_TOPIC_PRIOR); bump(t.slug, 0, 2); }
   for (const s of input.swipes) {
     addScaled(sum, s.vec, SWIPE_WEIGHT[s.action]);

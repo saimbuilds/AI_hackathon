@@ -40,7 +40,7 @@ test('cold start: liked stories and topics pull the vector toward them, dislikes
   assert.ok(Math.abs(Math.hypot(...vec) - 1) < 1e-5);
   assert.ok(dot(vec, ai) > 0 && dot(vec, f1) > 0);
   assert.ok(dot(vec, gossip) < 0);
-  assert.deepEqual(topicBeta.ai, [2, 1]);
+  assert.deepEqual(topicBeta.ai, [3, 1]); // a stated topic counts double
   assert.ok(topicBeta.celebrity[1] > topicBeta.celebrity[0]); // negatives weigh into beta
   assert.ok(topicBeta.f1[0] > topicBeta.f1[1]);
 });
