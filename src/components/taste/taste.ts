@@ -17,7 +17,7 @@ export type TasteTopic = {
   stated: boolean;
 };
 export type TasteChange = { label: string; dir: "up" | "down"; why: string };
-export type Taste = { topics: TasteTopic[]; avoided: TasteTopic[]; changes: TasteChange[]; memo: string | null; signals: number; headline?: string };
+export type Taste = { topics: TasteTopic[]; avoided: TasteTopic[]; changes: TasteChange[]; memo: string | null; signals: number; headline?: string; week?: { reads: number; saves: number; less: number } };
 
 const LABELS: Record<string, string> = {
   ai: "AI", f1: "Formula 1", "us-politics": "US politics", "uk-politics": "UK politics", "law-justice": "Law and justice", "pakistan-economy": "Pakistan’s economy",
@@ -118,8 +118,9 @@ function fromEndpoint(r: Record<string, unknown>): Taste | null {
     .sort((a, b) => Math.abs(b.d) - Math.abs(a.d))
     .slice(0, 4)
     .map(({ o, d }) => ({ label: typeof o.label === "string" ? o.label : topicLabel(String(o.topic)), dir: d > 0 ? ("up" as const) : ("down" as const), why: d > 0 ? "from what you read" : "from what you passed on" }));
-  const sig = r.signals as { total?: number } | undefined;
-  return { topics, avoided, changes, memo: typeof r.memo === "string" ? r.memo : null, signals: Number(sig?.total) || 0, headline: typeof r.headline === "string" ? r.headline : undefined };
+  const sig = r.signals as { total?: number; last7d?: { reads?: number; saves?: number; lessLikeThis?: number } } | undefined;
+  const w = sig?.last7d;
+  return { topics, avoided, changes, memo: typeof r.memo === "string" ? r.memo : null, signals: Number(sig?.total) || 0, headline: typeof r.headline === "string" ? r.headline : undefined, week: w ? { reads: Number(w.reads) || 0, saves: Number(w.saves) || 0, less: Number(w.lessLikeThis) || 0 } : undefined };
 }
 
 let cached: { at: number; p: Promise<Taste | null> } | null = null;
