@@ -8,6 +8,8 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap";
 // and every Lenis scroll updates ScrollTrigger, so pinned scenes never sample a stale position.
 export function SmoothScroll() {
   useEffect(() => {
+    // Web fonts change heights; re-measure every trigger once they land.
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
     if (prefersReducedMotion()) return;
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     lenis.on("scroll", ScrollTrigger.update);
