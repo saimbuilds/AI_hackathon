@@ -10,11 +10,14 @@ import { Nav } from "@/components/ui/Nav";
 import { PillButton } from "@/components/ui/PillButton";
 import { Close, Mic, Plus } from "@/components/ui/icons";
 import { useSavedName } from "@/components/home/useSavedName";
-import { useClientValue } from "@/components/ui/useStored";
+import { useClientValue, writeStored } from "@/components/ui/useStored";
 import { parseSentence, guessCity } from "./parse";
 import { SwipeDeck, type DeckCard, type SwipeAction } from "./SwipeDeck";
-import { fetchDeck, serverParse, recordAndTranscribe, completeOnboarding, EXTRA_KEYS, type ServerParsed } from "./api";
+import { fetchDeck, serverParse, recordAndTranscribe, completeOnboarding, EXTRA_KEYS, type ServerParsed, type CompleteBody } from "./api";
+import { signInWithGoogle } from "@/components/session/auth";
 import { token } from "@/components/session/client";
+
+const DRAFT_KEY = "ep-onboarding-draft";
 
 const STEPS = ["Your paper", "About you", "Today’s headlines", "How it reads"] as const;
 const SIZES = [
@@ -88,6 +91,7 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
   const [server, setServer] = useState<ServerParsed | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [needsGoogle, setNeedsGoogle] = useState(false);
   const recording = useRef<{ stop?: () => void } | null>(null);
   const [newChip, setNewChip] = useState("");
   const [p, setP] = useState<Profile>({
@@ -221,8 +225,7 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
     try {
       localStorage.setItem("ep-profile", JSON.stringify({ ...p, name: name.trim(), city, seconds: Math.round((Date.now() - startedAt.current) / 1000) }));
     } catch {}
-    try {
-      await completeOnboarding({
+    const body: CompleteBody = {
         name: name.trim(),
         paperName: BRAND.defaultPaperName(name.trim()),
         city: city || undefined,
@@ -241,13 +244,47 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
           negativeTopics: (server?.negativeTopics ?? []).slice(0, 8),
         },
         swipes: p.swipes.slice(0, 30),
-      });
+    };
+    // No anonymous session available: keep the answers and finish after Google brings the reader back.
+    if (!(await token())) {
+      writeStored(DRAFT_KEY, JSON.stringify({ body, forSomeoneElse }));
+      setBusy(false);
+      setNeedsGoogle(true);
+      return;
+    }
+    try {
+      await completeOnboarding(body);
       router.push(forSomeoneElse ? "/gift" : "/press");
     } catch (e) {
       setBusy(false);
       setError(e instanceof Error ? e.message : "Couldn’t save your answers. Try again.");
     }
   };
+
+  // Back from Google with saved answers: complete onboarding and go straight to the press.
+  useEffect(() => {
+    if (!new URLSearchParams(location.search).has("resume")) return;
+    let draft: { body: CompleteBody; forSomeoneElse: boolean } | null = null;
+    try {
+      draft = JSON.parse(localStorage.getItem(DRAFT_KEY) ?? "null");
+    } catch {}
+    if (!draft) return;
+    const d = draft;
+    let live = true;
+    token(false).then(async (t) => {
+      if (!t || !live) return;
+      try {
+        await completeOnboarding(d.body);
+        writeStored(DRAFT_KEY, null);
+        router.replace(d.forSomeoneElse ? "/gift" : "/press");
+      } catch (e) {
+        if (live) setError(e instanceof Error ? e.message : "Couldn’t save your answers. Try again.");
+      }
+    });
+    return () => {
+      live = false;
+    };
+  }, [router]);
 
   return (
     <div className="min-h-dvh bg-newsprint">
@@ -440,6 +477,23 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
             <p className="t-body mt-8 rounded-[var(--r-sm)] bg-sheet p-4" role="alert">
               {error}
             </p>
+          )}
+          {needsGoogle && (
+            <div className="mt-8 max-w-[520px] rounded-[var(--r-md)] bg-sheet p-6" role="alert">
+              <p className="t-md">One last step: sign in to print it.</p>
+              <p className="t-body mt-2 text-ink-2">Your answers are saved. Continue with Google and your first paper prints straight after.</p>
+              <div className="mt-5">
+                <PillButton
+                  tone="ink"
+                  onClick={async () => {
+                    const msg = await signInWithGoogle("/start?resume=1");
+                    if (msg) setError(msg);
+                  }}
+                >
+                  Continue with Google
+                </PillButton>
+              </div>
+            </div>
           )}
           <div className="mt-12 flex flex-wrap items-center justify-between gap-3">
             <button type="button" className="tbtn" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0} style={{ visibility: step === 0 ? "hidden" : undefined }}>

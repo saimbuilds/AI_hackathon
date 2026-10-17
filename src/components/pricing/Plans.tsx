@@ -22,7 +22,7 @@ const PLANS: Plan[] = [
     price: "$0",
     per: "forever",
     bg: "var(--sheet)",
-    points: ["Your daily paper, about ten stories", "PDF to print or forward", "Archive, streak and the Daily 3", "Morning or evening edition"],
+    points: ["Your daily paper, about ten stories", "Ask the news, and follow 3 questions", "PDF to print or forward", "Archive, streak and the Daily 3"],
     cta: "Print my paper",
   },
   {
@@ -32,7 +32,7 @@ const PLANS: Plan[] = [
     per: "a month",
     local: "PKR 399 in Pakistan",
     bg: "var(--sun)",
-    points: ["Audio edition for the commute", "Unlimited beats and followed stories", "Your newsletters, folded into the paper", "Sunday long read and monthly Wrapped"],
+    points: ["Unlimited follows and “since you asked” alerts", "Audio edition for the commute", "Your newsletters, folded into the paper", "Sunday long read and monthly Wrapped"],
     cta: "Join Endpaper+",
   },
   {

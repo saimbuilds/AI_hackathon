@@ -14,6 +14,7 @@ const COLS = [
   [
     { href: "/lab", label: "Learning Lab" },
     { href: "/newsroom", label: "Newsroom" },
+    { href: "/trust", label: "Trust & security" },
     { href: "/privacy", label: "Privacy" },
     { href: "/privacy#delete", label: "Delete my data" },
   ],

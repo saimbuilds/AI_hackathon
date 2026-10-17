@@ -9,6 +9,7 @@ import { Journey } from "./Journey";
 import { ReadyCta } from "./ReadyCta";
 import { GiftPanel } from "./GiftPanel";
 import { Numbers } from "./Numbers";
+import { BusinessModel } from "./BusinessModel";
 import { TodaysPaper } from "./TodaysPaper";
 import { Sources } from "./Sources";
 import { Footer } from "./Footer";
@@ -60,6 +61,7 @@ export function Home({ edition }: { edition: Edition }) {
         <ReadyCta />
         <GiftPanel urdu={URDU_SAMPLE} english={english} />
         <Numbers />
+        <BusinessModel />
         <section
           id="sources"
           className="panel relative z-10 -mt-[var(--r-lg)] bg-newsprint-2 pt-28 pb-28 md:pt-36 md:pb-36"
