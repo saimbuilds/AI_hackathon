@@ -9,6 +9,7 @@ import { useUser, isSaved, signOut } from "@/components/session/auth";
 import { SavePaper } from "@/components/session/SavePaper";
 import { listFollows, type Follow } from "@/components/follow/api";
 import { PillButton } from "@/components/ui/PillButton";
+import { TastePanel } from "@/components/taste/TastePanel";
 
 type Profile = {
   name: string | null;
@@ -151,6 +152,17 @@ export function Dashboard() {
           Archive
         </Link>
       </Card>
+
+      {/* What the paper has learned */}
+      <section id="learned" className="scroll-mt-28 rounded-[var(--r-lg)] bg-sheet p-6 md:col-span-6 md:p-8">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <h2 className="t-lg">What your paper has learned about you</h2>
+          <p className="t-sm text-ink-3">Updated from every story you open, finish, save or pass on.</p>
+        </div>
+        <div className="mt-6">
+          <TastePanel />
+        </div>
+      </section>
 
       {/* Settings */}
       <Card title="How your paper reads" className="md:col-span-3">

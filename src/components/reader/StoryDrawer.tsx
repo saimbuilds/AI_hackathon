@@ -8,6 +8,7 @@ import { Close, Check, Plus } from "@/components/ui/icons";
 import { TrustChip } from "./StoryItem";
 import { api } from "@/components/session/client";
 import { followStory } from "@/components/follow/api";
+import { invalidateTaste, inSentence, topicLabel } from "@/components/taste/taste";
 
 const PROBLEMS = [
   { kind: "wrong-facts", label: "Something’s wrong" },
@@ -42,9 +43,27 @@ export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext
   const followState = follow && story && follow.id === story.storyId ? follow.v : null;
   const panel = useRef<HTMLDivElement>(null);
   // Feedback belongs to one story; opening another story starts fresh.
-  const [fb, setFb] = useState<{ id: string; v: "more" | "less" | "less-done" } | null>(null);
+  const [fb, setFb] = useState<{ id: string; v: "more" | "less" | "less-done"; r?: string } | null>(null);
   const feedback = fb && story && fb.id === story.storyId ? fb.v : null;
-  const setFeedback = (v: "more" | "less" | "less-done") => story && setFb({ id: story.storyId, v });
+  const setFeedback = (v: "more" | "less" | "less-done", r?: string) => {
+    if (!story) return;
+    setFb({ id: story.storyId, v, r });
+    if (v !== "less") invalidateTaste();
+  };
+  const topic = story?.topics[0] ? inSentence(topicLabel(story.topics[0])) : "stories like this";
+  const source = story?.sources[0]?.name ?? "this outlet";
+  const editorWill =
+    feedback === "more"
+      ? `Your editor will give ${topic} more room from tomorrow’s paper.`
+      : feedback === "less-done"
+        ? fb?.r === "source"
+          ? `Your editor will lean on other outlets than ${source}.`
+          : fb?.r === "too-long"
+            ? "Your editor will favour shorter reads on this."
+            : fb?.r === "already-knew"
+              ? "Your editor will notice you were ahead of this one."
+              : `Your editor will run less ${topic}, without dropping it from the world.`
+        : null;
 
   useEffect(() => {
     if (!story) return;
@@ -231,7 +250,7 @@ export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext
                         className="chip !h-10 !px-4 hover:bg-newsprint-2"
                         onClick={() => {
                           onAction("less", { reason: r });
-                          setFeedback("less-done");
+                          setFeedback("less-done", r);
                         }}
                       >
                         {REASON_LABEL[r]}
@@ -312,6 +331,14 @@ export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext
                   </p>
                 )}
                 {followState === "error" && <p className="t-sm mt-3 px-1 text-ink-3">Couldn’t follow that right now. Try again.</p>}
+                {editorWill && (
+                  <p className="t-sm mt-3 px-1" role="status">
+                    {editorWill}{" "}
+                    <a href="/me#learned" className="text-ink-3 underline underline-offset-4">
+                      What it knows about you
+                    </a>
+                  </p>
+                )}
               </section>
 
               <div className="mt-3 px-1">
