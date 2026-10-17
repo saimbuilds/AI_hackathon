@@ -5,7 +5,7 @@ import { api, ApiError } from "@/components/session/client";
 // Follow & Ask (backend: src/follow, docs/API.md). Answers come only from stories in the press.
 
 export type AskSource = { storyId?: string; headline?: string; name: string; url: string };
-export type AskResult = { answer: string; sources: AskSource[]; covered: boolean; watchId?: string };
+export type AskResult = { answer: string; sentences?: { text: string; sources: number[] }[]; sources: AskSource[]; covered: boolean; watchId?: string; needsPlus?: boolean };
 export type FollowUpdate = { summary: string; sources: AskSource[]; created_at: string };
 export type Follow = {
   id: string;

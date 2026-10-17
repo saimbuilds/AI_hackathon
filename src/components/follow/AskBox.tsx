@@ -98,7 +98,16 @@ export function AskBox() {
         {result && (
           <div className="mt-5 rounded-[var(--r-md)] bg-sheet p-5 md:p-6">
             <p className="t-sm text-ink-3">{result.covered ? "From the press" : "Not in the news yet"}</p>
-            <p className="mt-2 font-serif text-[1.2rem] leading-[1.5] text-pretty">{result.answer}</p>
+            <p className="mt-2 font-serif text-[1.2rem] leading-[1.5] text-pretty">
+              {result.sentences?.length
+                ? result.sentences.map((x, i) => (
+                    <span key={i}>
+                      {x.text}
+                      {x.sources.length > 0 && <sup className="ml-[1px] font-sans text-[0.62em] font-semibold text-[#1d6fb0]">{x.sources.join(",")}</sup>}{" "}
+                    </span>
+                  ))
+                : result.answer}
+            </p>
             {result.sources.length > 0 && (
               <ol className="mt-4 space-y-1.5">
                 {result.sources.map((s, i) => (
