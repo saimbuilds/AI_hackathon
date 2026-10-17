@@ -36,14 +36,14 @@ async function coords(p: Profile): Promise<{ lat: number; lon: number } | undefi
   });
 }
 
-export async function loadExtras(p: Profile, date: string): Promise<{ weather?: Edition['weather']; extras: Edition['extras'] }> {
+export async function loadExtras(p: Profile, date: string, opts: { weather?: boolean } = {}): Promise<{ weather?: Edition['weather']; extras: Edition['extras'] }> {
   // Weather and On this day are on unless switched off; prayer times and markets are opt-in.
   const want = (k: 'weather' | 'onThisDay' | 'prayer' | 'markets') => p.extras?.[k] ?? (k === 'weather' || k === 'onThisDay');
   const pos = await coords(p);
   const [mm, dd] = [date.slice(5, 7), date.slice(8, 10)];
 
   const [weather, onThisDay, prayer, markets] = await Promise.all([
-    want('weather') && pos
+    want('weather') && opts.weather !== false && pos // today's forecast would be wrong for a backfilled past day
       ? cached(`wx:${pos.lat.toFixed(1)},${pos.lon.toFixed(1)}:${date}`, 3 * 3_600_000, async () => {
           const r = await getJson<{ daily: { temperature_2m_max: number[]; temperature_2m_min: number[]; weather_code: number[] } }>(
             `https://api.open-meteo.com/v1/forecast?latitude=${pos.lat}&longitude=${pos.lon}&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=1`);

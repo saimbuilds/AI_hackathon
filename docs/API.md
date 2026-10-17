@@ -77,6 +77,11 @@ Citations: each `body[i].sources` is a list of 1-based indexes into that slot's 
 - Time-travel slider: `personas[i].policies.fold[d].stories[] = { id, headline, topics, label: 'love'|'open'|'skip'|'less' }` is persona i's paper on day d+1.
 - Say what it is: simulated readers with hidden interests, real stories sliced into simulated days (`pool.note`).
 
+## Source scout (niche interests grow the catalog)
+
+- `POST /api/onboarding/parse` also returns `niche: string[]`: chips that map to none of the fixed topics ("Formula E", "Kenyan fintech").
+- `POST /api/scout` `{ beat }` -> `{ status: 'added' | 'known', beat, added: [{ name, feedUrl }] }`. Call once per niche chip after onboarding (fire and forget; it can take 10-60 s). It finds outlets covering the beat, discovers and validates their RSS feeds, vets them, and adds them to the catalog for everyone. Stories from them appear after the next press run (about 3 h; sooner if `GITHUB_DISPATCH_TOKEN` is set). A beat scouted in the last 7 days returns `known`.
+
 ## Not built yet (coming from the backend)
 
 `GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route).

@@ -57,12 +57,16 @@ export function heuristicParse(text: string): ParsedProfile {
   return { interests: chips(pos).slice(0, 12), topics, entities: [], negatives: chips(neg).slice(0, 8), negativeTopics, role: null, city: null, goals: null, depth: null };
 }
 
-export async function parseOnboarding(text: string): Promise<{ parsed: ParsedProfile; source: 'llm' | 'heuristic' }> {
+// Chips that map onto none of the fixed topics are niche interests: the frontend can ask the source scout about them.
+export const nicheChips = (chips: string[]): string[] => chips.filter((c) => c.trim().length > 2 && heuristicParse(c).topics.length === 0).slice(0, 4);
+
+export async function parseOnboarding(text: string): Promise<{ parsed: ParsedProfile; source: 'llm' | 'heuristic'; niche: string[] }> {
   try {
     const res = await llm({ task: 'parse', system: SYSTEM, user: wrapUntrusted('reader text', text), schema: ParsedProfileSchema });
-    return { parsed: res.data, source: 'llm' };
+    return { parsed: res.data, source: 'llm', niche: nicheChips(res.data.interests) };
   } catch (e) {
     if (!(e instanceof LLMUnavailableError)) throw e;
-    return { parsed: heuristicParse(text), source: 'heuristic' };
+    const parsed = heuristicParse(text);
+    return { parsed, source: 'heuristic', niche: nicheChips(parsed.interests) };
   }
 }

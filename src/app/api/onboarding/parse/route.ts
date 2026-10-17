@@ -7,7 +7,8 @@ export const maxDuration = 30;
 
 const Body = z.object({ text: z.string().trim().min(2).max(800) });
 
-// POST /api/onboarding/parse  { text }  ->  { parsed: ParsedProfile, source: 'llm' | 'heuristic' }
+// POST /api/onboarding/parse  { text }  ->  { parsed: ParsedProfile, source: 'llm' | 'heuristic', niche: string[] }
+// `niche` = chips outside the fixed topics: call POST /api/scout for each so the catalog grows for them.
 export const POST = route(async (req) => {
   const user = await requireUser(req);
   rateLimit(`parse:ip:${clientIp(req)}`, 150, 60_000);

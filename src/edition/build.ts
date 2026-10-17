@@ -19,7 +19,7 @@ export class BuildError extends Error {
   constructor(public status: number, message: string, public retryable = false) { super(message); }
 }
 
-export type BuildOptions = { rebuild?: boolean; onProgress?: (p: BuildProgress) => void; rand?: () => number; now?: number };
+export type BuildOptions = { historical?: boolean; rebuild?: boolean; onProgress?: (p: BuildProgress) => void; rand?: () => number; now?: number };
 export type BuildResult = { editionId: string; number: number; fallback: boolean; reused: boolean; ms: number };
 
 export const MAX_EDITIONS_PER_DAY = 3;
@@ -77,7 +77,7 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   emit({ step: 'clustering', stories });
 
   const reader = readerModel(profile);
-  const extrasP = loadExtras(profile, date);
+  const extrasP = loadExtras(profile, date, { weather: !opts.historical });
   const cands = await loadCandidates(db, userId, profile, reader, now);
   if (!cands.length) throw new BuildError(503, "The press hasn't printed any stories yet. Try again in a few minutes.", true);
 

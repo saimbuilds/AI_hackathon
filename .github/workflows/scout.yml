@@ -1,0 +1,44 @@
+name: scout
+
+# A reader's niche interest grows the catalog: find outlets covering the beat, add their feeds, read them now.
+# Dispatched from the app (POST /api/scout) or by hand.
+on:
+  workflow_dispatch:
+    inputs:
+      beat:
+        description: 'The beat to scout, e.g. "formula e"'
+        required: true
+      skip_scout:
+        description: 'Only read sources already scouted for this beat'
+        required: false
+        default: 'false'
+
+concurrency:
+  group: scout-${{ inputs.beat }}
+  cancel-in-progress: false
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      TRANSFORMERS_CACHE: ${{ github.workspace }}/.cache/transformers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/cache@v4
+        with:
+          path: .cache/transformers
+          key: transformers-multilingual-e5-small-v1
+      - run: pnpm scout --beat="${{ inputs.beat }}" ${{ inputs.skip_scout == 'true' && '--skip-scout' || '' }}

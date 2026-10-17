@@ -13,6 +13,8 @@ async function main() {
   const dry = flag('dry');
   const press = flag('skip-press') ? { runId: undefined } : await runPress({
     dry,
+    onlyBeat: arg('only-beat'),
+    maxAgeHours: arg('max-age-hours') ? Number(arg('max-age-hours')) : undefined,
     sources: arg('sources') ? Number(arg('sources')) : undefined,
     extract: !flag('no-extract'),
     extractMax: arg('extract-max') ? Number(arg('extract-max')) : undefined,
@@ -22,7 +24,7 @@ async function main() {
   const seeded = await ensureTopicVectors();
   if (seeded) console.log(`topic vectors seeded: ${seeded}`);
 
-  const enrich = await runEnrich({ max: arg('enrich-max') ? Number(arg('enrich-max')) : undefined });
+  const enrich = await runEnrich({ max: arg('enrich-max') ? Number(arg('enrich-max')) : undefined, sinceHours: arg('enrich-since-hours') ? Number(arg('enrich-since-hours')) : undefined, perCategory: arg('per-category') ? Number(arg('per-category')) : undefined });
   const daily = await runDaily3();
 
   // Grounding rate and LLM usage land on the press_runs row, which /newsroom reads.

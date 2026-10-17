@@ -21,7 +21,7 @@ const CatalogSchema = z.object({
   })),
 });
 
-export type PressOptions = { dry?: boolean; sources?: number; extract?: boolean; extractMax?: number };
+export type PressOptions = { onlyBeat?: string; maxAgeHours?: number; dry?: boolean; sources?: number; extract?: boolean; extractMax?: number };
 export type PressStats = Record<string, number | string>;
 
 const log = (...a: unknown[]) => console.log(new Date().toISOString().slice(11, 19), ...a);
@@ -66,15 +66,16 @@ export async function runPress(opts: PressOptions = {}): Promise<PressStats> {
       must(await db.from('sources').upsert(part.map((s) => ({ name: s.name, feed_url: s.feedUrl, site_url: s.siteUrl ?? null, kind: s.kind, category: s.category, region: s.region, language: s.language })), { onConflict: 'feed_url', ignoreDuplicates: false }), 'sources upsert');
     }
     const urls = new Set(catalogSources.map((s) => s.feedUrl));
-    const all = await selectAll<SourceRow & { status: string }>((f, t) => db.from('sources').select('id,name,feed_url,kind,language,status').neq('status', 'dead').range(f, t));
-    sources = all.filter((s) => urls.has(s.feed_url));
+    const all = await selectAll<SourceRow & { status: string; beat: string | null }>((f, t) => db.from('sources').select('id,name,feed_url,kind,language,status,beat').neq('status', 'dead').range(f, t));
+    // The catalog file is the seed; sources the scout added for niche beats live only in the database and are read too.
+    sources = opts.onlyBeat ? all.filter((s) => s.beat === opts.onlyBeat) : all.filter((s) => urls.has(s.feed_url) || s.beat);
   } else {
     sources = catalogSources.map((s) => ({ id: randomUUID(), name: s.name, feed_url: s.feedUrl, kind: s.kind, language: s.language }));
   }
   log(`sources: ${sources.length}`);
 
   // 2. fetch
-  const results: FetchResult[] = await fetchAll(sources);
+  const results: FetchResult[] = await fetchAll(sources, { maxAgeHours: opts.maxAgeHours });
   const ok = results.filter((r) => r.ok);
   const failed = results.filter((r) => !r.ok);
   failed.forEach((r) => errors.push(`${r.source.name}: ${r.error}`));

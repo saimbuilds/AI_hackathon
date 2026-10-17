@@ -15,6 +15,8 @@
     "load": "tsx --env-file-if-exists=.env.local scripts/load-test.mts",
     "email": "tsx --env-file-if-exists=.env.local worker/email.ts",
     "lab": "tsx --env-file-if-exists=.env.local worker/lab.ts",
+    "backfill": "tsx --env-file-if-exists=.env.local worker/backfill.ts",
+    "scout": "tsx --env-file-if-exists=.env.local worker/scout.ts",
     "press": "tsx --env-file-if-exists=.env.local worker/run.ts",
     "models:check": "tsx --env-file-if-exists=.env.local scripts/check-models.mts"
   },

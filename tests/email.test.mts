@@ -46,3 +46,11 @@ test('email renders from the fixture edition, escapes content, carries the unsub
   assert.ok(m.text.includes('Three things to remember'));
   assert.equal(esc('a&b<"c">'), 'a&amp;b&lt;&quot;c&quot;&gt;');
 });
+
+test('localInstant converts a local wall-clock time to the right UTC instant', async () => {
+  const { localInstant } = await import('../src/edition/backfill');
+  assert.equal(new Date(localInstant('2026-10-17', '07:00', 'Asia/Karachi')).toISOString(), '2026-10-17T02:00:00.000Z');
+  assert.equal(new Date(localInstant('2026-10-17', '07:00', 'UTC')).toISOString(), '2026-10-17T07:00:00.000Z');
+  assert.equal(new Date(localInstant('2026-01-15', '07:00', 'America/New_York')).toISOString(), '2026-01-15T12:00:00.000Z'); // EST
+  assert.equal(new Date(localInstant('2026-07-15', '07:00', 'America/New_York')).toISOString(), '2026-07-15T11:00:00.000Z'); // EDT
+});

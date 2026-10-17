@@ -126,8 +126,8 @@ export type EnrichStats = { enriched: number; fallback: number; sentences: numbe
 
 type Candidate = { id: string; source_count: number; importance: number; updated_at: string; enriched_sources: number; enriched_at: string | null };
 
-async function pickCandidates(db: SupabaseClient, max: number, perCategory: number): Promise<Candidate[]> {
-  const since = new Date(Date.now() - 36 * 3_600_000).toISOString();
+async function pickCandidates(db: SupabaseClient, max: number, perCategory: number, sinceHours: number): Promise<Candidate[]> {
+  const since = new Date(Date.now() - sinceHours * 3_600_000).toISOString();
   const { data, error } = await db.from('stories').select('id,source_count,importance,updated_at,enriched_sources,enriched_at').gte('updated_at', since).order('importance', { ascending: false }).limit(4000);
   if (error) throw new Error(error.message);
   const need = (data as Candidate[]).filter((s) => !s.enriched_at || s.source_count >= s.enriched_sources + 2);
@@ -154,14 +154,14 @@ async function pickCandidates(db: SupabaseClient, max: number, perCategory: numb
   return out;
 }
 
-export async function runEnrich(opts: { max?: number; perCategory?: number; batchSize?: number } = {}): Promise<EnrichStats> {
+export async function runEnrich(opts: { max?: number; perCategory?: number; batchSize?: number; sinceHours?: number } = {}): Promise<EnrichStats> {
   const db = adminClient();
   if (!db) throw new Error('Supabase env missing');
   const max = opts.max ?? 160;
   const batchSize = opts.batchSize ?? 4;
   const stats: EnrichStats = { enriched: 0, fallback: 0, sentences: 0, verified: 0, grounding: null, llmCalls: 0, models: {}, failedBatches: 0, costUsd: 0 };
 
-  const cands = await pickCandidates(db, max, opts.perCategory ?? 14);
+  const cands = await pickCandidates(db, max, opts.perCategory ?? 14, opts.sinceHours ?? 36);
   log(`enrich: ${cands.length} stories to write up`);
   if (!cands.length) return stats;
 
