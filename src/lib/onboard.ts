@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { coldStart, type SwipeAction } from './profile';
 import { TOPICS } from './taxonomy';
+import { chipTopics } from './onboarding';
 import { fromPg, toPg } from './vec';
 
 const slugs = Object.keys(TOPICS) as [string, ...string[]];
@@ -43,7 +44,11 @@ export class OnboardError extends Error {
 }
 
 // `extraExtras` lets callers stamp profile.extras (gift metadata) without widening the public schema.
-export async function applyOnboarding(db: SupabaseClient, userId: string, b: Onboarding, extraExtras: Record<string, unknown> = {}): Promise<{ coldStart: 'vector' | 'none'; topics: number }> {
+export async function applyOnboarding(db: SupabaseClient, userId: string, input: Onboarding, extraExtras: Record<string, unknown> = {}): Promise<{ coldStart: 'vector' | 'none'; topics: number }> {
+  // Chips are what the reader actually confirmed: always map them onto topics too (clients have sent chips with topics: []).
+  const negativeTopics = [...new Set([...input.interests.negativeTopics, ...chipTopics(input.interests.negatives)])];
+  const topics = [...new Set([...input.interests.topics, ...chipTopics(input.interests.chips)])].filter((t) => !negativeTopics.includes(t)).slice(0, 10);
+  const b: Onboarding = { ...input, interests: { ...input.interests, topics, negativeTopics } };
   const wanted = [...b.interests.topics, ...b.interests.negativeTopics];
   const { data: topicRows, error: tErr } = wanted.length ? await db.from('topic_vectors').select('topic,embedding').in('topic', wanted) : { data: [], error: null };
   if (tErr) throw new OnboardError(500, 'Could not load topic fingerprints');

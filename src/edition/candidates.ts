@@ -1,4 +1,5 @@
 // Load one reader and their candidate stories (36 h, printable, unseen, unmuted).
+import { isMostlyLatin } from '../lib/lang';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { fromPg, toPg } from '../lib/vec';
 import { COUNTRY_NAMES } from '../lib/taxonomy';
@@ -113,6 +114,7 @@ export async function hydrate(db: SupabaseClient, idList: string[], reader: Read
   return stories.flatMap((s) => {
     const sents = sentences.get(s.id);
     if (!sents?.length || !s.embedding || !s.headline) return [];
+    if (!isMostlyLatin(`${s.headline} ${sents[0].text}`)) return []; // never print a foreign-script story on an English page
     const arts = articles.get(s.id) ?? [];
     // A muted outlet only hides stories it is the sole source of.
     if (reader.mutedSources.length && arts.length && arts.every((a) => reader.mutedSources.includes(sources.get(a.source_id ?? '')?.name ?? ''))) return [];

@@ -70,3 +70,31 @@ export async function parseOnboarding(text: string): Promise<{ parsed: ParsedPro
     return { parsed, source: 'heuristic', niche: nicheChips(parsed.interests) };
   }
 }
+
+// Generic one-word chips the phrase heuristic deliberately ignores. "economy"/"politics" resolve to the
+// Pakistan topic when the reader also picked Pakistan (most of our readers), else the global one.
+const CHIP_ALIASES: Record<string, (all: Set<string>) => string[]> = {
+  technology: () => ['consumer-tech', 'software'], tech: () => ['consumer-tech', 'software'],
+  ai: () => ['ai'], 'artificial intelligence': () => ['ai'], startups: () => ['startups'], startup: () => ['startups'],
+  economy: (all) => (all.has('pakistan') ? ['pakistan-economy'] : ['global-economy']),
+  business: (all) => (all.has('pakistan') ? ['pakistan-economy', 'business'] : ['business']),
+  politics: (all) => (all.has('pakistan') ? ['pakistan-politics'] : ['geopolitics']),
+  pakistan: () => ['pakistan-politics', 'pakistan-economy'], cricket: () => ['cricket'], football: () => ['football'],
+  f1: () => ['cars'], 'formula 1': () => ['cars'], science: () => ['science'], health: () => ['health'], climate: () => ['climate'],
+  crypto: () => ['crypto'], markets: () => ['markets'], space: () => ['space'], gaming: () => ['gaming'], movies: () => ['movies'],
+  music: () => ['music'], books: () => ['books'], education: () => ['education'], jobs: () => ['jobs-careers'], careers: () => ['jobs-careers'],
+  celebrity: () => ['celebrity'], 'celebrity news': () => ['celebrity'], 'celebrity gossip': () => ['celebrity'], gossip: () => ['celebrity'],
+  sports: () => ['cricket', 'football'], world: () => ['geopolitics'], 'world news': () => ['geopolitics'],
+};
+
+// Onboarding chips -> topic slugs (server-side safety net when the client sends chips but no topics).
+export function chipTopics(chips: string[]): string[] {
+  const norm = chips.map((c) => c.toLowerCase().replace(/[^\p{L}\p{N} ]+/gu, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const all = new Set(norm);
+  const out = new Set<string>();
+  for (const c of norm) {
+    for (const t of CHIP_ALIASES[c]?.(all) ?? []) out.add(t);
+    for (const t of heuristicParse(c).topics) out.add(t);
+  }
+  return [...out].filter((t) => t in TOPICS).slice(0, 10);
+}
