@@ -204,16 +204,31 @@ export async function llm<T>(req: LLMRequest<T>): Promise<LLMResult<T>> {
       continue;
     }
     if (res.status >= 500) { await fail('server-error', `HTTP ${res.status}`); continue; }
+    // The request timeout also covers the body download, so reading the body can time out after the headers arrived.
+    let bodyText: string;
+    try {
+      bodyText = await res.text();
+    } catch (e) {
+      const timedOut = e instanceof Error && (e.name === 'TimeoutError' || e.name === 'AbortError');
+      await fail(timedOut ? 'timeout' : 'server-error', timedOut ? 'while reading the response' : String(e));
+      continue;
+    }
     if (!res.ok) {
       // 400/401/403/404: bad model id, bad key, bad params. Move on, but make it loud in the log.
-      await fail('client-error', `HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+      await fail('client-error', `HTTP ${res.status} ${bodyText.slice(0, 200)}`);
       continue;
     }
 
-    const json = (await res.json()) as {
+    let json: {
       choices?: { message?: { content?: string }; finish_reason?: string }[];
       usage?: { prompt_tokens?: number; completion_tokens?: number; cost?: number };
     };
+    try {
+      json = JSON.parse(bodyText);
+    } catch {
+      await fail('bad-output', 'response was not JSON');
+      continue;
+    }
     const tokensIn = json.usage?.prompt_tokens ?? 0;
     const tokensOut = json.usage?.completion_tokens ?? 0;
     const choice = json.choices?.[0];

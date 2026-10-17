@@ -24,7 +24,7 @@ async function main() {
   const seeded = await ensureTopicVectors();
   if (seeded) console.log(`topic vectors seeded: ${seeded}`);
 
-  const enrich = await runEnrich({ max: arg('enrich-max') ? Number(arg('enrich-max')) : undefined, sinceHours: arg('enrich-since-hours') ? Number(arg('enrich-since-hours')) : undefined, perCategory: arg('per-category') ? Number(arg('per-category')) : undefined });
+  const enrich = await runEnrich({ max: arg('enrich-max') ? Number(arg('enrich-max')) : undefined, sinceHours: arg('enrich-since-hours') ? Number(arg('enrich-since-hours')) : undefined, perCategory: arg('per-category') ? Number(arg('per-category')) : undefined, concurrency: arg('enrich-concurrency') ? Number(arg('enrich-concurrency')) : undefined });
   const daily = await runDaily3();
 
   // Grounding rate and LLM usage land on the press_runs row, which /newsroom reads.
