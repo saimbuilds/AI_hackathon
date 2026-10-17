@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { api, browserClient, token, hasStoredSession } from "@/components/session/client";
 import { useClientValue } from "@/components/ui/useStored";
 import { useUser, isSaved, signOut } from "@/components/session/auth";
@@ -55,6 +56,7 @@ function Card({ title, children, bg = "var(--sheet)", className = "" }: { title:
 
 /** One place for a reader's paper: today's edition, habit, settings, follows, gifts, plan and account. */
 export function Dashboard() {
+  const router = useRouter();
   const session = useClientValue(hasStoredSession, false);
   const user = useUser();
   const [data, setData] = useState<Data | null>(null);
@@ -268,7 +270,7 @@ export function Dashboard() {
             {isSaved(user) ? (
               <>
                 <p className="t-body">Saved to {user!.email}. Your paper follows you to any device.</p>
-                <button type="button" className="tbtn mt-2" onClick={() => signOut().then(() => location.assign("/"))}>
+                <button type="button" className="tbtn mt-2" onClick={() => signOut().then(() => router.push("/"))}>
                   Sign out
                 </button>
               </>
