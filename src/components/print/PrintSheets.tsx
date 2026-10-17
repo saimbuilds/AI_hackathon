@@ -56,8 +56,8 @@ export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Re
   const pageThree = rest;
 
   return (
-    <div className="print-root">
-      <PrintToolbar />
+    <div className="print-root" data-large={e.largePrint || undefined} dir={e.language === "ur" ? "rtl" : undefined} lang={e.language === "ur" ? "ur" : undefined}>
+      <PrintToolbar editionId={e.id} largeDefault={e.largePrint} />
       <div className="print-desk">
         {/* ---------- Page 1: the front ---------- */}
         <section className="sheet" aria-label="Front page">

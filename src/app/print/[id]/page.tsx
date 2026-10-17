@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { PrintEdition } from "@/components/print/PrintEdition";
 import { PrintLoader } from "@/components/print/PrintLoader";
 import { getSampleEdition } from "../../(site)/_data";
+import { nastaliq } from "@/components/paper/nastaliq";
 
 export const metadata: Metadata = { title: "Print edition · Endpaper" };
 
@@ -19,8 +20,10 @@ async function Sheets({ params }: { params: PageProps<"/print/[id]">["params"] }
 
 export default function PrintPage({ params }: PageProps<"/print/[id]">) {
   return (
-    <Suspense fallback={<div className="print-desk" />}>
-      <Sheets params={params} />
-    </Suspense>
+    <div className={nastaliq.variable}>
+      <Suspense fallback={<div className="print-desk" />}>
+        <Sheets params={params} />
+      </Suspense>
+    </div>
   );
 }

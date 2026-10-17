@@ -147,3 +147,13 @@
     break-after: page;
   }
 }
+
+/* Urdu editions print right-to-left in Nastaliq, with the taller line height the script needs. */
+.print-root[dir="rtl"] .sheet {
+  font-family: var(--font-nastaliq), var(--font-newsreader), serif;
+  line-height: 2;
+}
+.print-root[dir="rtl"] .sheet .hed {
+  line-height: 1.7;
+  letter-spacing: 0;
+}
