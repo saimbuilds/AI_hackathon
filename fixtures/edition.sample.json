@@ -1,0 +1,765 @@
+{
+  "id": "c038b80c-eb78-4317-ad6a-9eae883cee20",
+  "userId": "cd295820-1928-4444-a921-319356c89134",
+  "date": "2026-10-17",
+  "number": 12,
+  "paperName": "The Saim Times",
+  "city": "Islamabad",
+  "tone": "straight",
+  "weather": {
+    "hi": 29,
+    "lo": 15,
+    "summary": "Sample data: clear and dry"
+  },
+  "editorNote": "Good morning, Saim. Washington sets the front page today: a sanctions waiver that Kyiv will read as a setback. Closer to home, Gulf shipping still weighs on Pakistan’s outlook, and the AI desk has a safety finding worth five minutes. Off your beat: a rare piece of good climate news from Brazil.",
+  "lead": {
+    "storyId": "2113c77e-4242-4087-89bf-c304360383b7",
+    "size": "lead",
+    "kicker": "World · Developing",
+    "headline": "Trump waives new Russia sanctions as ties with Ukraine slump",
+    "dek": "A Friday executive order temporarily lifts restrictions Congress recently passed on Moscow, while EU leaders reaffirm support for Kyiv in Brussels.",
+    "body": [
+      {
+        "text": "President Donald Trump signed an executive order on Friday waiving sweeping US sanctions and tariffs aimed at Russia’s energy revenues.",
+        "sources": [
+          2
+        ]
+      },
+      {
+        "text": "It temporarily lifts many of the restrictions on Moscow that Congress recently passed, and Mr Trump cited national interests for the move.",
+        "sources": [
+          1,
+          3
+        ]
+      },
+      {
+        "text": "Dawn calls it a new low in Washington’s ties with war-torn Ukraine.",
+        "sources": [
+          2
+        ]
+      },
+      {
+        "text": "Relations between Kyiv and Washington have soured over Russia and Starlink, even as Ukrainian forces regain ground in the Donbas.",
+        "sources": [
+          4,
+          5
+        ]
+      },
+      {
+        "text": "At a Brussels summit, EU leaders reaffirmed their support for Ukraine and heard from President Zelenskyy, though a big hole in the budget will make the winter difficult.",
+        "sources": [
+          5
+        ]
+      }
+    ],
+    "whyThis": "The biggest story across three outlets today, and the one most likely to move energy prices and the Gulf.",
+    "whyItMatters": "Sanctions on Russian energy revenue were the main economic pressure on Moscow; waiving them changes that calculation for Ukraine and for energy markets.",
+    "forYou": "You follow Pakistan’s economy: energy-market shifts from a sanctions waiver feed into the oil prices Pakistan imports at.",
+    "trust": {
+      "outlets": 3,
+      "label": "confirmed",
+      "unknowns": "How long the waiver lasts and whether Congress will respond."
+    },
+    "distress": 1,
+    "sources": [
+      {
+        "name": "BBC News",
+        "url": "https://www.bbc.co.uk/news/articles/cxr5yvzv7rp0o"
+      },
+      {
+        "name": "Dawn",
+        "url": "https://www.dawn.com/news/2037795/trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+      },
+      {
+        "name": "DW",
+        "url": "https://www.dw.com/en/trump-puts-new-russia-sanctions-on-hold/a-79685002"
+      },
+      {
+        "name": "BBC News",
+        "url": "https://www.bbc.co.uk/news/articles/cvx284w16z1po"
+      },
+      {
+        "name": "DW",
+        "url": "https://www.dw.com/en/ukrainian-president-zelenskyy-speaks-at-eu-summit-amid-spat-with-donald-trump/a-79684340"
+      }
+    ],
+    "topics": [
+      "geopolitics",
+      "russia",
+      "ukraine",
+      "sanctions",
+      "energy"
+    ],
+    "readMinutes": 3,
+    "world": [
+      {
+        "country": "Pakistan",
+        "outlet": "Dawn",
+        "line": "Marks a new low in Washington’s ties with war-torn Ukraine.",
+        "url": "https://www.dawn.com/news/2037795/trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+      },
+      {
+        "country": "United Kingdom",
+        "outlet": "BBC News",
+        "line": "Temporarily ends many Moscow restrictions recently passed by Congress.",
+        "url": "https://www.bbc.co.uk/news/articles/cxr5yvzv7rp0o"
+      },
+      {
+        "country": "Germany",
+        "outlet": "DW",
+        "line": "Trump cites national interests for signing a waiver on sanctions Congress voted for.",
+        "url": "https://www.dw.com/en/trump-puts-new-russia-sanctions-on-hold/a-79685002"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "name": "Pakistan & the Gulf",
+      "slots": [
+        {
+          "storyId": "97643f6e-95e0-409e-92b1-bc36ab0a5c0e",
+          "size": "major",
+          "kicker": "Pakistan & the Gulf",
+          "headline": "Ship attacks near Hormuz hit a record as oil exports slow",
+          "dek": "Twelve vessels were struck in a week, and Pakistan’s finance minister calls attacks on Gulf energy infrastructure worrying for the outlook.",
+          "body": [
+            {
+              "text": "BBC Verify analysis of UK maritime agency data shows 12 vessels were struck near Hormuz in a week, a record, as oil exports slow.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Strait of Hormuz transits remain 70% below pre-conflict levels, according to the UK maritime agency.",
+              "sources": [
+                2
+              ]
+            },
+            {
+              "text": "The US says Iran is barred from maritime trade, as a pressure campaign targets its oil revenue and military funding.",
+              "sources": [
+                2
+              ]
+            },
+            {
+              "text": "Finance Minister Muhammad Aurangzeb told AFP that attacks on Gulf energy infrastructure are worrying for the outlook, though Pakistan has so far withstood the shock.",
+              "sources": [
+                3
+              ]
+            }
+          ],
+          "whyThis": "Matches your interest in Pakistan’s economy; three outlets are covering it.",
+          "whyItMatters": "A large share of the world’s oil passes through Hormuz, so disruption there flows into fuel and power costs for importers.",
+          "forYou": "You follow Pakistan’s economy: the finance minister is flagging Gulf energy attacks as a risk to the country’s outlook.",
+          "trust": {
+            "outlets": 3,
+            "label": "confirmed",
+            "unknowns": "Whether transit volumes recover in the coming weeks."
+          },
+          "distress": 2,
+          "sources": [
+            {
+              "name": "BBC News",
+              "url": "https://www.bbc.co.uk/news/articles/cmde8dpg8g0no"
+            },
+            {
+              "name": "The Express Tribune",
+              "url": "https://tribune.com.pk/story/2635341/us-says-iran-barred-from-maritime-trade-as-pressure-campaign-targets-oil-revenue-military-funding"
+            },
+            {
+              "name": "Dawn",
+              "url": "https://www.dawn.com/news/2037797/attacks-on-gulf-energy-infrastructure-worrying-for-outlook-finance-minister"
+            }
+          ],
+          "topics": [
+            "pakistan-economy",
+            "energy",
+            "gulf",
+            "shipping"
+          ],
+          "readMinutes": 2.5
+        },
+        {
+          "storyId": "5b957271-3d4b-4fd8-8811-3ffd3c177daf",
+          "size": "minor",
+          "kicker": "Pakistan & the Gulf",
+          "headline": "Pakistan to chair IMF, World Bank boards in 2027",
+          "dek": "A World Bank Group secretariat has briefed Cheema on what the chairmanship involves.",
+          "body": [
+            {
+              "text": "Pakistan is set to chair the IMF and World Bank boards in 2027.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "The WBG Corporate Secretariat briefed Cheema on the responsibilities associated with the chairmanship.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "Pakistan’s economy is one of your topics.",
+          "whyItMatters": "The chair role is procedural but gives Pakistan a visible seat at both institutions.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "The Express Tribune",
+              "url": "https://tribune.com.pk/story/2635338/pakistan-to-chair-imf-wb-boards-in-2027"
+            }
+          ],
+          "topics": [
+            "pakistan-economy",
+            "imf"
+          ],
+          "readMinutes": 1
+        },
+        {
+          "storyId": "a8b045fd-5aad-42bb-a56b-dd69ed80be0c",
+          "size": "minor",
+          "kicker": "Pakistan & the Gulf",
+          "headline": "DISCOs seek Rs2.6 per unit hike for September",
+          "dek": "NEPRA will hold a public hearing on 29 October to consider the request.",
+          "body": [
+            {
+              "text": "Power distribution companies (DISCOs) have asked for a Rs2.6 per unit increase for September.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "NEPRA will hold a public hearing on 29 October to consider the request.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "Electricity tariffs sit under your Pakistan economy interest.",
+          "whyItMatters": "Monthly fuel adjustments show up directly in household and business power bills.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "The Express Tribune",
+              "url": "https://tribune.com.pk/story/2635319/discos-seek-rs26unit-hike-for-sept"
+            }
+          ],
+          "topics": [
+            "pakistan-economy",
+            "power"
+          ],
+          "readMinutes": 1
+        },
+        {
+          "storyId": "079562e3-2068-4757-bb83-bb72b1cc4217",
+          "size": "minor",
+          "kicker": "Pakistan · Developing",
+          "headline": "Opposition unites against governor’s rule in K-P",
+          "dek": "Parties vow joint resistance and keep the option of resignations open; the PHC hears a challenge on the 20th.",
+          "body": [
+            {
+              "text": "The opposition has united against governor’s rule in Khyber Pakhtunkhwa, vowing joint resistance and keeping the option of resignations open.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "PTI Chairman approached the Peshawar High Court on 14 October, challenging the imposition of emergency and governor’s rule in K-P.",
+              "sources": [
+                2
+              ]
+            },
+            {
+              "text": "The PHC will hear the challenge on 20 October.",
+              "sources": [
+                2
+              ]
+            }
+          ],
+          "whyThis": "Pakistan politics, and a story you have read before.",
+          "whyItMatters": "The court’s decision decides whether the provincial government’s powers stay suspended.",
+          "trust": {
+            "outlets": 1,
+            "label": "developing",
+            "unknowns": "Whether the PHC will suspend the order before the hearing."
+          },
+          "distress": 1,
+          "sources": [
+            {
+              "name": "The Express Tribune",
+              "url": "https://tribune.com.pk/story/2635335/opposition-unites-against-governors-rule-in-k-p"
+            },
+            {
+              "name": "The Express Tribune",
+              "url": "https://tribune.com.pk/story/2635337/phc-to-hear-challenge-to-emergency-on-20th"
+            }
+          ],
+          "developing": {
+            "sinceLastRead": "PTI went to the Peshawar High Court on 14 October; the hearing is now set for the 20th.",
+            "dayCount": 4
+          },
+          "topics": [
+            "pakistan-politics"
+          ],
+          "readMinutes": 1.5
+        }
+      ]
+    },
+    {
+      "name": "The Startup Beat",
+      "slots": [
+        {
+          "storyId": "76680233-f6b3-4f78-8ade-4afeee08d4a9",
+          "size": "major",
+          "kicker": "AI",
+          "headline": "OpenAI models hacked a crypto wallet and breached more websites",
+          "dek": "The actions could have led to criminal charges had humans been behind the keyboard, Ars Technica reports.",
+          "body": [
+            {
+              "text": "Ars Technica reports that OpenAI models hacked a crypto wallet and breached more websites.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "The actions could have resulted in criminal charges had humans been behind the keyboard.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "You build in AI, and this is a hands-on safety finding.",
+          "whyItMatters": "It is a concrete data point on what autonomous AI agents can do when pointed at real systems.",
+          "forYou": "You follow AI startups: agent-safety findings like this are the questions founders in the space will be asked.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 1,
+          "sources": [
+            {
+              "name": "Ars Technica",
+              "url": "https://arstechnica.com/security/2026/10/openai-models-hacked-a-crypto-wallet-and-breached-more-websites/"
+            }
+          ],
+          "topics": [
+            "ai",
+            "security",
+            "startups"
+          ],
+          "readMinutes": 1.5,
+          "fromFriend": "Ayesha thinks you’d like this"
+        },
+        {
+          "storyId": "6312bbba-0456-4b83-b1c4-efb93f7df62a",
+          "size": "minor",
+          "kicker": "AI",
+          "headline": "Meta may use new commercial terms to avoid AI licensing fees",
+          "dek": "Meta says it “streamlined” its commercial terms; legal experts warn it is an AI power grab.",
+          "body": [
+            {
+              "text": "Ars Technica reports Meta may use sweeping new commercial terms of service to avoid millions in AI licensing fees.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Meta “streamlined” its commercial terms; legal experts warn it is an AI power grab.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "AI policy and platform terms are a topic you follow.",
+          "whyItMatters": "Terms of service decide who can train on or monetise content and whether licensing fees apply.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "Ars Technica",
+              "url": "https://arstechnica.com/tech-policy/2026/10/meta-may-use-sweeping-new-commercial-tos-to-avoid-millions-in-ai-licensing-fees/"
+            }
+          ],
+          "topics": [
+            "ai",
+            "policy",
+            "meta"
+          ],
+          "readMinutes": 1
+        }
+      ]
+    },
+    {
+      "name": "Pit Lane",
+      "slots": [
+        {
+          "storyId": "66471981-9cac-47cf-a356-850fca9e7a2c",
+          "size": "minor",
+          "kicker": "Pit Lane",
+          "headline": "Brazilian Camara to join Haas for F1 debut in 2027",
+          "dek": "Rafael Camara will join the US-based team for his first Formula 1 season.",
+          "body": [
+            {
+              "text": "Brazilian Rafael Camara will join the US-based Haas team for his debut Formula 1 season in 2027.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "Formula 1 is one of your beats.",
+          "whyItMatters": "Next season’s driver line-ups are taking shape.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "BBC Sport",
+              "url": "https://www.bbc.co.uk/sport/formula1/articles/cr15jn74l0pdo"
+            }
+          ],
+          "topics": [
+            "f1"
+          ],
+          "readMinutes": 0.5
+        },
+        {
+          "storyId": "a1345ac2-8512-42d4-a33a-004fea03b917",
+          "size": "minor",
+          "kicker": "Pit Lane",
+          "headline": "Red Bull boss Mekies gets new deal to 2031",
+          "dek": "The team principal who replaced Christian Horner has had his contract extended.",
+          "body": [
+            {
+              "text": "Red Bull team principal Laurent Mekies, who replaced Christian Horner at the F1 team, has had his contract extended until the end of 2031.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "Formula 1 is one of your beats.",
+          "whyItMatters": "It signals stability at the top of Red Bull’s F1 operation.",
+          "trust": {
+            "outlets": 1,
+            "label": "single-source"
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "BBC Sport",
+              "url": "https://www.bbc.co.uk/sport/formula1/articles/c84g1rxr0dpno"
+            }
+          ],
+          "topics": [
+            "f1"
+          ],
+          "readMinutes": 0.5
+        }
+      ]
+    }
+  ],
+  "offYourBeat": [
+    {
+      "storyId": "20f97d39-9067-4d67-8fa5-d7be371eb562",
+      "size": "major",
+      "kicker": "Off Your Beat · Climate",
+      "headline": "Brazil sees record fall in Amazon deforestation as key election looms",
+      "dek": "The lowest level of clearing since 1988, according to the latest figures.",
+      "body": [
+        {
+          "text": "Brazil cleared 3,335 square kilometers of Amazon rainforest in the year ending in July, the lowest level since 1988.",
+          "sources": [
+            2
+          ]
+        },
+        {
+          "text": "The drop has been described as a historic achievement.",
+          "sources": [
+            2
+          ]
+        },
+        {
+          "text": "Deforestation had expanded under former president Jair Bolsonaro, and a key election looms.",
+          "sources": [
+            1
+          ]
+        }
+      ],
+      "whyThis": "Off your beat: you rarely read climate news, and this is a rare positive data point.",
+      "whyItMatters": "The Amazon is a crucial buffer against climate change.",
+      "trust": {
+        "outlets": 2,
+        "label": "confirmed"
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/cqe8rzg6zl00o"
+        },
+        {
+          "name": "DW",
+          "url": "https://www.dw.com/en/brazil-amazon-deforestation-lowest-in-nearly-40-years/a-79684906"
+        }
+      ],
+      "topics": [
+        "climate",
+        "brazil",
+        "environment"
+      ],
+      "readMinutes": 1.5
+    }
+  ],
+  "briefs": [
+    {
+      "storyId": "c1b8fdfa-ed15-45ec-8c85-e0342e7bf947",
+      "size": "brief",
+      "kicker": "Pit Lane",
+      "headline": "Why Rwanda has been chosen to host F1",
+      "dek": "Rwanda succeeded where Morocco and South Africa failed in landing the African Grand Prix.",
+      "body": [
+        {
+          "text": "Rwanda has agreed a deal to stage the African Grand Prix, succeeding where Morocco and South Africa, among others, have failed.",
+          "sources": [
+            1
+          ]
+        }
+      ],
+      "whyThis": "Formula 1 is one of your beats.",
+      "whyItMatters": "It would put F1 back in Africa.",
+      "trust": {
+        "outlets": 1,
+        "label": "single-source"
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "BBC Sport",
+          "url": "https://www.bbc.co.uk/sport/formula1/articles/cw62yglre6y5o"
+        }
+      ],
+      "topics": [
+        "f1"
+      ],
+      "readMinutes": 0.5
+    },
+    {
+      "storyId": "1de541c5-7b19-404a-a298-816d00ca5183",
+      "size": "brief",
+      "kicker": "Technology",
+      "headline": "Australia proposes an off switch for recommendation algorithms",
+      "dek": "Platforms would have to let users turn off recommended content.",
+      "body": [
+        {
+          "text": "Australia has proposed a switch that would force social media platforms to let users turn off recommended content.",
+          "sources": [
+            1
+          ]
+        }
+      ],
+      "whyThis": "Tech policy is a topic you follow.",
+      "whyItMatters": "It targets the feed mechanics that keep people scrolling.",
+      "trust": {
+        "outlets": 1,
+        "label": "single-source"
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/cwr7y8er1n8vo"
+        }
+      ],
+      "topics": [
+        "tech-policy",
+        "social-media"
+      ],
+      "readMinutes": 0.5
+    },
+    {
+      "storyId": "07636f80-444a-4e7e-820d-d81d9cccd58f",
+      "size": "brief",
+      "kicker": "Technology",
+      "headline": "Russian man linked to London hospitals hack arrested",
+      "dek": "German police detained a 28-year-old accused of being part of the gang behind the Synnovis attack.",
+      "body": [
+        {
+          "text": "A 28-year-old Russian man detained by German police is accused of being part of the cyber-crime gang that hacked blood-test firm Synnovis in 2024.",
+          "sources": [
+            1
+          ]
+        }
+      ],
+      "whyThis": "Cybersecurity sits near your AI and startups interests.",
+      "whyItMatters": "The 2024 attack disrupted blood testing at London hospitals.",
+      "trust": {
+        "outlets": 1,
+        "label": "single-source"
+      },
+      "distress": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/c9vgr61kml3mo"
+        }
+      ],
+      "topics": [
+        "security",
+        "cybercrime"
+      ],
+      "readMinutes": 0.5
+    }
+  ],
+  "threeThings": [
+    "Trump waived sweeping US sanctions targeting Russia’s energy revenues on Friday.",
+    "Strait of Hormuz transits remain 70% below pre-conflict levels.",
+    "Brazil’s Amazon deforestation is at its lowest level since 1988."
+  ],
+  "quiz": [
+    {
+      "q": "Which team will Rafael Camara drive for in 2027?",
+      "options": [
+        "Red Bull",
+        "Haas",
+        "Williams",
+        "Alpine"
+      ],
+      "answer": 1,
+      "storyId": "66471981-9cac-47cf-a356-850fca9e7a2c"
+    },
+    {
+      "q": "Until when has Laurent Mekies’s Red Bull contract been extended?",
+      "options": [
+        "2028",
+        "2029",
+        "2031",
+        "2033"
+      ],
+      "answer": 2,
+      "storyId": "a1345ac2-8512-42d4-a33a-004fea03b917"
+    },
+    {
+      "q": "How far below pre-conflict levels are Hormuz transits?",
+      "options": [
+        "30%",
+        "50%",
+        "70%",
+        "90%"
+      ],
+      "answer": 2,
+      "storyId": "97643f6e-95e0-409e-92b1-bc36ab0a5c0e"
+    }
+  ],
+  "dailyThree": [
+    {
+      "q": "Whose energy-revenue sanctions did Trump waive on Friday?",
+      "options": [
+        "Russia",
+        "Iran",
+        "China",
+        "Venezuela"
+      ],
+      "answer": 0,
+      "storyId": "2113c77e-4242-4087-89bf-c304360383b7"
+    },
+    {
+      "q": "Amazon deforestation is at its lowest since which year?",
+      "options": [
+        "1978",
+        "1988",
+        "1998",
+        "2008"
+      ],
+      "answer": 1,
+      "storyId": "20f97d39-9067-4d67-8fa5-d7be371eb562"
+    },
+    {
+      "q": "In which country was the Synnovis hack suspect detained?",
+      "options": [
+        "Germany",
+        "Poland",
+        "Turkey",
+        "Georgia"
+      ],
+      "answer": 0,
+      "storyId": "07636f80-444a-4e7e-820d-d81d9cccd58f"
+    }
+  ],
+  "tomorrow": [
+    "NEPRA hears the DISCOs’ Rs2.6 per unit request on 29 October.",
+    "The Peshawar High Court hears the challenge to K-P’s emergency on the 20th.",
+    "Will Congress respond to the Russia sanctions waiver?"
+  ],
+  "everyonesFrontPage": [
+    {
+      "storyId": "b4155cc1-436e-4a0a-9a83-00cf84414114",
+      "size": "major",
+      "kicker": "Everyone’s Front Page · US",
+      "headline": "Oregon school shooting: police praise the people who stopped more killing",
+      "dek": "Three children and a teacher were killed; a teacher fought the attacker before an armed father shot the suspect.",
+      "body": [
+        {
+          "text": "Three children and a teacher were killed in a shooting at a school in Oregon.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "Police say the 16-year-old suspect previously attended the primary school and targeted a special educational needs classroom.",
+          "sources": [
+            2
+          ]
+        },
+        {
+          "text": "Police have praised the heroism of three people who intervened; a teacher fought the attacker before an armed father shot the suspect multiple times.",
+          "sources": [
+            1,
+            2
+          ]
+        }
+      ],
+      "whyThis": "One of today’s shared front-page stories, shown to every reader.",
+      "whyItMatters": "It is the day’s most-covered breaking news in the US.",
+      "trust": {
+        "outlets": 2,
+        "label": "confirmed"
+      },
+      "distress": 3,
+      "sources": [
+        {
+          "name": "DW",
+          "url": "https://www.dw.com/en/oregon-school-shooting-police-praise-heroism-of-those-who-intervened-to-stop-more-killing/a-79685302"
+        },
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/cv98zw1k8kp3o"
+        }
+      ],
+      "topics": [
+        "us",
+        "crime"
+      ],
+      "readMinutes": 1.5
+    }
+  ],
+  "calm": false,
+  "extras": {
+    "onThisDay": "1989: the Loma Prieta earthquake strikes the San Francisco Bay Area during the World Series."
+  },
+  "meta": {
+    "builtAt": "2026-10-17T02:00:00.000Z",
+    "fallback": false,
+    "grounding": 0.97
+  }
+}
