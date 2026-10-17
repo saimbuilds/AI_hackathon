@@ -1,274 +1,105 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "../styles/type.css";
+@import "../styles/ui.css";
+@import "../styles/paper.css";
 @import "lenis/dist/lenis.css";
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-paper-raised: var(--paper-raised);
-  --color-paper-sunk: var(--paper-sunk);
+  --color-newsprint: var(--newsprint);
+  --color-newsprint-2: var(--newsprint-2);
+  --color-newsprint-3: var(--newsprint-3);
+  --color-sheet: var(--sheet);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
-  --color-rule: var(--rule);
-  --color-accent: var(--accent);
-  --color-confirm: var(--confirm);
+  --color-line: var(--line);
+  --color-sun: var(--sun);
+  --color-press: var(--press);
+  --color-cyan: var(--cyan);
+  --color-leaf: var(--leaf);
+  --font-sans: var(--font-grotesk);
   --font-serif: var(--font-newsreader);
-  --font-sans: var(--font-schibsted);
-  --font-mono: var(--font-plex-mono);
   --font-blackletter: var(--font-unifraktur);
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
 }
 
 /* ---------- Base ---------- */
 html {
-  background: var(--paper);
+  background: var(--newsprint);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }
 body {
-  background: var(--paper);
+  background: var(--newsprint);
   color: var(--ink);
-  font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "kern", "liga";
+  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  font-feature-settings: "kern", "liga", "ss01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
 }
 ::selection {
   background: var(--selection);
+  color: var(--ink);
 }
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
-  border-radius: 1px;
+  border-radius: var(--r-xs);
 }
 button,
 a,
-input {
+input,
+label {
   touch-action: manipulation;
+}
+button {
+  cursor: pointer;
 }
 @media (pointer: fine) {
   html {
     overscroll-behavior: none;
   }
 }
+img,
+svg {
+  display: block;
+}
 
-/* Intro: hide animated hero until GSAP sets its from-states (removed by script, with a safety timeout). */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--newsprint);
+  border-radius: var(--r-sm);
+  transition: top var(--dur-ui) var(--ease-out);
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+.container-page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Intro: hide animated pieces until GSAP sets their from-states (class removed by script, with a safety timeout). */
 .intro-pending [data-intro] {
   visibility: hidden;
-}
-
-/* ---------- Type system (DESIGN_DIRECTION.md §5) ---------- */
-@layer components {
-  .page {
-    width: 100%;
-    max-width: var(--page-max);
-    margin-inline: auto;
-    padding-inline: var(--gutter);
-  }
-
-  .t-masthead {
-    font-family: var(--font-unifraktur), serif;
-    font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: -0.005em;
-    font-size: clamp(2.6rem, min(11.2vw, calc(152vw / var(--len, 14))), 10.75rem);
-    white-space: nowrap;
-  }
-  .t-display {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: clamp(2.9rem, 6.3vw, 6.9rem);
-    line-height: 0.95;
-    letter-spacing: -0.032em;
-    text-wrap: balance;
-  }
-  .t-headline-xl {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-weight: 420;
-    font-size: clamp(2rem, 3.6vw, 3.5rem);
-    line-height: 0.98;
-    letter-spacing: -0.026em;
-    text-wrap: balance;
-  }
-  .t-headline-l {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-weight: 450;
-    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
-  }
-  .t-headline-m {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-size: clamp(1.18rem, 1.45vw, 1.4rem);
-    line-height: 1.12;
-    letter-spacing: -0.012em;
-    text-wrap: balance;
-  }
-  .t-dek {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-style: italic;
-    font-weight: 380;
-    font-size: clamp(1.12rem, 1.5vw, 1.4rem);
-    line-height: 1.38;
-    color: var(--ink-2);
-    text-wrap: pretty;
-  }
-  .t-body {
-    font-family: var(--font-newsreader), Georgia, serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    text-wrap: pretty;
-    hanging-punctuation: first;
-  }
-  .t-kicker {
-    font-family: var(--font-schibsted), sans-serif;
-    font-weight: 550;
-    font-size: 0.72rem;
-    line-height: 1;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .t-meta {
-    font-family: var(--font-schibsted), sans-serif;
-    font-weight: 450;
-    font-size: 0.8125rem;
-    line-height: 1.4;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
-  }
-  .t-ui {
-    font-family: var(--font-schibsted), sans-serif;
-    font-weight: 500;
-    font-size: 0.9375rem;
-    letter-spacing: -0.003em;
-  }
-  .t-mono {
-    font-family: var(--font-plex-mono), ui-monospace, monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* Rules */
-  .rule {
-    display: block;
-    height: 1px;
-    background: var(--rule-strong);
-    transform-origin: left center;
-  }
-  .rule-hair {
-    display: block;
-    height: 1px;
-    background: var(--rule);
-    transform-origin: left center;
-  }
-  .rule-heavy {
-    display: block;
-    height: 3px;
-    background: var(--rule-strong);
-    transform-origin: left center;
-  }
-
-  /* Buttons */
-  .btn-ink {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    height: 3.25rem;
-    padding-inline: 1.5rem 1.25rem;
-    background: var(--ink);
-    color: var(--on-ink);
-    border-radius: 2px;
-    font-family: var(--font-schibsted), sans-serif;
-    font-weight: 550;
-    font-size: 0.975rem;
-    letter-spacing: -0.005em;
-    transition:
-      transform var(--dur-hover) ease,
-      background-color var(--dur-hover) ease;
-  }
-  .btn-ink:hover {
-    background: color-mix(in oklab, var(--ink) 88%, var(--accent));
-  }
-  .btn-ink:active {
-    transform: scale(0.97);
-  }
-  .btn-ink .arrow {
-    display: inline-block;
-    transition: transform var(--dur-ui) var(--ease-out);
-  }
-  .btn-ink:hover .arrow {
-    transform: translateX(3px);
-  }
-  .btn-quiet {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: 2.5rem;
-    font-family: var(--font-schibsted), sans-serif;
-    font-weight: 500;
-    font-size: 0.9375rem;
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 5px;
-    text-decoration-color: var(--rule-mid);
-    transition: text-decoration-color var(--dur-hover) ease;
-  }
-  .btn-quiet:hover {
-    text-decoration-color: var(--ink);
-  }
-
-  .link-ink {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    text-decoration-color: var(--rule-mid);
-    transition: text-decoration-color var(--dur-hover) ease, color var(--dur-hover) ease;
-  }
-  .link-ink:hover {
-    text-decoration-color: currentColor;
-  }
-
-  .col-rule {
-    border-left: 1px solid var(--rule);
-  }
-}
-
-/* Name glyphs drop in like set metal type */
-@keyframes glyph-drop {
-  0% {
-    opacity: 0;
-    transform: translateY(-0.32em) rotate(-5deg) scale(1.04);
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes caret-blink {
-  0%,
-  45% {
-    opacity: 1;
-  }
-  50%,
-  95% {
-    opacity: 0;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -278,5 +109,7 @@ input {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
+

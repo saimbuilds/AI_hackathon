@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 // Time zones whose IANA city isn't what a reader would call home.
 const ZONE_LABEL: Record<string, string> = {
@@ -48,12 +48,22 @@ function compute(): Today {
 }
 
 // Dates are computed on the client: with Cache Components, reading the clock during prerender is not allowed.
+// A tiny external store refreshed every 30 s; the server snapshot is null.
+let cache: Today | null = null;
+let stamp = -1;
+const getSnapshot = () => {
+  const slot = Math.floor(Date.now() / 30_000);
+  if (slot !== stamp) {
+    cache = compute();
+    stamp = slot;
+  }
+  return cache;
+};
+const subscribe = (callback: () => void) => {
+  const id = setInterval(callback, 30_000);
+  return () => clearInterval(id);
+};
+
 export function useToday(): Today | null {
-  const [today, setToday] = useState<Today | null>(null);
-  useEffect(() => {
-    setToday(compute());
-    const id = setInterval(() => setToday(compute()), 30_000);
-    return () => clearInterval(id);
-  }, []);
-  return today;
+  return useSyncExternalStore(subscribe, getSnapshot, () => null);
 }

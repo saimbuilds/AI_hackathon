@@ -1,6 +1,6 @@
-import { Landing } from "@/components/landing/Landing";
+import { Home } from "@/components/home/Home";
 import { getSampleEdition } from "./_data";
 
-export default function Home() {
-  return <Landing edition={getSampleEdition()} />;
+export default function Page() {
+  return <Home edition={getSampleEdition()} />;
 }

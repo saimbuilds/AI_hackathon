@@ -1,53 +1,36 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { prefersReducedMotion } from "@/components/motion/gsap";
+import { setSavedName, useSavedName } from "./useSavedName";
 
 const DEMO_NAMES = ["Saim", "Ayesha", "Abbu", "María", "Kenji", "Amara"];
 const MAX = 16;
 
 const cap = (s: string) => (s ? s.charAt(0).toLocaleUpperCase() + s.slice(1) : s);
 
-type Props = {
-  onNameChange?: (name: string) => void;
-  onSubmit?: (name: string) => void;
-};
-
 /**
  * "The ____ Times": the reader's own masthead. Until they touch it, it typesets demo names;
  * once focused it's theirs. Each glyph drops in like set metal type (CSS keyframes, transform only).
  */
-export function Masthead({ onNameChange, onSubmit }: Props) {
-  const [name, setName] = useState("");
+export function Masthead({ onSubmit }: { onSubmit?: (name: string) => void }) {
+  const name = useSavedName();
+  const [touched, setTouched] = useState(false);
   const [demo, setDemo] = useState("");
-  const [owned, setOwned] = useState(false);
   const [focused, setFocused] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // Restore a name typed on a previous visit.
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("ep-name");
-      if (saved) {
-        setName(saved);
-        setOwned(true);
-        onNameChange?.(saved);
-      }
-    } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const owned = touched || name !== "";
 
   // Demo typesetter: type, hold, erase, next name. Stops for good once the reader takes over.
   useEffect(() => {
     if (owned) return;
-    if (prefersReducedMotion()) {
-      setDemo(DEMO_NAMES[0]);
-      return;
-    }
     let i = 0;
     let n = 0;
     let erasing = false;
     let timer: ReturnType<typeof setTimeout>;
+    if (prefersReducedMotion()) {
+      timer = setTimeout(() => setDemo(DEMO_NAMES[0]), 0);
+      return () => clearTimeout(timer);
+    }
     const step = () => {
       const target = DEMO_NAMES[n % DEMO_NAMES.length];
       if (!erasing) {
@@ -75,20 +58,8 @@ export function Masthead({ onNameChange, onSubmit }: Props) {
     return () => clearTimeout(timer);
   }, [owned]);
 
-  const takeOver = () => {
-    if (owned) return;
-    setOwned(true);
-    setDemo("");
-  };
-
-  const update = (raw: string) => {
-    const next = cap(raw.replace(/\s{2,}/g, " ").slice(0, MAX));
-    setName(next);
-    onNameChange?.(next.trim());
-    try {
-      localStorage.setItem("ep-name", next.trim());
-    } catch {}
-  };
+  const takeOver = () => setTouched(true);
+  const update = (raw: string) => setSavedName(cap(raw.replace(/\s{2,}/g, " ").slice(0, MAX)));
 
   const shown = owned ? name : demo;
   const paper = `The ${shown || "Your Name"} Times`;
@@ -101,11 +72,10 @@ export function Masthead({ onNameChange, onSubmit }: Props) {
         style={{ ["--len" as string]: String(paper.length) }}
         aria-label={owned && name ? `The ${name} Times` : "Your name, set in the masthead"}
       >
-        <span data-masthead-word className="inline-block">The</span>{" "}
-        <label
-          className="relative inline-block cursor-text align-baseline"
-          onPointerDown={takeOver}
-        >
+        <span data-masthead-word className="inline-block">
+          The
+        </span>{" "}
+        <label className="relative inline-block cursor-text align-baseline" onPointerDown={takeOver}>
           <span aria-hidden className="relative inline-block whitespace-pre">
             {empty ? (
               <span className="text-ink-3/40">Your Name</span>
@@ -114,16 +84,12 @@ export function Masthead({ onNameChange, onSubmit }: Props) {
                 <span
                   key={`${i}-${ch}`}
                   className="inline-block"
-                  style={{
-                    animation: "glyph-drop 420ms var(--ease-out) both",
-                    transformOrigin: "50% 100%",
-                  }}
+                  style={{ animation: "glyph-drop 420ms var(--ease-out) both", transformOrigin: "50% 100%" }}
                 >
                   {ch === " " ? " " : ch}
                 </span>
               ))
             )}
-            {/* Caret: shows while the demo types or the reader is focused */}
             {(focused || !owned) && (
               <span
                 className="absolute bottom-[0.14em] top-[0.18em] w-[0.06em] bg-accent"
@@ -136,7 +102,6 @@ export function Masthead({ onNameChange, onSubmit }: Props) {
             )}
           </span>
           <input
-            ref={inputRef}
             value={name}
             onFocus={() => {
               takeOver();
@@ -157,7 +122,9 @@ export function Masthead({ onNameChange, onSubmit }: Props) {
             style={{ font: "inherit", letterSpacing: "inherit" }}
           />
         </label>{" "}
-        <span data-masthead-word className="inline-block">Times</span>
+        <span data-masthead-word className="inline-block">
+          Times
+        </span>
       </h2>
     </div>
   );

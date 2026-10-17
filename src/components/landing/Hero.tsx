@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { StorySlot } from "@/types/edition";
 import { BRAND } from "@/lib/brand";
@@ -8,6 +9,7 @@ import { gsap, SplitText, useGSAP, prefersReducedMotion } from "@/components/mot
 import { Masthead } from "./Masthead";
 import { TrustLine } from "./TrustLine";
 import { useToday } from "./useToday";
+import { useSavedName } from "./useSavedName";
 
 type Props = {
   stories: StorySlot[];
@@ -20,7 +22,7 @@ export function Hero({ stories, onThisDay }: Props) {
   const root = useRef<HTMLElement>(null);
   const today = useToday();
   const router = useRouter();
-  const [name, setName] = useState("");
+  const name = useSavedName().trim();
 
   const start = (n = name) => router.push(n ? `/onboarding?name=${encodeURIComponent(n)}` : "/onboarding");
 
@@ -69,10 +71,10 @@ export function Hero({ stories, onThisDay }: Props) {
       <div className="page">
         {/* Top bar */}
         <div className="flex h-16 items-center justify-between">
-          <a href="/" data-ear className="group flex items-baseline gap-0 font-serif text-[1.45rem] font-[560] tracking-[-0.025em]" translate="no">
+          <Link href="/" data-ear className="group flex items-baseline gap-0 font-serif text-[1.45rem] font-[560] tracking-[-0.025em]" translate="no">
             {BRAND.name}
             <span className="text-accent">.</span>
-          </a>
+          </Link>
           <nav data-ear className="hidden items-center gap-9 md:flex" aria-label="Primary">
             <a href="#how" className="t-ui text-ink-2 transition-colors duration-[120ms] hover:text-ink">How it works</a>
             <a href="#family" className="t-ui text-ink-2 transition-colors duration-[120ms] hover:text-ink">For your family</a>
@@ -101,7 +103,7 @@ export function Hero({ stories, onThisDay }: Props) {
 
         <span className="rule-hair" data-rule />
 
-        <Masthead onNameChange={setName} onSubmit={start} />
+        <Masthead onSubmit={start} />
 
         <span className="rule-heavy" data-rule />
         <span className="mt-[3px] rule" data-rule />
