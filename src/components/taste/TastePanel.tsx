@@ -44,6 +44,7 @@ export function TastePanel() {
   if (!t || !t.topics.length) return <p className="t-body text-ink-2">Read a paper or two and this fills in: what you read, what you skip, and how sure your editor is.</p>;
   return (
     <div className="grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+      {t.headline && <p className="font-serif text-[1.3rem] leading-[1.35] text-pretty md:col-span-2">{t.headline}</p>}
       <div>
         <p className="t-sm font-semibold">What you read</p>
         <ul className="mt-3 space-y-3">

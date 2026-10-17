@@ -17,7 +17,7 @@ export type TasteTopic = {
   stated: boolean;
 };
 export type TasteChange = { label: string; dir: "up" | "down"; why: string };
-export type Taste = { topics: TasteTopic[]; avoided: TasteTopic[]; changes: TasteChange[]; memo: string | null; signals: number };
+export type Taste = { topics: TasteTopic[]; avoided: TasteTopic[]; changes: TasteChange[]; memo: string | null; signals: number; headline?: string };
 
 const LABELS: Record<string, string> = {
   ai: "AI", f1: "Formula 1", "us-politics": "US politics", "uk-politics": "UK politics", "law-justice": "Law and justice", "pakistan-economy": "Pakistan’s economy",
@@ -97,37 +97,29 @@ function templateMemo(t: Pick<Taste, "topics" | "avoided">): string | null {
   return `You read ${list(top)} more than anything else.${skip.length ? ` You pass on ${list(skip)}.` : ""}`;
 }
 
-/** Loose reader for the backend endpoint, whatever its final field names turn out to be. */
+const STRENGTH: Record<string, number> = { new: 0.25, growing: 0.55, strong: 0.9 };
+
+/** GET /api/me/taste (docs/API.md "Learning made visible"). */
 function fromEndpoint(r: Record<string, unknown>): Taste | null {
-  const raw = (r.topics ?? r.learned) as unknown;
-  if (!Array.isArray(raw) || !raw.length) return null;
-  const topics: TasteTopic[] = raw.flatMap((x) => {
-    if (!x || typeof x !== "object") return [];
-    const o = x as Record<string, unknown>;
-    const slug = String(o.slug ?? o.topic ?? o.id ?? "");
-    if (!slug) return [];
-    const score = Number(o.score ?? o.mean ?? o.affinity ?? 0.6);
-    const confidence = Number(o.confidence ?? o.certainty ?? 0.5);
-    return [{ slug, label: typeof o.label === "string" ? o.label : topicLabel(slug), score, confidence: Math.max(0.05, Math.min(1, confidence)), stated: !!o.stated }];
-  });
-  const ch = (r.changes ?? r.changed ?? r.sinceYesterday) as unknown;
-  const changes: TasteChange[] = Array.isArray(ch)
-    ? ch.flatMap((x) => {
-        if (typeof x === "string") return [{ label: x, dir: "up" as const, why: "" }];
-        if (!x || typeof x !== "object") return [];
-        const o = x as Record<string, unknown>;
-        const slug = String(o.slug ?? o.topic ?? "");
-        const delta = Number(o.delta ?? (o.dir === "down" || o.direction === "down" ? -1 : 1));
-        return slug || o.label ? [{ label: typeof o.label === "string" ? o.label : topicLabel(slug), dir: delta < 0 ? ("down" as const) : ("up" as const), why: typeof o.why === "string" ? o.why : typeof o.reason === "string" ? o.reason : "" }] : [];
-      })
-    : [];
-  return {
-    topics: topics.filter((t) => t.score >= 0.5).sort((a, b) => b.score - a.score),
-    avoided: topics.filter((t) => t.score < 0.5).sort((a, b) => a.score - b.score),
-    changes,
-    memo: typeof r.memo === "string" ? r.memo : null,
-    signals: Number(r.signals ?? r.events ?? 0) || 0,
-  };
+  const likes = Array.isArray(r.likes) ? (r.likes as Record<string, unknown>[]) : [];
+  if (!likes.length) return null;
+  const avoids = Array.isArray(r.avoids) ? (r.avoids as Record<string, unknown>[]) : [];
+  const topics: TasteTopic[] = likes.map((o) => ({
+    slug: String(o.topic),
+    label: typeof o.label === "string" ? o.label : topicLabel(String(o.topic)),
+    score: Math.max(0.05, Math.min(1, Number(o.score) || 0.5)),
+    confidence: STRENGTH[String(o.strength)] ?? 0.4,
+    stated: o.origin === "you said",
+  }));
+  const avoided: TasteTopic[] = avoids.map((o) => ({ slug: String(o.topic), label: typeof o.label === "string" ? o.label : topicLabel(String(o.topic)), score: 0.15, confidence: 0.6, stated: !!o.muted }));
+  const changes: TasteChange[] = likes
+    .map((o) => ({ o, d: Number(o.last24h) || 0 }))
+    .filter((x) => Math.abs(x.d) >= 0.3)
+    .sort((a, b) => Math.abs(b.d) - Math.abs(a.d))
+    .slice(0, 4)
+    .map(({ o, d }) => ({ label: typeof o.label === "string" ? o.label : topicLabel(String(o.topic)), dir: d > 0 ? ("up" as const) : ("down" as const), why: d > 0 ? "from what you read" : "from what you passed on" }));
+  const sig = r.signals as { total?: number } | undefined;
+  return { topics, avoided, changes, memo: typeof r.memo === "string" ? r.memo : null, signals: Number(sig?.total) || 0, headline: typeof r.headline === "string" ? r.headline : undefined };
 }
 
 let cached: { at: number; p: Promise<Taste | null> } | null = null;
