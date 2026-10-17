@@ -70,6 +70,13 @@ Citations: each `body[i].sources` is a list of 1-based indexes into that slot's 
 - `language: 'ur'` means the copy is Urdu: render right-to-left in Noto Nastaliq. It is only `'ur'` when translation really succeeded; if the model was unavailable the paper stays English and says `'en'` (`gift.language` is the same).
 - `largePrint: true`: typeset large; the paper is also shorter (about 4-6 stories).
 
+## Learning Lab (for the /lab page)
+
+`GET /api/lab`: public, no auth, cached 5 min. Latest run: `{ generatedAt, mode: 'keywords'|'llm'|'mixed', config, pool, personas[], summary }`.
+- Chart: `summary.byDay.{fold,onboarding,random}[] = { day, relevance, diversity }` (relevance = share of the paper the simulated reader would read; diversity = normalised topic entropy, floor `summary.diversity.floor`). `summary.gapVsOnboarding[] = { day, points }` is fold minus the static-profile baseline per day: the learning effect.
+- Time-travel slider: `personas[i].policies.fold[d].stories[] = { id, headline, topics, label: 'love'|'open'|'skip'|'less' }` is persona i's paper on day d+1.
+- Say what it is: simulated readers with hidden interests, real stories sliced into simulated days (`pool.note`).
+
 ## Not built yet (coming from the backend)
 
-`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route), `/api/lab`.
+`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route).

@@ -1,7 +1,7 @@
 # Backend status (fold-core / branch `core`)
 
 Last updated: 2026-10-17. Working name "Fold"; the name lives only in `src/lib/brand.ts` (+ `package.json` name).
-Branch `core` is ahead of `main` only by the Lab groundwork (migration 10 + `src/lab/personas.ts`); everything else is on `main` (last merge `92f7966`).
+Branch `core` and `main` are in sync after the Lab merge (see git log).
 
 ## Things only the owner can unblock
 
@@ -32,13 +32,18 @@ Branch `core` is ahead of `main` only by the Lab groundwork (migration 10 + `src
 | 11 | Email: hourly delivery, Gmail SMTP, signed one-click unsubscribe, dry-run mode | done; **no real email ever sent** | dry-run e2e, 4 unit tests |
 | 12 | Send-to-friend (`/api/share*`, friend picks guaranteed a place) and gift papers (`/api/gifts`, public `/api/gift/[token]`, large print, Urdu translation with figure-preserving guards) | done; **real Urdu translation never run** (needs keys) | two-account e2e; stub-tested translation |
 
-Totals: 55 unit tests, typecheck + lint + `next build` clean. API reference for the frontend: `docs/API.md`.
+Totals: 61 unit tests, typecheck + lint + `next build` clean. API reference for the frontend: `docs/API.md`.
+
+## Learning Lab (item 13): done
+
+`pnpm lab [--judge=auto|llm|keywords --days --size --seed --no-save]`, `GET /api/lab`, 6 unit tests (synthetic world: fold 0.57 -> 0.93, onboarding-only flat ~0.55, random ~0.4).
+Real run on today's pool (4,778 stories, 7 simulated days, keyword reader, 4 seeds): **Fold +18-19 pts vs onboarding-only, +14-22 pts vs random**, diversity 0.79-0.83 (floor 0.45). Fold's own relevance is flat (~30%) while the static profile decays 31% -> ~15%, so the chart should show the **gap growing (+0 on day 1 to +15..31 by day 5-7)**, not a rising absolute line. Tried a liked-story "anchor" memory to make it climb: no gain, reverted.
+Caveats: the reader is a keyword matcher until LLM keys exist (rerun with `--judge=llm`); days are slices of a ~48 h pool until backfill (item 15); 3 personas x 14 stories is a small sample.
 
 ## Not done
 
 | # | Item | Notes |
 |---|---|---|
-| 13 | **Learning Lab** | Partly started: table `lab_runs` (migration 10, applied) and `src/lab/personas.ts` (3 personas with hidden vs stated interests). **Next:** `src/lab/sim.ts` (pure simulator: 7 days sliced from the real story pool; policies Fold / onboarding-only / random; relevance@edition + topic diversity), keyword reader + LLM reader, `pnpm lab`, `GET /api/lab` (public, latest run), a synthetic-world unit test proving fold > onboarding-only > random. Pool is only ~2 days of real stories, so days are ~7 h slices; item 15 would give a real week |
 | 8 | **PDF** `/api/pdf/[id]` | Blocked on the frontend `/print/[id]` page. Plan: short-lived HMAC print token, `GET /api/print/[id]?pt=` returns the edition for the print page, puppeteer-core + `@sparticuz/chromium-min`, 7-day Storage cache, client-print fallback flag |
 | 14 | **Source scout** `scout.yml` | Google News RSS search → domains → RSS autodiscovery → recency check → LLM vet → add to catalog |
 | 15 | **Backfill** 7 days of editions for the demo account | RSS carries only a few days; press currently fetches `maxAgeHours=48` (needs a wider window run) |
@@ -47,6 +52,7 @@ Totals: 55 unit tests, typecheck + lint + `next build` clean. API reference for 
 
 ## Known weaknesses (honest list)
 
+- The Lab reader is a keyword matcher until LLM keys exist.
 - Everything user-visible that depends on an LLM (headlines/briefs/for-you/editor note/quiz/translation) is **unproven with a real model**. Without enrichment, editions use source titles and one verbatim sentence per story.
 - Fallback classification (category from source feed, topics from nearest topic fingerprint) is noisy: e.g. a local news item filed under "Technology".
 - Dev-machine builds take 6-9 s mostly from database round-trips to Seoul; production runs in `icn1`, expected faster, not yet measured.
