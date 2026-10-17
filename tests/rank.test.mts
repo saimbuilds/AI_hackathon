@@ -81,7 +81,7 @@ test('sampleBeta stays in (0,1) with the right mean', () => {
 
 test('helpers: topicAffinity, matchedTopics, userVector blend', () => {
   assert.equal(topicAffinity([], {}), 0.5);
-  assert.ok(Math.abs(topicAffinity(['a', 'b'], { a: [3, 1], b: [1, 1] }) - 0.625) < 1e-9);
+  assert.ok(Math.abs(topicAffinity(['a', 'b'], { a: [3, 1], b: [1, 1] }) - (0.6 * 0.75 + 0.4 * 0.625)) < 1e-9); // best match counts most
   assert.deepEqual(matchedTopics(cand('x', { topics: ['a', 'b'] }), reader({ topicBeta: { a: [3, 1], b: [1, 3] } })), ['a']);
   const v = userVector(reader({ vecLong: unit(1, 0, 0), vecShort: unit(0, 1, 0) }))!;
   assert.ok(v[0] > v[1] && v[1] > 0);
