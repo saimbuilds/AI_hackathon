@@ -49,6 +49,7 @@ type Profile = {
   deliveryTime: string;
   extras: string[];
   calm: boolean;
+  email: string;
 };
 
 function Chip({ label, onRemove, tone }: { label: string; onRemove: () => void; tone?: "press" }) {
@@ -106,6 +107,7 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
     deliveryTime: "07:00",
     extras: ["Weather", "On this day", "Daily quiz"],
     calm: false,
+    email: "",
   });
   const set = <K extends keyof Profile>(k: K, v: Profile[K]) => setP((x) => ({ ...x, [k]: v }));
   const startedAt = useRef(0);
@@ -234,6 +236,7 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
         size: p.size,
         tone: p.tone,
         calm: p.calm,
+        ...(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email) ? { email: p.email, emailOptIn: true } : {}),
         role: p.role?.slice(0, 80),
         extras: Object.fromEntries(Object.entries(EXTRA_KEYS).map(([label, k]) => [k, p.extras.includes(label)])),
         interests: {
@@ -467,6 +470,21 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
                         <span className="t-sm block text-ink-3">Leaves out graphic stories and frames hard news with what’s being done about it.</span>
                       </span>
                     </label>
+                    <div className="rounded-[var(--r-sm)] bg-sheet p-4">
+                      <label className="block">
+                        <span className="t-body block font-semibold">Send it to my inbox at {p.deliveryTime}</span>
+                        <span className="t-sm block text-ink-3">One email a morning with your front page. Unsubscribe in one click. Leave it empty to read here only.</span>
+                        <input
+                          type="email"
+                          className="field mt-3 !bg-newsprint"
+                          value={p.email}
+                          onChange={(e) => set("email", e.target.value.trim())}
+                          placeholder="you@example.com"
+                          autoComplete="email"
+                          inputMode="email"
+                        />
+                      </label>
+                    </div>
                   </div>
                 </>
               )}

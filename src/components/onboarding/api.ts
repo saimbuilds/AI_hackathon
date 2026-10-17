@@ -71,6 +71,8 @@ export type CompleteBody = {
   size: "espresso" | "standard" | "long";
   tone: "straight" | "new" | "witty";
   calm: boolean;
+  email?: string;
+  emailOptIn?: boolean;
   role?: string;
   extras: Partial<Record<"weather" | "prayer" | "markets" | "cricket" | "onThisDay" | "quiz" | "audio", boolean>>;
   interests: { chips: string[]; topics: string[]; entities: string[]; negatives: string[]; negativeTopics: string[] };

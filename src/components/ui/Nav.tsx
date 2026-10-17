@@ -6,6 +6,8 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Wordmark } from "./Wordmark";
 import { SheetGlyph } from "./icons";
 import { useUser, isSaved, signInWithGoogle, signOut } from "@/components/session/auth";
+import { useClientValue } from "./useStored";
+import { hasStoredSession } from "@/components/session/client";
 
 /** Bottom of the menu: who holds this paper, or a way back into one on a new device. */
 function Account() {
@@ -46,6 +48,7 @@ const PRIMARY = [
   { href: "/pricing", label: "Pricing" },
 ];
 const SECONDARY = [
+  { href: "/me", label: "My paper" },
   { href: "/following", label: "Following" },
   { href: "/archive", label: "Archive" },
   { href: "/lab", label: "Learning Lab" },
@@ -55,13 +58,21 @@ const SECONDARY = [
 ];
 
 export function Nav({
-  cta = { href: "/start", label: "Print my paper", short: "Print" },
+  cta: ctaProp,
   right,
 }: {
   cta?: { href: string; label: string; short?: string } | null;
   right?: ReactNode; // replaces the CTA box (e.g. reading progress)
 }) {
   const [open, setOpen] = useState(false);
+  // Readers who already have a session go to their paper; new visitors are invited to print one.
+  const hasSession = useClientValue(hasStoredSession, false);
+  const cta =
+    ctaProp === undefined
+      ? hasSession
+        ? { href: "/me", label: "My paper", short: "Mine" }
+        : { href: "/start", label: "Print my paper", short: "Print" }
+      : ctaProp;
   const pathname = usePathname();
   const menuId = useId();
   const discRef = useRef<HTMLButtonElement>(null);
