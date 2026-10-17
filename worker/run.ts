@@ -5,6 +5,7 @@ import { runEnrich } from '../src/press/enrich';
 import { runDaily3 } from '../src/press/daily3';
 import { ensureTopicVectors } from '../src/press/topics';
 import { adminClient } from '../src/lib/supabase';
+import { matchWatches } from '../src/follow/watch';
 
 const arg = (name: string) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=')[1];
 const flag = (name: string) => process.argv.includes(`--${name}`);
@@ -26,12 +27,16 @@ async function main() {
 
   const enrich = await runEnrich({ max: arg('enrich-max') ? Number(arg('enrich-max')) : undefined, sinceHours: arg('enrich-since-hours') ? Number(arg('enrich-since-hours')) : undefined, perCategory: arg('per-category') ? Number(arg('per-category')) : undefined, concurrency: arg('enrich-concurrency') ? Number(arg('enrich-concurrency')) : undefined });
   const daily = await runDaily3();
+  // Follow & Ask: new stories -> "Since you asked" updates for the next paper.
+  const db0 = adminClient();
+  const follows = db0 ? await matchWatches(db0) : null;
+  if (follows) console.log(`follows: ${follows.checked} checked, ${follows.updated} updated${follows.noLlm ? `, ${follows.noLlm} waiting for a model` : ''}`);
 
   // Grounding rate and LLM usage land on the press_runs row, which /newsroom reads.
   const db = adminClient();
   if (db && press.runId) {
     const { data } = await db.from('press_runs').select('stats').eq('id', press.runId).single();
-    await db.from('press_runs').update({ stats: { ...(data?.stats ?? {}), enrich, daily3: daily } }).eq('id', press.runId);
+    await db.from('press_runs').update({ stats: { ...(data?.stats ?? {}), enrich, daily3: daily, follows } }).eq('id', press.runId);
   }
 }
 

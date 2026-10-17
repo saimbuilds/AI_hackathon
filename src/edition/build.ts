@@ -6,6 +6,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { adminClient } from '../lib/supabase';
 import { BRAND } from '../lib/brand';
 import { dot } from '../lib/vec';
+import { matchWatches, takeUpdatesForEdition } from '../follow/watch';
 import { EditionSchema, type Edition, type StorySlot } from '../types/edition';
 import type { BuildProgress } from '../types/events';
 import { loadCandidates, loadProfile, readerModel, type Profile } from './candidates';
@@ -78,6 +79,12 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
 
   const reader = readerModel(profile);
   const extrasP = loadExtras(profile, date, { weather: !opts.historical });
+  // "Since you asked": check this reader's follows against new stories while the paper is picked (bounded wait).
+  const isGift = !!(profile.extras as { gift?: unknown }).gift;
+  const followsP = isGift || opts.historical ? Promise.resolve(null) : Promise.race([
+    matchWatches(db, { userId, max: 5 }).catch(() => null),
+    new Promise<null>((r) => setTimeout(() => r(null), 8_000)),
+  ]);
   const cands = await loadCandidates(db, userId, profile, reader, now);
   if (!cands.length) throw new BuildError(503, "The press hasn't printed any stories yet. Try again in a few minutes.", true);
 
@@ -122,8 +129,11 @@ export async function buildEdition(userId: string, opts: BuildOptions = {}): Pro
   const number = (last?.[0]?.number ?? 0) + 1;
   const editionId = randomUUID();
   const giftMeta = (profile.extras as { gift?: { fromName: string; relation: string } }).gift;
+  await followsP;
+  const updates = isGift || opts.historical ? [] : await takeUpdatesForEdition(db, userId).catch(() => []);
   let built: Edition = EditionSchema.parse({
     ...edition, id: editionId, number, meta: { ...edition.meta, fallback },
+    ...(updates.length ? { updates } : {}),
     language: 'en', largePrint: profile.large_print,
     ...(giftMeta ? { gift: { forName: profile.name ?? 'you', fromName: giftMeta.fromName, relation: giftMeta.relation, language: 'en', largePrint: profile.large_print } } : {}), // 'ur' only once the translation really succeeded
   });

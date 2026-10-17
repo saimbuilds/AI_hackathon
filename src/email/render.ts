@@ -42,6 +42,7 @@ ${row(`<div style="text-align:center;border-bottom:3px double ${INK};padding-bot
   <div style="font-family:'Old English Text MT','UnifrakturMaguntia',Georgia,serif;font-size:38px;line-height:1.1">${esc(e.paperName)}</div>
   <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding-top:6px">${esc(e.city)} Edition · No. ${e.number} · ${esc(dateLabel)}</div></div>`, '0 0 16px')}
 ${row(`<div style="font-size:16px;line-height:1.5;font-style:italic">${esc(e.editorNote)}</div>`)}
+${(e.updates ?? []).map((u) => row(`<div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${RED}">Since you asked</div><div style="font-size:15px;font-weight:bold;padding:4px 0">${esc(u.question)}</div><div style="font-size:15px;line-height:1.5">${esc(u.summary)} <a href="${esc(u.sources[0].url)}" style="color:${INK}">${esc(u.sources[0].name)}</a></div>`)).join('\n')}
 ${row(`<div style="border-top:1px solid ${INK};padding-top:12px">
   <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${RED}">${esc(e.lead.kicker)}</div>
   <a href="${esc(url)}" style="color:${INK};text-decoration:none"><div style="font-size:28px;line-height:1.15;font-weight:bold;padding:6px 0">${esc(e.lead.headline)}</div></a>
@@ -53,6 +54,6 @@ ${row(`<div style="text-align:center;padding:6px 0"><a href="${esc(url)}" style=
 ${row(`<div style="border-top:1px solid ${INK};padding-top:10px;font-family:Arial,sans-serif;font-size:11px;color:#666;text-align:center;line-height:1.5">You get this because you asked ${esc(BRAND.name)} for a morning paper.<br><a href="${esc(unsubscribeUrl)}" style="color:#666">Unsubscribe</a> · <a href="${esc(appUrl())}" style="color:#666">${esc(BRAND.name)}</a></div>`, '0')}
 </table></td></tr></table></body></html>`;
 
-  const text = [`${e.paperName} · ${e.city} Edition · No. ${e.number} · ${dateLabel}`, '', e.editorNote, '', `LEAD: ${e.lead.headline}`, e.lead.dek, '', ...headlines.map(({ x }) => `- ${x.headline}`), '', 'Three things to remember:', ...e.threeThings.map((t, i) => `${i + 1}. ${t}`), '', `Read today's paper: ${url}`, '', `Unsubscribe: ${unsubscribeUrl}`].join('\n');
+  const text = [`${e.paperName} · ${e.city} Edition · No. ${e.number} · ${dateLabel}`, '', e.editorNote, '', ...(e.updates ?? []).flatMap((u) => [`SINCE YOU ASKED: ${u.question}`, `${u.summary} (${u.sources[0].name}: ${u.sources[0].url})`, '']), `LEAD: ${e.lead.headline}`, e.lead.dek, '', ...headlines.map(({ x }) => `- ${x.headline}`), '', 'Three things to remember:', ...e.threeThings.map((t, i) => `${i + 1}. ${t}`), '', `Read today's paper: ${url}`, '', `Unsubscribe: ${unsubscribeUrl}`].join('\n');
   return { subject, html, text, unsubscribeUrl };
 }

@@ -14,7 +14,8 @@ export type Task =
   | 'memo' // nightly reader memo
   | 'daily3' // the shared Daily 3 quiz
   | 'ask' // reader question -> answer grounded only in press stories
-  | 'watch'; // does a new story change a followed answer?
+  | 'watch' // does a new story change a followed answer?
+  | 'keywords'; // reader question -> search keywords
 
 export const PROVIDERS: Record<
   Provider,
@@ -90,6 +91,11 @@ export const MODELS = {
     provider: 'openrouter', id: 'anthropic/claude-haiku-5.5', dailyRequests: 5_000, dailyTokens: 10_000_000,
     priceIn: 0.1, priceOut: 0.5,
   },
+  // Free (no credit needed, ~50 requests/day per account; 1,000/day once any credit was bought). Last resort.
+  'openrouter/free-nemotron': {
+    provider: 'openrouter', id: 'nvidia/nemotron-3-super-120b-a12b:free', dailyRequests: 45, dailyTokens: 2_000_000,
+    priceIn: 0, priceOut: 0,
+  },
   'openrouter/gemini-flash-lite': {
     provider: 'openrouter', id: 'google/gemini-2.5-flash-lite', dailyRequests: 5_000, dailyTokens: 10_000_000,
     priceIn: 0.1, priceOut: 0.4,
@@ -119,19 +125,22 @@ export const MODELS = {
 export type ModelKey = keyof typeof MODELS;
 
 // Fallback chain per task: first = preferred. Links without a key are skipped instantly (no request),
-// so the chain degrades to whatever keys exist. Measured 2026-10-17: only OPENROUTER_API_KEY works,
-// so in practice Claude Haiku 5.5 writes and Gemini Flash-Lite (a different model family) fact-checks.
+// so the chain degrades to whatever keys exist. Cost order: bulk work (enrich, fact-check) goes to free
+// providers first (Groq, Mistral), then paid OpenRouter (Claude Haiku 5.5 writes, Gemini Flash-Lite, a different
+// model family, checks). Low-volume reader-facing calls (editor, ask) prefer Claude for quality: cents per day.
+// A 402 (no OpenRouter credit) benches the paid OpenRouter links for 10 minutes; the free model is the last link.
 export const ROUTES: Record<Task, ModelKey[]> = {
-  enrich: ['openrouter/claude-haiku', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/mistral-small'],
-  factcheck: ['openrouter/gemini-flash-lite', 'groq/llama-3.1-8b', 'mistral/small', 'openrouter/mistral-small'],
-  parse: ['groq/gpt-oss-20b', 'openrouter/gemini-flash-lite', 'openrouter/claude-haiku', 'openrouter/gpt-oss-20b'],
-  editor: ['anthropic/haiku', 'openrouter/claude-haiku', 'groq/gpt-oss-120b', 'openrouter/gpt-oss-120b'],
-  translate: ['openrouter/claude-haiku', 'groq/qwen3-32b', 'openrouter/gemini-flash-lite', 'openrouter/qwen3-32b'],
-  sim: ['groq/gpt-oss-20b', 'openrouter/gemini-flash-lite', 'openrouter/gpt-oss-20b'],
-  memo: ['groq/llama-3.1-8b', 'openrouter/gemini-flash-lite', 'openrouter/llama-3.1-8b'],
-  daily3: ['openrouter/claude-haiku', 'mistral/small', 'openrouter/gpt-oss-120b'],
-  ask: ['anthropic/haiku', 'openrouter/claude-haiku', 'openrouter/gemini-flash-lite', 'openrouter/gpt-oss-120b'],
-  watch: ['openrouter/gemini-flash-lite', 'groq/llama-3.1-8b', 'openrouter/claude-haiku'],
+  enrich: ['mistral/small', 'groq/gpt-oss-120b', 'openrouter/claude-haiku', 'openrouter/gemini-flash-lite', 'openrouter/mistral-small'],
+  factcheck: ['groq/llama-3.1-8b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/mistral-small'],
+  parse: ['groq/gpt-oss-20b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/claude-haiku', 'openrouter/free-nemotron'],
+  editor: ['anthropic/haiku', 'openrouter/claude-haiku', 'groq/gpt-oss-120b', 'mistral/small', 'openrouter/gpt-oss-120b', 'openrouter/free-nemotron'],
+  translate: ['openrouter/claude-haiku', 'groq/qwen3-32b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/qwen3-32b'],
+  sim: ['groq/gpt-oss-20b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/gpt-oss-20b'],
+  memo: ['groq/llama-3.1-8b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/llama-3.1-8b'],
+  daily3: ['openrouter/claude-haiku', 'groq/gpt-oss-120b', 'mistral/small', 'openrouter/gpt-oss-120b', 'openrouter/free-nemotron'],
+  ask: ['anthropic/haiku', 'openrouter/claude-haiku', 'groq/gpt-oss-120b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/free-nemotron'],
+  watch: ['groq/llama-3.1-8b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/free-nemotron'],
+  keywords: ['groq/llama-3.1-8b', 'mistral/small', 'openrouter/gemini-flash-lite', 'openrouter/free-nemotron'],
 };
 
 // Per-task defaults; callers can override per call.
@@ -146,6 +155,7 @@ export const TASK_DEFAULTS: Record<Task, { timeoutMs: number; maxTokens: number;
   daily3: { timeoutMs: 30_000, maxTokens: 1500, temperature: 0.3 },
   ask: { timeoutMs: 20_000, maxTokens: 900, temperature: 0.1 },
   watch: { timeoutMs: 15_000, maxTokens: 600, temperature: 0 },
+  keywords: { timeoutMs: 8_000, maxTokens: 200, temperature: 0 },
 };
 
 // Whisper is not a chat model: used by /api/transcribe, not llm().

@@ -756,6 +756,20 @@
   "calm": false,
   "language": "en",
   "largePrint": false,
+  "updates": [
+    {
+      "watchId": "7d3f2a10-5b8e-4c1a-9f3e-2b6d8c4e1a90",
+      "question": "What do new cars cost in Pakistan?",
+      "summary": "Suzuki Pakistan raised Alto and Cultus prices by up to Rs 150,000 from Monday, citing the weaker rupee.",
+      "sources": [
+        {
+          "name": "Dawn",
+          "url": "https://www.dawn.com/news/business"
+        }
+      ],
+      "storyId": "2113c77e-4242-4087-89bf-c304360383b7"
+    }
+  ],
   "extras": {
     "onThisDay": "1989: the Loma Prieta earthquake strikes the San Francisco Bay Area during the World Series."
   },

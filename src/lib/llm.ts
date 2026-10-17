@@ -203,6 +203,15 @@ export async function llm<T>(req: LLMRequest<T>): Promise<LLMResult<T>> {
       await fail('rate-limited', `retry-after ${wait}s`);
       continue;
     }
+    if (res.status === 402) {
+      // Out of prepaid credit: bench every paid model of this provider (free ones still work).
+      for (const k of Object.keys(MODELS) as ModelKey[]) {
+        const m = MODELS[k];
+        if (m.provider === spec.provider && ('priceIn' in m ? m.priceIn : 0) > 0) cooldownUntil.set(k, Date.now() + 600_000);
+      }
+      await fail('budget', 'HTTP 402 no credit');
+      continue;
+    }
     if (res.status >= 500) { await fail('server-error', `HTTP ${res.status}`); continue; }
     // The request timeout also covers the body download, so reading the body can time out after the headers arrived.
     let bodyText: string;
