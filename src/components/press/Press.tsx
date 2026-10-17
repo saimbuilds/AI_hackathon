@@ -8,6 +8,8 @@ import { FrontPage, type PaperData } from "@/components/paper/FrontPage";
 import { Nav } from "@/components/ui/Nav";
 import { PillButton } from "@/components/ui/PillButton";
 import { Check } from "@/components/ui/icons";
+import { api } from "@/components/session/client";
+import { useClientValue } from "@/components/ui/useStored";
 import { useSavedName } from "@/components/home/useSavedName";
 import { buildStream } from "./build";
 
@@ -56,7 +58,17 @@ export function Press({ paper }: { paper: PaperData }) {
   const [editionId, setEditionId] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
   const started = useRef(0);
-  const forName = name.trim() || "you";
+  // ?gift=<id>: this press run prints someone else's paper, so every label names the recipient, not the signed-in reader.
+  const [giftName, setGiftName] = useState<string | null>(null);
+  const giftParam = useClientValue(() => new URLSearchParams(location.search).get("gift"), null);
+  const isGift = !!giftParam;
+  useEffect(() => {
+    if (!giftParam) return;
+    api<{ gifts: { giftId: string; forName: string }[] }>("/api/gifts")
+      .then((r) => setGiftName(r.gifts.find((g) => g.giftId === giftParam)?.forName ?? null))
+      .catch(() => {});
+  }, [giftParam]);
+  const forName = isGift ? (giftName ?? "them") : name.trim() || "you";
 
   // One build per visit (and per retry). ?gift=<id> prints a gift paper through the same queue.
   useEffect(() => {
@@ -74,7 +86,8 @@ export function Press({ paper }: { paper: PaperData }) {
         setStep(ev.step);
       }
     })();
-  }, [forName, attempt]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attempt]);
 
   const articles = useTicker(counts.articles);
   const sources = useTicker(counts.sources);
@@ -98,8 +111,8 @@ export function Press({ paper }: { paper: PaperData }) {
               : done
                 ? reused
                   ? "Today’s paper is already printed."
-                  : `Your paper is ready${forName === "you" ? "" : `, ${forName}`}.`
-                : `Printing ${forName === "you" ? "your" : `${forName}’s`} paper`}
+                  : isGift ? `${forName === "them" ? "The" : `${forName}’s`} paper is ready.` : `Your paper is ready${forName === "you" ? "" : `, ${forName}`}.`
+                : `Printing ${forName === "you" ? "your" : forName === "them" ? "their" : `${forName}’s`} paper`}
           </h1>
 
           <dl className={`mt-12 grid max-w-[560px] grid-cols-2 gap-3 ${reused ? "hidden" : ""}`}>
@@ -181,7 +194,7 @@ export function Press({ paper }: { paper: PaperData }) {
             <div className="relative z-10 h-6 w-full max-w-[640px] rounded-full bg-[#2b2c28] shadow-[inset_0_-3px_0_rgb(0_0_0/0.35)]" />
             <div className="relative -mt-3 w-full max-w-[560px] overflow-hidden">
               <motion.div initial={{ y: "-100%" }} animate={{ y: `${-100 + progress * 100}%` }} transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1] }}>
-                <FrontPage data={{ ...paper, paperName: BRAND.defaultPaperName(name.trim() || null) }} crop shadow={false} />
+                <FrontPage data={{ ...paper, paperName: BRAND.defaultPaperName((isGift ? giftName : name.trim()) || null) }} crop shadow={false} />
               </motion.div>
             </div>
           </div>

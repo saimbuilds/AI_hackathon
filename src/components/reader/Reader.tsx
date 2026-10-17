@@ -178,12 +178,12 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
                 <span className="t-num text-ink-3">Next edition in {next ?? "…"}</span>
               </div>
             </header>
-            {!gift && <TasteStrip />}
+            {!gift && !edition.gift && <TasteStrip />}
 
             {/* ---------- Since you asked + Ask your paper ---------- */}
             <SinceYouAsked updates={editionUpdates(edition)} />
             {!gift && (
-              <div className="mt-6">
+              <div className="mt-6" dir="ltr" lang="en">
                 <AskBox />
               </div>
             )}
