@@ -30,7 +30,7 @@ const PLANS: Plan[] = [
     name: "Endpaper+",
     price: "$4",
     per: "a month",
-    local: "PKR 399 in Pakistan",
+    local: "cancel any time",
     bg: "var(--sun)",
     points: ["Unlimited follows and “since you asked” alerts", "Audio edition for the commute", "Your newsletters, folded into the paper", "Sunday long read and monthly Wrapped"],
     cta: "Join Endpaper+",
@@ -42,7 +42,7 @@ const PLANS: Plan[] = [
     per: "a month per paper",
     local: "or $49 a year",
     bg: "var(--cyan)",
-    points: ["A paper for someone else", "Urdu or English, large print", "WhatsApp, email or print delivery", "See their streak from your account"],
+    points: ["A paper for someone else", "English or Urdu, large print", "WhatsApp, email or print delivery", "See their streak from your account"],
     cta: "Make a gift paper",
   },
   {

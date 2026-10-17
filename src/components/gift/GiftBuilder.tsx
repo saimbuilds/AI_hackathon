@@ -11,11 +11,17 @@ import { SavePaper } from "@/components/session/SavePaper";
 type Lang = "en" | "ur";
 type Delivery = "whatsapp" | "email" | "print";
 
+const EXAMPLES: { forName: string; relation: string; about: string; lang: Lang; city: string }[] = [
+  { forName: "Abbu", relation: "father", about: "Retired banker in Lahore. Cricket and markets. Reads Urdu.", lang: "ur", city: "Lahore" },
+  { forName: "Mum", relation: "mother", about: "Retired nurse in Manila. Basketball, church news and the weather.", lang: "en", city: "Manila" },
+  { forName: "Abuela", relation: "grandmother", about: "Teacher for forty years in Mexico City. Culture, food and family news from abroad.", lang: "en", city: "Mexico City" },
+];
+
 /** Describe someone, pick their language and type size, and watch their paper set itself. */
 export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: PaperData }) {
   const [fromName, setFromName] = useSavedName();
   const [forName, setForName] = useState("Abbu");
-  const [about, setAbout] = useState("Retired banker in Rawalpindi. Cricket and markets. Reads Urdu.");
+  const [about, setAbout] = useState(EXAMPLES[0].about);
   const [lang, setLang] = useState<Lang>("ur");
   const [large, setLarge] = useState(true);
   const [delivery, setDelivery] = useState<Delivery>("whatsapp");
@@ -72,6 +78,26 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
           }
         }}
       >
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="t-sm text-ink-3">Start from</span>
+          {EXAMPLES.map((x) => (
+            <button
+              key={x.forName}
+              type="button"
+              className="chip !h-9 !px-3"
+              data-tone={forName === x.forName ? "sun" : undefined}
+              onClick={() => {
+                setForName(x.forName);
+                setRelation(x.relation);
+                setAbout(x.about);
+                setLang(x.lang);
+                setLarge(true);
+              }}
+            >
+              {x.forName} in {x.city}
+            </button>
+          ))}
+        </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <label>
             <span className="t-sm text-ink-3">Who is it for?</span>

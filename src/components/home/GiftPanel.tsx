@@ -50,8 +50,9 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
             Make one for someone you love.
           </h2>
           <p className="t-body-lg mt-6 max-w-[38ch] text-[color-mix(in_oklab,var(--on-dark)_72%,transparent)]">
-            Describe them in a sentence: “Abbu, retired banker in Rawalpindi, cricket and markets, reads Urdu.” We print
-            his paper every morning in his language and in large type, signed from you.
+            You’re in London or New York; they’re in Lahore, Manila or Mexico City. Describe them in a sentence (“Mum,
+            retired nurse in Manila, basketball and local news, big type”) and we print their paper every morning in
+            their language and type size, signed from you.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <PillButton href="/gift" tone="sun" look="solid">
@@ -61,7 +62,7 @@ export function GiftPanel({ urdu, english }: { urdu: PaperData; english: PaperDa
           <dl className="mt-12 grid max-w-[420px] grid-cols-2 gap-6 border-t border-[rgb(236_233_225/0.16)] pt-6">
             <div>
               <dt className="t-sm text-[color-mix(in_oklab,var(--on-dark)_60%,transparent)]">Languages</dt>
-              <dd className="t-body-lg mt-1 text-[var(--on-dark)]">Urdu, English, more coming</dd>
+              <dd className="t-body-lg mt-1 text-[var(--on-dark)]">English and Urdu, more coming</dd>
             </div>
             <div>
               <dt className="t-sm text-[color-mix(in_oklab,var(--on-dark)_60%,transparent)]">Delivered by</dt>

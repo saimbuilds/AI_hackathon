@@ -18,6 +18,7 @@ import { AskBox } from "@/components/follow/AskBox";
 import { SinceYouAsked } from "@/components/follow/SinceYouAsked";
 import { editionUpdates } from "@/components/follow/api";
 import { useReadState } from "./useReadState";
+import { TasteStrip } from "@/components/taste/TastePanel";
 import { track } from "./track";
 
 function weekDay(iso: string) {
@@ -177,6 +178,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
                 <span className="t-num text-ink-3">Next edition in {next ?? "…"}</span>
               </div>
             </header>
+            {!gift && <TasteStrip />}
 
             {/* ---------- Since you asked + Ask your paper ---------- */}
             <SinceYouAsked updates={editionUpdates(edition)} />

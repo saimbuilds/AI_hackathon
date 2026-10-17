@@ -29,7 +29,7 @@ function Story({ s, qrSvg, size = "md", drop = false, maxSentences = 99 }: { s: 
         <span>
           {trustLabel(s.trust)}. Sources: {s.sources.map((x, i) => `${i + 1} ${x.name}`).join(", ")}
         </span>
-        <span className="qr flex-none" dangerouslySetInnerHTML={{ __html: qrSvg }} aria-label="Scan to read online" />
+        {size !== "sm" && <span className="qr flex-none" dangerouslySetInnerHTML={{ __html: qrSvg }} aria-label="Scan to read online" />}
       </div>
     </article>
   );
@@ -51,9 +51,13 @@ function Foot({ e, page }: { e: Edition; page: number }) {
     `codes` maps each storyId to an SVG QR code for the story's first source. */
 export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Record<string, string> }) {
   const slots = allSlots(e);
-  const [secA, ...rest] = e.sections;
-  const pageTwo = [secA].filter(Boolean);
-  const pageThree = rest;
+  // Split the sections across pages 2 and 3 by story count, keeping their order (most read first).
+  const total = e.sections.reduce((n, x) => n + x.slots.length, 0);
+  let split = 0;
+  for (let n = 0; split < e.sections.length - 1 && n + e.sections[split].slots.length <= total / 2; split++) n += e.sections[split].slots.length;
+  split = Math.max(1, split);
+  const pageTwo = e.sections.slice(0, split);
+  const pageThree = e.sections.slice(split);
 
   return (
     <div className="print-root" data-large={e.largePrint || undefined} dir={e.language === "ur" ? "rtl" : undefined} lang={e.language === "ur" ? "ur" : undefined}>
@@ -83,10 +87,10 @@ export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Re
           </div>
           <p className="dek mt-[3mm] text-[1.05em]">{e.editorNote}</p>
           <div className="mt-[4mm] grid min-h-0 flex-1 grid-cols-[1.9fr_1fr] gap-[5mm]">
-            <div className="min-h-0 overflow-hidden">
+            <div className="min-h-0 overflow-hidden" data-fit>
               <Story s={e.lead} qrSvg={codes[e.lead.storyId]} size="xl" drop />
             </div>
-            <div className="min-h-0 overflow-hidden border-l-[0.25pt] border-[rgb(17_17_17/0.28)] pl-[5mm]">
+            <div data-fit className="min-h-0 overflow-hidden border-l-[0.25pt] border-[rgb(17_17_17/0.28)] pl-[5mm]">
               {e.everyonesFrontPage.map((s) => (
                 <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size="md" maxSentences={3} />
               ))}
@@ -106,9 +110,9 @@ export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Re
         {[pageTwo, pageThree].map((secs, pi) => (
           <section key={pi} className="sheet" aria-label={`Page ${pi + 2}`}>
             {secs.map((sec, si) => (
-              <div key={sec.name} className={`flex min-h-0 flex-col ${si === secs.length - 1 ? "flex-1" : ""}`}>
+              <div key={sec.name} data-fit-group className={`flex min-h-0 flex-col ${si === secs.length - 1 ? "flex-1" : ""}`}>
                 <h2 className="mb-[3mm] border-b-[1.2pt] border-[#111] pb-[1mm] font-sans text-[15pt] font-semibold tracking-[-0.03em]">{sec.name}</h2>
-                <div className="sheet-cols">
+                <div className="sheet-cols" data-fit>
                   {sec.slots.map((s) => (
                     <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size={s.size === "major" ? "lg" : "md"} drop={s.size === "major"} />
                   ))}
@@ -122,14 +126,14 @@ export function PrintSheets({ edition: e, codes }: { edition: Edition; codes: Re
         {/* ---------- Page 4: the back page ---------- */}
         <section className="sheet" aria-label="Back page">
           <div className="grid min-h-0 flex-1 grid-cols-2 gap-[6mm]">
-            <div className="min-h-0 overflow-hidden">
+            <div className="min-h-0 overflow-hidden" data-fit>
               <h2 className="mb-[3mm] border-b-[1.2pt] border-[#111] pb-[1mm] font-sans text-[15pt] font-semibold tracking-[-0.03em]">Off your beat</h2>
               {e.offYourBeat.map((s) => (
-                <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size="lg" drop />
+                <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size="md" drop />
               ))}
               <h2 className="mt-[4mm] mb-[3mm] border-b-[1.2pt] border-[#111] pb-[1mm] font-sans text-[15pt] font-semibold tracking-[-0.03em]">In other news</h2>
               {e.briefs.map((s) => (
-                <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size="sm" maxSentences={2} />
+                <Story key={s.storyId} s={s} qrSvg={codes[s.storyId]} size="sm" maxSentences={1} />
               ))}
             </div>
             <div className="flex min-h-0 flex-col gap-[4mm] overflow-hidden">
