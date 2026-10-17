@@ -8,9 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "check:contract": "tsx scripts/check-contract.ts"
+    "check:contract": "tsx scripts/check-contract.ts",
+    "test": "tsx --test tests/*.test.mts",
+    "models:check": "tsx --env-file=.env.local scripts/check-models.mts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "next": "16.4.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
