@@ -40,12 +40,21 @@ async function loadPool(): Promise<Candidate[]> {
   const db = adminClient();
   if (!db) return [];
   const since = new Date(Date.now() - 30 * 3_600_000).toISOString();
-  const { data, error } = await db.from('stories').select('id,headline,dek,category,source_count,importance,image_url,embedding').gte('updated_at', since).not('headline', 'is', null).not('embedding', 'is', null).lte('distress', 2).order('importance', { ascending: false }).order('source_count', { ascending: false }).limit(250);
+  const { data, error } = await db.from('stories').select('id,headline,dek,category,topics,source_count,importance,image_url,embedding').gte('updated_at', since).not('headline', 'is', null).not('embedding', 'is', null).lte('distress', 2).order('importance', { ascending: false }).order('source_count', { ascending: false }).limit(250);
   if (error) throw new Error(error.message);
   // English headlines with a dek only (enriched stories); fall back to any English-script headline if that is too few.
   const english = (data ?? []).filter((s) => isMostlyLatin(`${s.headline} ${s.dek ?? ''}`));
   const withDek = english.filter((s) => s.dek);
-  const rows = withDek.length >= 30 ? withDek : english;
+  const base = withDek.length >= 30 ? withDek : english;
+  // A global first deck: the reader has not told us their country yet, so no single country (our source catalog is
+  // Pakistan-rich) may fill it. At most 2 stories per country-specific topic family; the rest is global/tech/business/sport.
+  const seenFamily = new Map<string, number>();
+  const rows = base.filter((s) => {
+    const fam = ((s.topics as string[] | null) ?? []).find((t) => /^(pakistan|india|south-asia|uk-politics|us-politics|africa|latin-america)/.test(t))?.replace(/-.*/, '');
+    if (!fam) return true;
+    seenFamily.set(fam, (seenFamily.get(fam) ?? 0) + 1);
+    return (seenFamily.get(fam) ?? 0) <= 4;
+  });
   const items = rows.map((s) => ({
     card: { storyId: s.id as string, headline: s.headline as string, dek: (s.dek as string | null) ?? null, category: (s.category as string | null) ?? null, outlets: s.source_count as number, imageUrl: (s.image_url as string | null) ?? null },
     emb: fromPg(s.embedding as string),

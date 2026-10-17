@@ -30,12 +30,18 @@ export function isDue(p: { tz: string; delivery_time: string; email: string | nu
   return since >= 0 && since < graceMinutes;
 }
 
+// Any SMTP provider works: Brevo, Resend, Mailjet, SES, Gmail... Set SMTP_HOST, SMTP_USER, SMTP_PASS and EMAIL_FROM
+// (SMTP_PORT defaults to 587). GMAIL_USER + GMAIL_APP_PASSWORD still work. With neither, it is a logged dry run.
 export function transporter() {
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
-  if (!user || !pass) return { send: async (m: SendMailOptions) => { log(`[dry-run: no GMAIL_USER/GMAIL_APP_PASSWORD] would send "${m.subject}" to ${m.to}`); return { messageId: 'dry-run' }; }, dry: true as const };
-  const t = nodemailer.createTransport({ service: 'gmail', auth: { user, pass } });
-  return { send: (m: SendMailOptions) => t.sendMail({ from: `"${process.env.EMAIL_FROM_NAME ?? 'Your morning paper'}" <${user}>`, ...m }), dry: false as const };
+  const host = process.env.SMTP_HOST;
+  const user = host ? process.env.SMTP_USER : process.env.GMAIL_USER;
+  const pass = host ? process.env.SMTP_PASS : process.env.GMAIL_APP_PASSWORD;
+  if (!user || !pass) return { send: async (m: SendMailOptions) => { log(`[dry-run: no SMTP_HOST/SMTP_USER/SMTP_PASS or GMAIL_USER/GMAIL_APP_PASSWORD] would send "${m.subject}" to ${m.to}`); return { messageId: 'dry-run' }; }, dry: true as const };
+  const t = host
+    ? nodemailer.createTransport({ host, port: Number(process.env.SMTP_PORT ?? 587), secure: Number(process.env.SMTP_PORT ?? 587) === 465, auth: { user, pass } })
+    : nodemailer.createTransport({ service: 'gmail', auth: { user, pass } });
+  const fromAddr = process.env.EMAIL_FROM ?? user;
+  return { send: (m: SendMailOptions) => t.sendMail({ from: `"${process.env.EMAIL_FROM_NAME ?? 'Your morning paper'}" <${fromAddr}>`, ...m }), dry: false as const };
 }
 
 export type DeliverOptions = { now?: number; force?: boolean; onlyUser?: string; toOverride?: string; limit?: number };

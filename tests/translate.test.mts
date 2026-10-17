@@ -40,10 +40,10 @@ test('preservesFigures accepts Arabic-Indic digits and commas, rejects lost or c
 
 test('collectRefs reaches every reader-facing string and none of the URLs or ids', () => {
   const refs = collectRefs(fixture()).map((r) => r.text);
-  assert.ok(refs.some((t) => t.startsWith('Good morning, Saim')));
-  assert.ok(refs.some((t) => t.includes('Trump waives new Russia sanctions')));
-  assert.ok(refs.some((t) => t === 'Pakistan & the Gulf')); // section names
-  assert.ok(refs.some((t) => t.includes('Whose energy-revenue sanctions'))); // quiz
+  assert.ok(refs.some((t) => t.startsWith(fixture().editorNote.slice(0, 12))));
+  assert.ok(refs.some((t) => t.includes(fixture().lead.headline)));
+  assert.ok(refs.some((t) => t === fixture().sections[0].name)); // section names
+  assert.ok(refs.some((t) => t.includes(fixture().dailyThree[0].q))); // quiz
   assert.ok(!refs.some((t) => t.startsWith('http')));
   assert.ok(refs.length > 100);
 });
@@ -60,7 +60,7 @@ test('translateEdition rewrites the strings, keeps the structure valid, and neve
   assert.equal(edition.lead.storyId, before.lead.storyId);
   assert.equal(edition.lead.body.length, before.lead.body.length);
   assert.ok(EditionSchema.safeParse(edition).success);
-  assert.ok(before.lead.headline.startsWith('Trump'), 'input edition is not mutated');
+  assert.equal(before.lead.headline, fixture().lead.headline, 'input edition is not mutated');
   assert.ok(batches.length >= 3, 'work is split into chunks');
 });
 
@@ -69,7 +69,7 @@ test('a chunk that comes back misaligned stays in English', async () => {
   const { edition, translated, failedChunks } = await translateEdition(fixture(), 'ur');
   assert.ok(failedChunks > 0);
   assert.equal(translated, 0);
-  assert.ok(edition.lead.headline.startsWith('Trump'));
+  assert.equal(edition.lead.headline, fixture().lead.headline);
 });
 
 test('a translation that loses a figure is rejected string by string', async () => {
@@ -84,5 +84,5 @@ test('with every model down the paper stays English and nothing throws', async (
   stub('down');
   const { edition, translated } = await translateEdition(fixture(), 'ur');
   assert.equal(translated, 0);
-  assert.ok(edition.editorNote.startsWith('Good morning'));
+  assert.equal(edition.editorNote, fixture().editorNote);
 });

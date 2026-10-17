@@ -68,8 +68,8 @@ export async function loadExtras(p: Profile, date: string, opts: { weather?: boo
       : undefined,
     want('markets')
       ? cached(`fx:${date}`, 6 * 3_600_000, async () => {
-          const r = await getJson<{ rates: Record<string, number> }>('https://api.frankfurter.dev/v1/latest?base=USD&symbols=PKR,EUR,GBP,INR');
-          const home = p.tz === 'Asia/Karachi' ? ['PKR'] : p.tz.startsWith('Asia/Kolkata') ? ['INR'] : ['EUR', 'GBP'];
+          const r = await getJson<{ rates: Record<string, number> }>('https://api.frankfurter.dev/v1/latest?base=USD&symbols=PKR,EUR,GBP,INR,JPY,CAD');
+          const home = p.tz === 'Asia/Karachi' ? ['PKR'] : p.tz.startsWith('Asia/Kolkata') ? ['INR'] : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax)/.test(p.tz) ? ['CAD', 'EUR', 'GBP'] : p.tz === 'Europe/London' ? ['EUR', 'JPY'] : ['EUR', 'GBP', 'JPY']; // USD base first for the US and everywhere else
           return Object.fromEntries(home.filter((c) => r.rates[c]).map((c) => [`USD/${c}`, r.rates[c].toFixed(2)]));
         })
       : undefined,

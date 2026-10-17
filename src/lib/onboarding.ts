@@ -19,11 +19,11 @@ export const ParsedProfileSchema = z.object({
 export type ParsedProfile = z.infer<typeof ParsedProfileSchema>;
 
 const SYSTEM = `You turn one sentence a person writes about their mornings and interests into a structured reading profile for a personal newspaper.
-- interests: short chips (1-4 words) naming what they want to read about, in their own words ("AI startups", "Formula 1", "Pakistan's economy").
+- interests: short chips (1-4 words) naming what they want to read about, in their own words ("AI startups", "Formula 1", "US politics", "the NBA", "UK property market").
 - topics: map interests onto this fixed list of slugs (use only these): ${slugs.join(', ')}.
 - entities: specific people, teams, companies or places they mention.
 - negatives: things they want to skip, as short chips; negativeTopics: the closest slugs from the list.
-- role: their job or study if stated; city: only if stated; goals: why they read, if stated; depth: espresso (very short) / standard / long only if they say so.
+- role: their job or study if stated; city: only if stated (any city worldwide is equally valid: New York, Austin, Toronto, London, Berlin, Dubai, Lahore, Manila); goals: why they read, if stated; depth: espresso (very short) / standard / long only if they say so.
 Never invent anything that is not in the text. Return {"interests":[],"topics":[],"entities":[],"negatives":[],"negativeTopics":[],"role":null,"city":null,"goals":null,"depth":null}.`;
 
 const NEG_CUE = /\b(skip|avoid|no|not interested in|without|hate|sick of|tired of|don'?t (?:want|care about|like))\b/i;
