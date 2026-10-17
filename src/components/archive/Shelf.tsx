@@ -4,7 +4,7 @@ import { FrontPage, paperFromEdition, allSlots, formatEditionDate } from "@/comp
 import { PillButton } from "@/components/ui/PillButton";
 
 /** Past editions as a stack of folded papers. Only real editions are drawn; blank sheets are tomorrow's. */
-export function Shelf({ editions }: { editions: Edition[] }) {
+export function Shelf({ editions, sample = false }: { editions: Edition[]; sample?: boolean }) {
   const [latest] = editions;
   return (
     <div className="container-page mt-16">
@@ -19,7 +19,7 @@ export function Shelf({ editions }: { editions: Edition[] }) {
               style={{ transform: `translate3d(${n * 14}px, ${-n * 16}px, ${-n * 40}px) rotate(${n * 1.6}deg)`, opacity: 1 - n * 0.18, boxShadow: "0 30px 60px -30px rgb(28 29 26 / 0.3)" }}
             />
           ))}
-          <Link href="/paper" className="relative block transition-transform duration-500 [transition-timing-function:var(--ease-out)] hover:-translate-y-2 hover:-rotate-1" aria-label={`Open ${latest.paperName}, edition ${latest.number}`}>
+          <Link href={sample ? "/paper" : `/paper?e=${latest.id}`} className="relative block transition-transform duration-500 [transition-timing-function:var(--ease-out)] hover:-translate-y-2 hover:-rotate-1" aria-label={`Open ${latest.paperName}, edition ${latest.number}`}>
             <FrontPage data={paperFromEdition(latest)} crop />
           </Link>
         </div>
@@ -35,7 +35,7 @@ export function Shelf({ editions }: { editions: Edition[] }) {
                   </p>
                 </div>
                 <div className="flex flex-none flex-col items-end gap-2">
-                  <PillButton href="/paper" tone="sun" size="sm">
+                  <PillButton href={sample ? "/paper" : `/paper?e=${e.id}`} tone="sun" size="sm">
                     Open
                   </PillButton>
                   <Link href={`/print/${e.id}`} className="tbtn !min-h-0 text-[0.9rem]">
@@ -45,7 +45,7 @@ export function Shelf({ editions }: { editions: Edition[] }) {
               </li>
             ))}
           </ol>
-          <p className="t-body mt-6 max-w-[40ch] text-ink-2">Your archive grows by one paper every morning at 7. Every edition stays exactly as it was printed.</p>
+          <p className="t-body mt-6 max-w-[40ch] text-ink-2">{sample ? "This is the sample paper. Print your own and your archive grows by one paper every morning at 7." : "Your archive grows by one paper every morning at 7. Every edition stays exactly as it was printed."}</p>
         </div>
       </div>
     </div>

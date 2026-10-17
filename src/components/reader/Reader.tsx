@@ -26,11 +26,11 @@ function weekDay(iso: string) {
   return { week, day };
 }
 
-function Progress({ read, total }: { read: number; total: number }) {
+function Progress({ read, total, href }: { read: number; total: number; href: string }) {
   const r = 17;
   const c = 2 * Math.PI * r;
   return (
-    <Link href="/paper/end" className="nav-box group gap-3 pl-4 md:pl-5" aria-label={`${read} of ${total} stories read. Go to the last page`}>
+    <Link href={href} className="nav-box group gap-3 pl-4 md:pl-5" aria-label={`${read} of ${total} stories read. Go to the last page`}>
       <span className="t-num text-[1.0625rem] font-medium tracking-[-0.025em] whitespace-nowrap">
         {read} of {total}
         <span className="hidden sm:inline"> read</span>
@@ -54,7 +54,10 @@ function SectionHead({ title, note }: { title: string; note?: string }) {
   );
 }
 
-export function Reader({ edition }: { edition: Edition }) {
+/** variant "gift": the recipient's read-only paper (no account), so the end stays on this page. */
+export function Reader({ edition, variant = "own" }: { edition: Edition; variant?: "own" | "gift" }) {
+  const gift = variant === "gift";
+  const rtl = edition.language === "ur";
   const slots = useMemo(() => allSlots(edition), [edition]);
   const { read, saved, markRead, toggleSave } = useReadState(edition.id);
   const [open, setOpen] = useState<StorySlot | null>(null);
@@ -62,6 +65,11 @@ export function Reader({ edition }: { edition: Edition }) {
   const next = useNextEdition();
   const { week, day } = weekDay(edition.date);
   const minutes = Math.round(slots.reduce((m, s) => m + s.readMinutes, 0));
+  const endHref = gift ? "#paper-end" : `/paper/end?e=${edition.id}`;
+
+  useEffect(() => {
+    document.title = `${edition.paperName}, No. ${edition.number} · Endpaper`;
+  }, [edition.paperName, edition.number]);
 
   // URL is state: ?story=<id> opens a story, Back closes it.
   const openStory = useCallback(
@@ -69,13 +77,21 @@ export function Reader({ edition }: { edition: Edition }) {
       setOpen(s);
       markRead(s.storyId);
       track(edition.id, "open", s.storyId);
-      if (push) history.pushState({ story: s.storyId }, "", `?story=${s.storyId}`);
+      if (push) {
+        const q = new URLSearchParams(location.search);
+        q.set("story", s.storyId);
+        history.pushState({ story: s.storyId }, "", `?${q}`);
+      }
     },
     [edition.id, markRead],
   );
   const close = useCallback(() => {
     setOpen(null);
-    if (location.search.includes("story=")) history.pushState({}, "", location.pathname);
+    const q = new URLSearchParams(location.search);
+    if (q.has("story")) {
+      q.delete("story");
+      history.pushState({}, "", q.size ? `?${q}` : location.pathname);
+    }
   }, []);
 
   useEffect(() => {
@@ -118,11 +134,11 @@ export function Reader({ edition }: { edition: Edition }) {
   );
 
   return (
-    <div className="edition-scope min-h-dvh bg-newsprint text-ink">
-      <Nav right={<Progress read={read.size} total={slots.length} />} />
+    <div className={`edition-scope min-h-dvh bg-newsprint text-ink ${rtl ? "edition-ur" : ""} ${edition.largePrint ? "edition-large" : ""}`}>
+      <Nav right={<Progress read={read.size} total={slots.length} href={endHref} />} />
       <main id="main" className="pt-[calc(var(--nav-h)+var(--nav-top)*2)] pb-20">
         <div className="container-page">
-          <div className="rounded-[var(--r-lg)] bg-[var(--paper-bg)] px-5 pt-6 pb-10 text-[var(--paper-ink)] md:px-10 md:pt-8 lg:px-14">
+          <div dir={rtl ? "rtl" : undefined} lang={rtl ? "ur" : undefined} className="edition-sheet rounded-[var(--r-lg)] bg-[var(--paper-bg)] px-5 pt-6 pb-10 text-[var(--paper-ink)] md:px-10 md:pt-8 lg:px-14">
             {/* ---------- Masthead + ears ---------- */}
             <header>
               <div className="t-sm flex items-start justify-between gap-4">
@@ -210,20 +226,35 @@ export function Reader({ edition }: { edition: Edition }) {
             </div>
 
             {/* ---------- The end of the paper ---------- */}
-            <section className="mt-20 flex flex-col items-center rounded-[var(--r-lg)] bg-sun px-6 py-16 text-center text-ink">
+            <section id="paper-end" className="mt-20 flex scroll-mt-28 flex-col items-center rounded-[var(--r-lg)] bg-sun px-6 py-16 text-center text-ink">
               <p className="text-[3rem] leading-none font-semibold tracking-[-0.04em] text-[#c2321a]">— 30 —</p>
               <h2 className="t-xl mt-6 max-w-[14ch]">That’s the whole paper.</h2>
               <p className="t-body-lg mt-5 max-w-[38ch] text-ink-2">
                 Three things to remember, three questions everyone gets today, and you’re done until 7 tomorrow.
               </p>
-              <div className="mt-8">
-                <PillButton href="/paper/end" tone="press" look="solid" size="lg">
-                  Finish my paper
-                </PillButton>
-              </div>
-              <Link href={`/print/${edition.id}`} className="tbtn mt-4">
-                Print it, or save it as a PDF
-              </Link>
+              {gift ? (
+                <>
+                  <ol className="mt-8 max-w-[640px] space-y-3 text-start">
+                    {edition.threeThings.map((t, i) => (
+                      <li key={t} className="rounded-[var(--r-sm)] bg-sheet p-4 font-serif text-[1.15rem] leading-[1.4]">
+                        {i + 1}. {t}
+                      </li>
+                    ))}
+                  </ol>
+                  {edition.gift && <p className="t-body mt-6">With love from {edition.gift.fromName}. See you tomorrow at 7.</p>}
+                </>
+              ) : (
+                <>
+                  <div className="mt-8">
+                    <PillButton href={endHref} tone="press" look="solid" size="lg">
+                      Finish my paper
+                    </PillButton>
+                  </div>
+                  <Link href={`/print/${edition.id}`} className="tbtn mt-4">
+                    Print it, or save it as a PDF
+                  </Link>
+                </>
+              )}
             </section>
           </div>
         </div>
@@ -241,6 +272,7 @@ export function Reader({ edition }: { edition: Edition }) {
 
       <StoryDrawer
         story={open}
+        editionId={edition.id}
         saved={open ? saved.has(open.storyId) : false}
         onClose={close}
         onAction={onAction}
@@ -250,6 +282,7 @@ export function Reader({ edition }: { edition: Edition }) {
       {stories && (
         <StoriesMode
           edition={edition}
+          endHref={endHref}
           slots={slots}
           onClose={() => setStories(false)}
           onSeen={(s) => markRead(s.storyId)}

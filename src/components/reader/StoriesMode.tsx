@@ -13,12 +13,14 @@ const PLATES = ["var(--sun)", "var(--sheet)", "var(--cyan)", "var(--newsprint-2)
 /** Phone reading: one story per screen. Tap right for next, left for back, swipe up to open, left to skip. */
 export function StoriesMode({
   edition,
+  endHref,
   slots,
   onClose,
   onSeen,
   onOpenStory,
 }: {
   edition: Edition;
+  endHref: string;
   slots: StorySlot[];
   onClose: () => void;
   onSeen: (s: StorySlot) => void;
@@ -152,7 +154,7 @@ export function StoriesMode({
               <p className="text-[2.6rem] font-semibold tracking-[-0.04em] text-[#c2321a]">— 30 —</p>
               <h2 className="t-xl mt-4">You’re all caught up.</h2>
               <p className="t-body mt-4 max-w-[28ch] text-ink-2">Three things to remember and today’s three questions are on the last page.</p>
-              <Link href="/paper/end" className="pbtn mt-8" data-tone="press" data-look="solid">
+              <Link href={endHref} className="pbtn mt-8" data-tone="press" data-look="solid">
                 <span className="pbtn__label">Finish my paper</span>
                 <span className="pbtn__disc" aria-hidden>
                   <Chevron />

@@ -6,6 +6,13 @@ import type { StorySlot } from "@/types/edition";
 import { LESS_REASONS } from "@/types/events";
 import { Close, Check, Plus } from "@/components/ui/icons";
 import { TrustChip } from "./StoryItem";
+import { api } from "@/components/session/client";
+
+const PROBLEMS = [
+  { kind: "wrong-facts", label: "Something’s wrong" },
+  { kind: "broken-link", label: "A link is broken" },
+  { kind: "not-for-me", label: "Not for me" },
+] as const;
 
 const SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
 const sup = (n: number) => String(n).split("").map((d) => SUP[+d]).join("");
@@ -18,6 +25,7 @@ const REASON_LABEL: Record<(typeof LESS_REASONS)[number], string> = {
 
 type Props = {
   story: StorySlot | null;
+  editionId: string;
   saved: boolean;
   onClose: () => void;
   onAction: (type: "more" | "less" | "save" | "share" | "click_original", meta?: Record<string, unknown>) => void;
@@ -26,7 +34,9 @@ type Props = {
 };
 
 /** The story, opened. A sheet from the right on desktop, from the bottom on phones. */
-export function StoryDrawer({ story, saved, onClose, onAction, onNext, nextHeadline }: Props) {
+export function StoryDrawer({ story, editionId, saved, onClose, onAction, onNext, nextHeadline }: Props) {
+  const [report, setReport] = useState<{ id: string; v: "open" | "sent" } | null>(null);
+  const reportState = report && story && report.id === story.storyId ? report.v : null;
   const panel = useRef<HTMLDivElement>(null);
   // Feedback belongs to one story; opening another story starts fresh.
   const [fb, setFb] = useState<{ id: string; v: "more" | "less" | "less-done" } | null>(null);
@@ -250,18 +260,54 @@ export function StoryDrawer({ story, saved, onClose, onAction, onNext, nextHeadl
                     <button type="button" className="chip !h-11 !px-4" data-tone={saved ? "sun" : undefined} onClick={() => onAction("save")}>
                       {saved ? "Saved" : "Save"}
                     </button>
-                    <a
+                    <button
+                      type="button"
                       className="chip !h-11 !px-4"
-                      href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={() => onAction("share", { channel: "whatsapp" })}
+                      onClick={async () => {
+                        const w = window.open("", "_blank");
+                        onAction("share", { channel: "friend" });
+                        let url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+                        try {
+                          url = (await api<{ whatsappUrl: string }>("/api/share", { method: "POST", json: { storyId: story.storyId } })).whatsappUrl;
+                        } catch {}
+                        if (w) w.location.href = url;
+                        else location.href = url;
+                      }}
                     >
-                      Send on WhatsApp
-                    </a>
+                      Send to a friend
+                    </button>
                   </div>
                 )}
               </section>
+
+              <div className="mt-3 px-1">
+                {reportState === "sent" ? (
+                  <p className="t-sm text-ink-3" role="status">
+                    Thanks. An editor will look at it.
+                  </p>
+                ) : reportState === "open" ? (
+                  <div className="flex flex-wrap gap-2">
+                    {PROBLEMS.map((x) => (
+                      <button
+                        key={x.kind}
+                        type="button"
+                        className="chip !h-10 !px-4"
+                        data-tone="line"
+                        onClick={() => {
+                          api("/api/feedback", { method: "POST", json: { kind: x.kind, editionId, storyId: story.storyId } }).catch(() => {});
+                          setReport({ id: story.storyId, v: "sent" });
+                        }}
+                      >
+                        {x.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <button type="button" className="tbtn text-[0.9rem]" onClick={() => setReport({ id: story.storyId, v: "open" })}>
+                    Report a problem
+                  </button>
+                )}
+              </div>
 
               {onNext && nextHeadline && (
                 <button

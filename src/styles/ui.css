@@ -406,3 +406,12 @@
     animation: none;
   }
 }
+
+@keyframes press-slide {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(310%);
+  }
+}

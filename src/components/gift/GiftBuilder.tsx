@@ -5,6 +5,7 @@ import { FrontPage, type PaperData } from "@/components/paper/FrontPage";
 import { PillButton } from "@/components/ui/PillButton";
 import { Check } from "@/components/ui/icons";
 import { useSavedName } from "@/components/home/useSavedName";
+import { api } from "@/components/session/client";
 
 type Lang = "en" | "ur";
 type Delivery = "whatsapp" | "email" | "print";
@@ -17,7 +18,11 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
   const [lang, setLang] = useState<Lang>("ur");
   const [large, setLarge] = useState(true);
   const [delivery, setDelivery] = useState<Delivery>("whatsapp");
-  const [done, setDone] = useState(false);
+  const [relation, setRelation] = useState("father");
+  const [email, setEmail] = useState("");
+  const [done, setDone] = useState<{ giftId: string; url: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const from = fromName.trim() || "Saim";
   const to = forName.trim() || "Abbu";
 
@@ -32,18 +37,38 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
     };
   }, [lang, to, from, english, urdu]);
 
-  const link = `https://wa.me/?text=${encodeURIComponent(`${to}, I made you a morning paper. It arrives every day at 7, in ${lang === "ur" ? "Urdu" : "English"}${large ? ", in large print" : ""}. From ${from}.`)}`;
+  const message = `${to}, I made you a morning paper. It arrives every day at 7, in ${lang === "ur" ? "Urdu" : "English"}${large ? ", in large print" : ""}. From ${from}.`;
+  const link = `https://wa.me/?text=${encodeURIComponent(done ? `${message}\n\n${done.url}` : message)}`;
 
   return (
     <div className="container-page mt-16 grid gap-12 lg:grid-cols-12">
       <form
         className="grid content-start gap-5 lg:col-span-5"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          setBusy(true);
+          setError(null);
           try {
-            localStorage.setItem("ep-gift", JSON.stringify({ forName: to, fromName: from, about, lang, large, delivery }));
-          } catch {}
-          setDone(true);
+            const r = await api<{ giftId: string; token: string; url: string }>("/api/gifts", {
+              method: "POST",
+              json: {
+                forName: to,
+                relation: relation.trim() || "family",
+                fromName: from,
+                text: about.trim() || undefined,
+                language: lang,
+                largePrint: large,
+                tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Karachi",
+                emailEveryMorning: delivery === "email" && email.includes("@"),
+                recipientEmail: delivery === "email" && email.includes("@") ? email.trim() : undefined,
+              },
+            });
+            setDone({ giftId: r.giftId, url: r.url });
+          } catch (err) {
+            setError(err instanceof Error ? err.message : "Couldn’t make the paper. Try again.");
+          } finally {
+            setBusy(false);
+          }
         }}
       >
         <div className="grid gap-3 sm:grid-cols-2">
@@ -52,6 +77,10 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
             <input className="field mt-1.5" value={forName} onChange={(e) => setForName(e.target.value.slice(0, 16))} />
           </label>
           <label>
+            <span className="t-sm text-ink-3">They are your</span>
+            <input className="field mt-1.5" value={relation} onChange={(e) => setRelation(e.target.value.slice(0, 40))} placeholder="father" />
+          </label>
+          <label className="sm:col-span-2">
             <span className="t-sm text-ink-3">From</span>
             <input className="field mt-1.5" value={fromName} placeholder="Saim" onChange={(e) => setFromName(e.target.value.slice(0, 16))} />
           </label>
@@ -97,6 +126,12 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
               </button>
             ))}
           </div>
+          {delivery === "email" && (
+            <label className="mt-3 block">
+              <span className="t-sm text-ink-3">Their email address</span>
+              <input type="email" className="field mt-1.5" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="abbu@example.com" autoComplete="off" />
+            </label>
+          )}
         </fieldset>
 
         {done ? (
@@ -104,20 +139,26 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
             <p className="t-md flex items-center gap-2">
               <Check /> {to}’s paper is set up.
             </p>
-            <p className="t-body mt-2">Send {to} the news first. Every gift paper has your name in the masthead ear.</p>
+            <p className="t-body mt-2">Print the first edition now, then send {to} the link. It opens without an account.</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <PillButton href={link} target="_blank" rel="noreferrer" tone="ink" size="sm">
-                Tell {to} on WhatsApp
+              <PillButton href={`/press?gift=${done.giftId}`} tone="ink" size="sm">
+                Print the first paper
               </PillButton>
-              <button type="button" className="tbtn" onClick={() => setDone(false)}>
-                Edit
-              </button>
+              <PillButton href={link} target="_blank" rel="noreferrer" tone="sun" size="sm">
+                Send {to} the link
+              </PillButton>
             </div>
+            <p className="t-sm mt-4 break-all">{done.url}</p>
           </div>
         ) : (
           <div>
-            <PillButton type="submit" tone="press" look="solid" size="lg">
-              Make {to}’s paper
+            {error && (
+              <p className="t-body mb-4 rounded-[var(--r-sm)] bg-sheet p-4" role="alert">
+                {error}
+              </p>
+            )}
+            <PillButton type="submit" tone="press" look="solid" size="lg" disabled={busy}>
+              {busy ? "Making it…" : `Make ${to}’s paper`}
             </PillButton>
             <p className="t-sm mt-3 text-ink-3">$5 a month per paper after a free first week. Cancel any time.</p>
           </div>

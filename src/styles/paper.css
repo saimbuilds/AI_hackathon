@@ -279,3 +279,16 @@
     transform: none;
   }
 }
+
+/* Urdu editions in the reader: Nastaliq needs taller lines and no negative tracking. */
+.edition-ur .edition-sheet .font-serif,
+.edition-ur [role="dialog"] .font-serif {
+  font-family: var(--font-nastaliq), var(--font-newsreader), serif;
+  letter-spacing: 0 !important;
+  line-height: 1.95 !important;
+  font-style: normal !important;
+}
+/* Large-print editions: the whole sheet scales up together. */
+.edition-large .edition-sheet {
+  zoom: 1.16;
+}

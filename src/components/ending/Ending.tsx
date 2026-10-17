@@ -40,7 +40,10 @@ export function Ending({ edition }: { edition: Edition }) {
   const quiz = edition.dailyThree;
   const [answers, setAnswers] = useState<(Answer | null)[]>(() => quiz.map(() => null));
   const [copied, setCopied] = useState(false);
-  const streak = useStreak(edition.date);
+  const localStreak = useStreak(edition.date);
+  // The server counts the streak once per local day from the caught_up event; prefer it when it has answered.
+  const [serverStreak] = useStored("ep-server-streak");
+  const streak = serverStreak && +serverStreak > 0 ? +serverStreak : localStreak;
   const finished = answers.every(Boolean);
   const score = answers.filter((a) => a?.correct).length;
 
@@ -79,7 +82,7 @@ export function Ending({ edition }: { edition: Edition }) {
 
   return (
     <div ref={root} className="min-h-dvh bg-newsprint">
-      <Nav cta={{ href: "/paper", label: "Back to the paper", short: "Paper" }} />
+      <Nav cta={{ href: `/paper?e=${edition.id}`, label: "Back to the paper", short: "Paper" }} />
       <main id="main">
         {/* ---------- Closure ---------- */}
         <section className="panel-bottom relative bg-sun pt-[calc(var(--nav-h)+var(--nav-top)+12vh)] pb-[14vh]">
@@ -164,7 +167,7 @@ export function Ending({ edition }: { edition: Edition }) {
                     {a && (
                       <p className="t-sm mt-4 text-[color-mix(in_oklab,var(--on-dark)_75%,transparent)]" role="status">
                         {a.correct ? "Right." : `Not quite. It was ${q.options[q.answer]}.`}{" "}
-                        <Link href={`/paper?story=${q.storyId}`} className="underline underline-offset-4">
+                        <Link href={`/paper?e=${edition.id}&story=${q.storyId}`} className="underline underline-offset-4">
                           Read the story again
                         </Link>
                       </p>

@@ -15,7 +15,8 @@ type Summary = {
   baselines: { onboardingLast3: number; randomLast3: number; foldVsOnboarding: number };
   diversity: { fold: number; floor: number; ok: boolean };
 };
-type LabRun = { summary: Summary; personas?: PersonaResult[]; ranAt?: string };
+type LabRun = { summary: Summary; personas?: PersonaResult[]; generatedAt?: string; mode?: string; pool?: { note?: string; stories?: number } };
+const human = (slug: string) => slug.replace(/-/g, " ");
 
 // Validated with the dataviz palette checker (light surface #fbfaf6): all six checks pass.
 const COLORS: Record<PolicyName, string> = { fold: "#e0401f", onboarding: "#1f7fc4", random: "#a07400" };
@@ -92,17 +93,17 @@ export function Lab() {
   return (
     <div className="container-page mt-16 space-y-3">
       <div className="grid gap-3 md:grid-cols-3">
-        <div className="rounded-[var(--r-lg)] bg-sheet p-7">
-          <p className="t-sm text-ink-3">Relevance, day 1 → day {days}</p>
-          <p className="t-num mt-3 text-[3.6rem] leading-none font-medium tracking-[-0.06em]">
-            {pct(summary.fold.day1)} → {pct(summary.fold.lastDay)}
-          </p>
-        </div>
-        <div className="rounded-[var(--r-lg)] bg-sheet p-7">
-          <p className="t-sm text-ink-3">Ahead of onboarding-only (last 3 days)</p>
+        <div className="rounded-[var(--r-lg)] bg-sun p-7">
+          <p className="t-sm text-ink-2">Ahead of a paper that never learns (last 3 days)</p>
           <p className="t-num mt-3 text-[3.6rem] leading-none font-medium tracking-[-0.06em]">
             {summary.baselines.foldVsOnboarding >= 0 ? "+" : ""}
             {Math.round(summary.baselines.foldVsOnboarding * 100)} pts
+          </p>
+        </div>
+        <div className="rounded-[var(--r-lg)] bg-sheet p-7">
+          <p className="t-sm text-ink-3">Endpaper relevance, day 1 → day {days}</p>
+          <p className="t-num mt-3 text-[3.6rem] leading-none font-medium tracking-[-0.06em]">
+            {pct(summary.fold.day1)} → {pct(summary.fold.lastDay)}
           </p>
         </div>
         <div className="rounded-[var(--r-lg)] bg-sheet p-7">
@@ -167,7 +168,7 @@ export function Lab() {
             </div>
           </div>
           <p className="t-body mt-3 max-w-[60ch]">
-            {p.bio} Says they like {p.stated.join(", ")}; actually reads {p.hidden.join(", ")}.
+            {p.bio} Told onboarding: {p.stated.map(human).join(", ")}. Actually reads: {p.hidden.map(human).join(", ")}.
           </p>
           <label className="mt-6 block max-w-[520px]">
             <span className="t-sm">Day {day}</span>
@@ -190,7 +191,10 @@ export function Lab() {
           </div>
         </section>
       )}
-      {run.ranAt && <p className="t-sm text-ink-3">Run on {new Date(run.ranAt).toLocaleString("en-GB")}.</p>}
+      <p className="t-sm max-w-[70ch] text-ink-3">
+        {run.pool?.note} {run.pool?.stories ? `${run.pool.stories.toLocaleString("en-GB")} stories in the pool.` : ""} {run.mode ? `Simulated readers judged by ${run.mode}.` : ""}{" "}
+        {run.generatedAt ? `Run on ${new Date(run.generatedAt).toLocaleString("en-GB")}.` : ""}
+      </p>
       <div className="pt-6">
         <PillButton href="/start" tone="press" look="solid">
           Try the real thing

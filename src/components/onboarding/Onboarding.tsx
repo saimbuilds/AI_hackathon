@@ -13,6 +13,8 @@ import { useSavedName } from "@/components/home/useSavedName";
 import { useClientValue } from "@/components/ui/useStored";
 import { parseSentence, guessCity } from "./parse";
 import { SwipeDeck, type DeckCard, type SwipeAction } from "./SwipeDeck";
+import { fetchDeck, serverParse, recordAndTranscribe, completeOnboarding, EXTRA_KEYS, type ServerParsed } from "./api";
+import { token } from "@/components/session/client";
 
 const STEPS = ["Your paper", "About you", "Today’s headlines", "How it reads"] as const;
 const SIZES = [
@@ -77,11 +79,16 @@ function Segmented<T extends string>({ value, options, onChange, label }: { valu
   );
 }
 
-export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: PaperData }) {
+export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; preview: PaperData }) {
   const router = useRouter();
   const [savedName, setSavedName] = useSavedName();
   const [step, setStep] = useState(0);
   const [listening, setListening] = useState(false);
+  const [deck, setDeck] = useState<DeckCard[]>(fallbackDeck);
+  const [server, setServer] = useState<ServerParsed | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const recording = useRef<{ stop?: () => void } | null>(null);
   const [newChip, setNewChip] = useState("");
   const [p, setP] = useState<Profile>({
     name: null,
@@ -98,8 +105,16 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
   });
   const set = <K extends keyof Profile>(k: K, v: Profile[K]) => setP((x) => ({ ...x, [k]: v }));
   const startedAt = useRef(0);
+  // Start an anonymous session and swap in today's real deck as soon as it arrives.
   useEffect(() => {
     startedAt.current = Date.now();
+    let live = true;
+    token()
+      .then(() => fetchDeck(12))
+      .then((cards) => live && cards && setDeck(cards));
+    return () => {
+      live = false;
+    };
   }, []);
 
   const guessedCity = useClientValue(guessCity, "");
@@ -122,6 +137,29 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
       };
     });
 
+  // The server read (LLM or its heuristic) refines the chips a moment after typing stops.
+  const parseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const askServer = (text: string) => {
+    if (parseTimer.current) clearTimeout(parseTimer.current);
+    if (text.trim().length < 12) return;
+    parseTimer.current = setTimeout(async () => {
+      const r = await serverParse(text);
+      if (!r) return;
+      setServer(r);
+      setP((x) => ({
+        ...x,
+        interests: [...new Set([...x.interests, ...r.interests])].filter((t) => !removed.current.has(t)).slice(0, 15),
+        negatives: [...new Set([...x.negatives, ...r.negatives])].filter((t) => !removed.current.has(`-${t}`)).slice(0, 10),
+        role: x.role ?? r.role ?? undefined,
+        city: x.city ?? r.city ?? null,
+      }));
+    }, 700);
+  };
+  const onSentence = (text: string) => {
+    setSentence(text);
+    askServer(text);
+  };
+
   // The live preview: every answer changes the page on the right.
   const kept = p.swipes.filter((s) => s.action !== "no").map((s) => deck.find((d) => d.storyId === s.storyId)!).filter(Boolean);
   const loved = p.swipes.filter((s) => s.action === "love").map((s) => deck.find((d) => d.storyId === s.storyId)!).filter(Boolean);
@@ -140,27 +178,75 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, city, p.swipes, p.size, preview]);
 
-  const listen = () => {
+  const browserSpeech = () => {
     type SR = { lang: string; interimResults: boolean; onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void; onend: () => void; start: () => void };
     const W = window as unknown as { SpeechRecognition?: new () => SR; webkitSpeechRecognition?: new () => SR };
     const Ctor = W.SpeechRecognition ?? W.webkitSpeechRecognition;
-    if (!Ctor) return;
+    if (!Ctor) return setListening(false);
     const rec = new Ctor();
     rec.lang = navigator.language || "en-GB";
     rec.interimResults = true;
-    rec.onresult = (e) => setSentence(Array.from(e.results).map((r) => r[0].transcript).join(" "));
-    rec.onend = () => setListening(false);
-    setListening(true);
+    let heard = "";
+    rec.onresult = (e) => {
+      heard = Array.from(e.results).map((r) => r[0].transcript).join(" ");
+      setSentence(heard);
+    };
+    rec.onend = () => {
+      setListening(false);
+      askServer(heard);
+    };
     rec.start();
+  };
+  const listen = async () => {
+    if (listening) return recording.current?.stop?.();
+    setListening(true);
+    setError(null);
+    try {
+      recording.current = {};
+      const text = await recordAndTranscribe(recording.current);
+      if (text === null) return browserSpeech();
+      onSentence(text);
+      setListening(false);
+    } catch {
+      setListening(false);
+      setError("Couldn’t hear that. Check the microphone permission, or type it instead.");
+    }
   };
 
   const canNext = step === 0 ? name.trim().length > 0 : step === 1 ? p.interests.length > 0 || p.sentence.trim().length > 8 : true;
-  const finish = (forSomeoneElse: boolean) => {
+  const finish = async (forSomeoneElse: boolean) => {
     setSavedName(name.trim());
+    setBusy(true);
+    setError(null);
     try {
       localStorage.setItem("ep-profile", JSON.stringify({ ...p, name: name.trim(), city, seconds: Math.round((Date.now() - startedAt.current) / 1000) }));
     } catch {}
-    router.push(forSomeoneElse ? "/gift" : "/press");
+    try {
+      await completeOnboarding({
+        name: name.trim(),
+        paperName: BRAND.defaultPaperName(name.trim()),
+        city: city || undefined,
+        tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+        deliveryTime: p.deliveryTime,
+        size: p.size,
+        tone: p.tone,
+        calm: p.calm,
+        role: p.role?.slice(0, 80),
+        extras: Object.fromEntries(Object.entries(EXTRA_KEYS).map(([label, k]) => [k, p.extras.includes(label)])),
+        interests: {
+          chips: p.interests.slice(0, 15),
+          topics: (server?.topics ?? []).slice(0, 10),
+          entities: (server?.entities ?? []).slice(0, 12),
+          negatives: p.negatives.slice(0, 10),
+          negativeTopics: (server?.negativeTopics ?? []).slice(0, 8),
+        },
+        swipes: p.swipes.slice(0, 30),
+      });
+      router.push(forSomeoneElse ? "/gift" : "/press");
+    } catch (e) {
+      setBusy(false);
+      setError(e instanceof Error ? e.message : "Couldn’t save your answers. Try again.");
+    }
   };
 
   return (
@@ -223,7 +309,7 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                     <textarea
                       className="field min-h-[132px] resize-none pr-16 leading-[1.45]"
                       value={p.sentence}
-                      onChange={(e) => setSentence(e.target.value)}
+                      onChange={(e) => onSentence(e.target.value)}
                       placeholder={EXAMPLES[0]}
                       aria-label="One sentence about you"
                     />
@@ -231,7 +317,7 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                       type="button"
                       onClick={listen}
                       className={`menu-disc absolute right-3 bottom-3 ${listening ? "!bg-press" : "!bg-newsprint"}`}
-                      aria-label={listening ? "Listening" : "Say it instead"}
+                      aria-label={listening ? "Stop recording" : "Say it instead"}
                       aria-pressed={listening}
                     >
                       <Mic />
@@ -240,7 +326,7 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
                   {!p.sentence && (
                     <div className="mt-3 flex max-w-[620px] flex-wrap gap-2">
                       {EXAMPLES.map((ex) => (
-                        <button key={ex} type="button" className="chip !h-auto !py-2 text-left !whitespace-normal" data-tone="line" onClick={() => setSentence(ex)}>
+                        <button key={ex} type="button" className="chip !h-auto !py-2 text-left !whitespace-normal" data-tone="line" onClick={() => onSentence(ex)}>
                           {ex}
                         </button>
                       ))}
@@ -350,6 +436,11 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
             </motion.div>
           </AnimatePresence>
 
+          {error && (
+            <p className="t-body mt-8 rounded-[var(--r-sm)] bg-sheet p-4" role="alert">
+              {error}
+            </p>
+          )}
           <div className="mt-12 flex flex-wrap items-center justify-between gap-3">
             <button type="button" className="tbtn" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0} style={{ visibility: step === 0 ? "hidden" : undefined }}>
               Back
@@ -360,11 +451,11 @@ export function Onboarding({ deck, preview }: { deck: DeckCard[]; preview: Paper
               </PillButton>
             ) : (
               <div className="flex flex-wrap gap-2">
-                <PillButton tone="sun" onClick={() => finish(true)}>
+                <PillButton tone="sun" onClick={() => finish(true)} disabled={busy}>
                   It’s for someone I love
                 </PillButton>
-                <PillButton tone="press" look="solid" onClick={() => finish(false)}>
-                  Print my paper
+                <PillButton tone="press" look="solid" onClick={() => finish(false)} disabled={busy}>
+                  {busy ? "Saving…" : "Print my paper"}
                 </PillButton>
               </div>
             )}
