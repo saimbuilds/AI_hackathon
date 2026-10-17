@@ -29,7 +29,7 @@ function Account() {
             type="button"
             className="tbtn !min-h-0 text-[0.9rem]"
             onClick={async () => {
-              const msg = await signInWithGoogle("/paper");
+              const msg = await signInWithGoogle();
               if (msg) setNote(msg.includes("not enabled") ? "Google sign-in isn’t switched on yet." : msg);
             }}
           >

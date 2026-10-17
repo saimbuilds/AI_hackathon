@@ -21,7 +21,7 @@ export async function saveWithGoogle(next = location.pathname + location.search)
   return error ? error.message : null; // on success the browser is already leaving for Google
 }
 
-export async function signInWithGoogle(next = "/paper"): Promise<string | null> {
+export async function signInWithGoogle(next = location.pathname + location.search): Promise<string | null> {
   const sb = browserClient();
   if (!sb) return "Sign-in isn’t configured here.";
   const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: callback(next) } });
