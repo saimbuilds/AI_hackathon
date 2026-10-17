@@ -16,8 +16,10 @@ export const fail = (status: number, message: string, extra?: Record<string, unk
 
 export type AuthedUser = { id: string; isAnonymous: boolean; email: string | null };
 
-export async function requireUser(req: Request): Promise<AuthedUser> {
-  const token = req.headers.get('authorization')?.match(/^Bearer (.+)$/i)?.[1];
+// `allowQueryToken` lets a plain <a href> download a file (PDF) by passing ?access_token=; off everywhere else
+// because tokens in URLs end up in logs and browser history.
+export async function requireUser(req: Request, opts: { allowQueryToken?: boolean } = {}): Promise<AuthedUser> {
+  const token = req.headers.get('authorization')?.match(/^Bearer (.+)$/i)?.[1] ?? (opts.allowQueryToken ? new URL(req.url).searchParams.get('access_token') : null);
   if (!token) return fail(401, 'Missing bearer token');
   const db = adminClient();
   if (!db) return fail(503, 'Server not configured');

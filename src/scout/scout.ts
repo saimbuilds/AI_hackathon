@@ -92,7 +92,7 @@ export async function probeDomain(domain: string, beat: string): Promise<ScoutCa
 const VetSchema = z.object({ verdicts: z.array(z.object({ i: z.number().int(), keep: z.boolean() })) });
 
 export function heuristicVet(c: ScoutCandidate): boolean {
-  return c.viaTag || c.beatHits >= 1; // on-topic feed, or its recent items actually mention the beat
+  return c.viaTag || c.beatHits >= 2; // an on-topic tag feed, or a feed whose recent items keep mentioning the beat (one mention is a sponsor, not a beat)
 }
 
 export async function vet(beat: string, cands: ScoutCandidate[]): Promise<{ kept: ScoutCandidate[]; by: 'llm' | 'heuristic' }> {

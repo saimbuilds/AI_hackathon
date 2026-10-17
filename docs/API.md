@@ -82,6 +82,21 @@ Citations: each `body[i].sources` is a list of 1-based indexes into that slot's 
 - `POST /api/onboarding/parse` also returns `niche: string[]`: chips that map to none of the fixed topics ("Formula E", "Kenyan fintech").
 - `POST /api/scout` `{ beat }` -> `{ status: 'added' | 'known', beat, added: [{ name, feedUrl }] }`. Call once per niche chip after onboarding (fire and forget; it can take 10-60 s). It finds outlets covering the beat, discovers and validates their RSS feeds, vets them, and adds them to the catalog for everyone. Stories from them appear after the next press run (about 3 h; sooner if `GITHUB_DISPATCH_TOKEN` is set). A beat scouted in the last 7 days returns `known`.
 
+## PDF
+
+| Call | Notes |
+|---|---|
+| `GET /api/pdf/[editionId]` | auth header, or `?access_token=<token>` so a plain `<a href download>` works. Returns `application/pdf` (A4, headless Chromium, cached 7 days; `?inline=1` to display). If rendering is unavailable: **503** `{ fallback: 'client-print', printUrl }`: open `printUrl` and call `window.print()` (same page, same design) |
+| `GET /api/gift/[token]/pdf` | public: the gift paper's latest edition as a PDF; same fallback contract |
+| `GET /api/print/[editionId]?pt=<print token>` | **for the frontend's `/print/[id]` page only**: returns the `Edition`. 403 without a valid token |
+
+**The frontend owns `src/app/print/[id]/page.tsx`**, and the PDF is only as good as that page. Contract:
+1. Route `/print/[id]?pt=<token>` (the server mints `pt`, valid ~3 min for that edition only; the fallback `printUrl` carries a 15 min one).
+2. Server component fetches `${APP_ORIGIN}/api/print/${id}?pt=${pt}` for the `Edition` (no login, no supabase client).
+3. Layout for `@page { size: A4 }` (columns, hyphenation, QR code per story linking to `sources[0].url`). Use `edition.language === 'ur'` for RTL/Nastaliq and `edition.largePrint`.
+4. When fonts and images are ready set `document.documentElement.dataset.printReady = 'true'` (the renderer waits up to 8 s for it, then prints anyway).
+5. Local test without the real page: `PRINT_BASE_URL=http://localhost:4010 pnpm dev -p 3001` + `scripts/e2e-pdf.mts` (uses a stand-in page and your installed Chrome).
+
 ## Not built yet (coming from the backend)
 
-`GET /api/pdf/[id]` + `GET /api/print/[id]` (needs the frontend `/print/[id]` route).
+Nothing on the build table; see `docs/BACKEND_STATUS.md` for what is unverified without LLM keys.
