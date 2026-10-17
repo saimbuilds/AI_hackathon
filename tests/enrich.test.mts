@@ -7,7 +7,7 @@ const { numbersSupported, validateSentences, fallbackSentences, pickArticles, re
 
 const art = (n: number, over: Partial<ReturnType<typeof pickArticles>[number]> = {}) => ({
   n, id: `id${n}`, url: `https://site${n}.com/a`, title: `Title ${n}`, text: 'Brazil cleared 3,335 square kilometers of rainforest in the year ending in July.', outlet: `Outlet ${n}`,
-  country: 'Brazil', language: 'en', domain: `site${n}.com`, kind: 'rss', ...over,
+  country: 'Brazil', language: 'en', domain: `site${n}.com`, kind: 'rss', category: 'general', ...over,
 });
 
 test('numbers must appear in the cited sources', () => {
@@ -40,7 +40,7 @@ test('fallback is a verbatim cited sentence from an English source', () => {
 });
 
 test('pickArticles prefers distinct outlets, primary sources and full text, and caps at six', () => {
-  const sources = new Map([['s1', { name: 'BBC News: World', region: 'uk', language: 'en', kind: 'rss' }], ['s2', { name: 'Fed: Press', region: 'us', language: 'en', kind: 'primary' }]]);
+  const sources = new Map([['s1', { name: 'BBC News: World', region: 'uk', language: 'en', kind: 'rss', category: 'world' }], ['s2', { name: 'Fed: Press', region: 'us', language: 'en', kind: 'primary', category: 'economy' }]]);
   const rows = Array.from({ length: 10 }, (_, i) => ({ id: `a${i}`, url: `https://${i < 5 ? 'bbc.co.uk' : `d${i}.com`}/x${i}`, title: `t${i}`, excerpt: 'e', content_text: null, source_id: i === 9 ? 's2' : 's1', published_at: null }));
   const picked = pickArticles(rows, sources);
   assert.equal(picked.length, 6);

@@ -11,7 +11,7 @@ const flag = (name: string) => process.argv.includes(`--${name}`);
 
 async function main() {
   const dry = flag('dry');
-  const press = await runPress({
+  const press = flag('skip-press') ? { runId: undefined } : await runPress({
     dry,
     sources: arg('sources') ? Number(arg('sources')) : undefined,
     extract: !flag('no-extract'),

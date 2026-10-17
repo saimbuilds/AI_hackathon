@@ -7,12 +7,13 @@ import { adminClient } from '../lib/supabase';
 import { llm, LLMUnavailableError, wrapUntrusted, type Attempt } from '../lib/llm';
 import { CATEGORIES, COUNTRY_NAMES, TOPICS } from '../lib/taxonomy';
 import { domainOf } from './normalize';
+import { dot, fromPg } from '../lib/vec';
 
 const log = (...a: unknown[]) => console.log(new Date().toISOString().slice(11, 19), ...a);
 
 // ------------------------------------------------------------------ prompt inputs ----
 
-export type SrcArticle = { n: number; id: string; url: string; title: string; text: string; outlet: string; country: string; language: string; domain: string; kind: string };
+export type SrcArticle = { n: number; id: string; url: string; title: string; text: string; outlet: string; country: string; language: string; domain: string; kind: string; category: string };
 export type StoryInput = { id: string; key: string; provisional: number; sourceCount: number; articles: SrcArticle[] };
 
 const PER_ARTICLE_CHARS = 1500;
@@ -21,7 +22,7 @@ const MAX_ARTICLES = 6;
 // Prefer distinct outlets and primary sources; give each the fullest text we have.
 export function pickArticles(
   rows: { id: string; url: string; title: string; excerpt: string | null; content_text: string | null; source_id: string | null; published_at: string | null }[],
-  sources: Map<string, { name: string; region: string; language: string; kind: string }>,
+  sources: Map<string, { name: string; region: string; language: string; kind: string; category: string }>,
 ): SrcArticle[] {
   const scored = rows.map((r) => {
     const s = r.source_id ? sources.get(r.source_id) : undefined;
@@ -32,7 +33,7 @@ export function pickArticles(
   for (const x of scored) { if (!seen.has(x.domain)) { seen.add(x.domain); picked.push(x); } }
   for (const x of scored) if (picked.length < MAX_ARTICLES && !picked.includes(x)) picked.push(x);
   return picked.slice(0, MAX_ARTICLES).map(({ r, s, domain }, i) => ({
-    n: i + 1, id: r.id, url: r.url, title: r.title, domain, kind: s?.kind ?? 'rss',
+    n: i + 1, id: r.id, url: r.url, title: r.title, domain, kind: s?.kind ?? 'rss', category: s?.category ?? 'general',
     text: (r.content_text ?? r.excerpt ?? '').slice(0, PER_ARTICLE_CHARS), outlet: s?.name.replace(/:.*$/, '') ?? domain,
     country: COUNTRY_NAMES[s?.region ?? ''] ?? '', language: s?.language ?? 'en',
   }));
@@ -164,8 +165,8 @@ export async function runEnrich(opts: { max?: number; perCategory?: number; batc
   log(`enrich: ${cands.length} stories to write up`);
   if (!cands.length) return stats;
 
-  const { data: srcRows } = await db.from('sources').select('id,name,region,language,kind');
-  const sources = new Map((srcRows ?? []).map((s) => [s.id as string, s as { name: string; region: string; language: string; kind: string }]));
+  const { data: srcRows } = await db.from('sources').select('id,name,region,language,kind,category');
+  const sources = new Map((srcRows ?? []).map((s) => [s.id as string, s as { name: string; region: string; language: string; kind: string; category: string }]));
 
   const inputs: StoryInput[] = [];
   for (const c of cands) {
@@ -245,15 +246,39 @@ async function save(db: SupabaseClient, s: StoryInput, w: EnrichedStory | null, 
   });
   const quiz = w?.quiz && new Set(w.quiz.options).size === 4 ? w.quiz : null;
   const patch = usedFallback || !w
-    ? { enriched_at: null, grounding: null }
+    ? { enriched_at: null, grounding: null, printable: true, category: await fallbackCategory(s), topics: await nearestTopics(db, s.id) }
     : {
         headline: w.headline, dek: w.dek, why_it_matters: w.whyItMatters, category: w.category, topics: w.topics, entities: w.entities,
         importance: Math.round((w.importance + s.provisional) / 2), distress: w.distress, unknowns: w.unknowns ?? null,
-        quiz, world: world.length ? world : null, enriched_at: new Date().toISOString(), enriched_sources: s.sourceCount, grounding: sentences.length / Math.max(1, w.brief.length),
+        quiz, world: world.length ? world : null, printable: true, enriched_at: new Date().toISOString(), enriched_sources: s.sourceCount, grounding: sentences.length / Math.max(1, w.brief.length),
       };
   if (Object.keys(patch).length) {
     const { error } = await db.from('stories').update(patch).eq('id', s.id);
     if (error) throw new Error(`stories update: ${error.message}`);
   }
   if (usedFallback || !w) stats.fallback += 1; else stats.enriched += 1;
+}
+
+// ---- fallback classification (no LLM): source category + nearest topic fingerprints ----------
+
+const CATEGORY_SET = new Set<string>(CATEGORIES);
+async function fallbackCategory(s: StoryInput): Promise<string> {
+  const counts = new Map<string, number>();
+  for (const a of s.articles) counts.set(a.category, (counts.get(a.category) ?? 0) + 1);
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'general';
+  return CATEGORY_SET.has(top) ? top : 'general';
+}
+
+let topicVecs: { topic: string; vec: Float32Array }[] | undefined;
+async function nearestTopics(db: SupabaseClient, storyId: string): Promise<string[]> {
+  if (!topicVecs) {
+    const { data } = await db.from('topic_vectors').select('topic,embedding');
+    topicVecs = (data ?? []).map((r) => ({ topic: r.topic as string, vec: fromPg(r.embedding as string) }));
+  }
+  if (!topicVecs.length) return [];
+  const { data } = await db.from('stories').select('embedding').eq('id', storyId).single();
+  if (!data?.embedding) return [];
+  const e = fromPg(data.embedding as string);
+  const ranked = topicVecs.map((t) => ({ topic: t.topic, sim: dot(e, t.vec) })).sort((a, b) => b.sim - a.sim);
+  return ranked.filter((r, i) => i === 0 || (i < 2 && r.sim >= ranked[0].sim - 0.02)).map((r) => r.topic);
 }
