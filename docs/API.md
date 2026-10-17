@@ -126,3 +126,7 @@ How updates are made: after each press run (and during each reader's build, max 
 - `likes`: top 8 topics. `origin: 'you said'` = still just the onboarding choice; `'learned'` = backed by reading signals. `last24h`/`last7d` are signed signal weight (positive = leaned in): show as arrows/sparks.
 - `avoids`: topics the reader muted or consistently skips. `memo`: the nightly one-line reader memo (may be null early).
 - New topics added: `american-football`, `baseball` (and `basketball` now covers WNBA/March Madness).
+
+## Pricing-page email signup: `POST /api/waitlist` (public, no auth)
+
+`{ email, plan?: 'plus'|'gift'|'teams'|'general', source?: string, website?: '' }` -> `{ ok: true }` (always, so it can't reveal who is on the list). Stores the email once per plan and sends ONE confirmation email ("You're on the list", the plan line, a link to the free paper). A repeat signup sends nothing. `website` is a honeypot: render it as a hidden input and leave it empty (bots that fill it are silently ignored). 400 on a bad email, 429 after 10/hour per IP or 3/day per email.
