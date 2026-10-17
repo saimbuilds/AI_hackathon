@@ -52,7 +52,7 @@ export async function loadCandidates(db: SupabaseClient, userId: string, profile
   const user = userVector(reader);
   const since = new Date(now - 36 * 3_600_000).toISOString();
   const { data: ids, error: idErr } = await db.rpc('edition_candidate_ids', {
-    p_user: userId, p_vec: user ? toPg(user) : null, p_since: since, p_by_sim: 220, p_by_importance: 120,
+    p_user: userId, p_vec: user ? toPg(user) : null, p_since: since, p_until: new Date(now).toISOString(), p_by_sim: 220, p_by_importance: 120,
     p_muted_topics: reader.mutedTopics, p_muted_stories: reader.mutedStories, p_max_distress: profile.calm ? 1 : 3,
   });
   if (idErr) throw new Error(`candidates: ${idErr.message}`);

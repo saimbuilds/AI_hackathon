@@ -2,6 +2,7 @@
 // quiz, per-country lines. Then a fact-check pass drops every sentence the sources don't support.
 // The editor LLM later only selects and frames this material; it never changes facts.
 import { z } from 'zod';
+import pLimit from 'p-limit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { adminClient } from '../lib/supabase';
 import { llm, LLMUnavailableError, wrapUntrusted, type Attempt } from '../lib/llm';
@@ -126,8 +127,8 @@ export type EnrichStats = { enriched: number; fallback: number; sentences: numbe
 
 type Candidate = { id: string; source_count: number; importance: number; updated_at: string; enriched_sources: number; enriched_at: string | null };
 
-async function pickCandidates(db: SupabaseClient, max: number, perCategory: number): Promise<Candidate[]> {
-  const since = new Date(Date.now() - 36 * 3_600_000).toISOString();
+async function pickCandidates(db: SupabaseClient, max: number, perCategory: number, sinceHours: number): Promise<Candidate[]> {
+  const since = new Date(Date.now() - sinceHours * 3_600_000).toISOString();
   const { data, error } = await db.from('stories').select('id,source_count,importance,updated_at,enriched_sources,enriched_at').gte('updated_at', since).order('importance', { ascending: false }).limit(4000);
   if (error) throw new Error(error.message);
   const need = (data as Candidate[]).filter((s) => !s.enriched_at || s.source_count >= s.enriched_sources + 2);
@@ -154,14 +155,14 @@ async function pickCandidates(db: SupabaseClient, max: number, perCategory: numb
   return out;
 }
 
-export async function runEnrich(opts: { max?: number; perCategory?: number; batchSize?: number } = {}): Promise<EnrichStats> {
+export async function runEnrich(opts: { max?: number; perCategory?: number; batchSize?: number; sinceHours?: number; concurrency?: number } = {}): Promise<EnrichStats> {
   const db = adminClient();
   if (!db) throw new Error('Supabase env missing');
   const max = opts.max ?? 160;
-  const batchSize = opts.batchSize ?? 4;
+  const batchSize = opts.batchSize ?? 2; // 4 stories overflowed the output budget (~900 tokens per story with quiz + world lines)
   const stats: EnrichStats = { enriched: 0, fallback: 0, sentences: 0, verified: 0, grounding: null, llmCalls: 0, models: {}, failedBatches: 0, costUsd: 0 };
 
-  const cands = await pickCandidates(db, max, opts.perCategory ?? 14);
+  const cands = await pickCandidates(db, max, opts.perCategory ?? 14, opts.sinceHours ?? 36);
   log(`enrich: ${cands.length} stories to write up`);
   if (!cands.length) return stats;
 
@@ -179,7 +180,7 @@ export async function runEnrich(opts: { max?: number; perCategory?: number; batc
   let totalSentences = 0;
   let verifiedSentences = 0;
 
-  for (let i = 0; i < inputs.length; i += batchSize) {
+  const runBatch = async (i: number) => {
     const batch = inputs.slice(i, i + batchSize).map((s, j) => ({ ...s, key: `S${j + 1}` }));
     let written = new Map<string, EnrichedStory>();
     try {
@@ -192,23 +193,28 @@ export async function runEnrich(opts: { max?: number; perCategory?: number; batc
       log(`enrich batch ${i / batchSize + 1}: ${e.message}`);
     }
 
-    for (const s of batch) {
+    // Deterministic guard per story, then ONE fact-check call for the whole batch.
+    const drafts = batch.map((s) => {
       const w = written.get(s.key);
-      let sentences: DraftSentence[] = [];
-      let generated = 0;
-      if (w) {
-        generated = w.brief.length;
-        sentences = validateSentences(w.brief, s.articles).kept;
-        if (sentences.length) sentences = await factCheck(s, sentences, record);
-      }
+      return { s, w, generated: w?.brief.length ?? 0, sentences: w ? validateSentences(w.brief, s.articles).kept : [] };
+    });
+    const checked = await factCheck(drafts.filter((d) => d.sentences.length).map((d) => ({ s: d.s, sentences: d.sentences })), record);
+
+    for (const d of drafts) {
+      let sentences = checked.get(d.s.key) ?? [];
       const usedFallback = sentences.length === 0;
-      if (usedFallback) sentences = fallbackSentences(s.articles);
+      if (usedFallback) sentences = fallbackSentences(d.s.articles);
       if (!sentences.length) continue; // nothing citable at all: leave the story out of editions
 
-      if (w && !usedFallback) { totalSentences += generated; verifiedSentences += sentences.length; }
-      await save(db, s, w ?? null, sentences, usedFallback, stats);
+      if (d.w && !usedFallback) { totalSentences += d.generated; verifiedSentences += sentences.length; }
+      await save(db, d.s, d.w ?? null, sentences, usedFallback, stats);
     }
-  }
+    done += batch.length;
+    if ((i / batchSize) % 10 === 0) log(`enrich: ${done}/${inputs.length} (${stats.enriched} written, $${stats.costUsd.toFixed(3)})`);
+  };
+  let done = 0;
+  const limit = pLimit(opts.concurrency ?? 6);
+  await Promise.all(Array.from({ length: Math.ceil(inputs.length / batchSize) }, (_, b) => limit(() => runBatch(b * batchSize))));
 
   stats.sentences = totalSentences;
   stats.verified = verifiedSentences;
@@ -217,20 +223,23 @@ export async function runEnrich(opts: { max?: number; perCategory?: number; batc
   return stats;
 }
 
-async function factCheck(s: StoryInput, sentences: DraftSentence[], record: (a: Attempt[], m: string, c: number) => void): Promise<DraftSentence[]> {
-  const items = sentences.map((x, i) => ({ k: `${s.key}.${i + 1}`, x }));
-  const user = items.map(({ k, x }) => {
-    const excerpts = x.sources.map((n) => `[${n}] ${s.articles.find((a) => a.n === n)!.text.slice(0, 1200)}`).join('\n');
+async function factCheck(group: { s: StoryInput; sentences: DraftSentence[] }[], record: (a: Attempt[], m: string, c: number) => void): Promise<Map<string, DraftSentence[]>> {
+  const out = new Map(group.map((g) => [g.s.key, g.sentences]));
+  if (!group.length) return out;
+  const items = group.flatMap(({ s, sentences }) => sentences.map((x, i) => ({ story: s, k: `${s.key}.${i + 1}`, x })));
+  const user = items.map(({ story, k, x }) => {
+    const excerpts = x.sources.map((n) => `[${n}] ${story.articles.find((a) => a.n === n)!.text.slice(0, 1200)}`).join('\n');
     return `ITEM ${k}\nSENTENCE: ${x.text}\nEXCERPTS:\n${wrapUntrusted(`excerpts for ${k}`, excerpts)}`;
   }).join('\n\n');
   try {
     const res = await llm({ task: 'factcheck', system: FACT_SYSTEM, user, schema: FactBatchSchema });
     record(res.attempts, res.model, res.costUsd);
     const verdict = new Map(res.data.results.map((r) => [r.k, r.supported]));
-    return items.filter(({ k }) => verdict.get(k) === true).map(({ x }) => x);
+    for (const g of group) out.set(g.s.key, items.filter((it) => it.story === g.s && verdict.get(it.k) === true).map((it) => it.x));
+    return out;
   } catch (e) {
     if (!(e instanceof LLMUnavailableError)) throw e;
-    return sentences; // checker down: the deterministic number/citation guard already ran
+    return out; // checker down: the deterministic number/citation guard already ran
   }
 }
 

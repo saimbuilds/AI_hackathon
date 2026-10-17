@@ -49,6 +49,14 @@ export const QuizItemSchema = z.object({
   storyId: z.uuid(),
 });
 
+export const UpdateSchema = z.object({
+  watchId: z.uuid(),
+  question: z.string(), // what the reader asked, or the followed story's headline
+  summary: z.string(), // one grounded sentence on what changed
+  sources: z.array(SourceRefSchema).min(1),
+  storyId: z.uuid().optional(), // the new story, if it is in the paper or can be opened
+});
+
 export const EditionSchema = z.object({
   id: z.uuid(),
   userId: z.uuid(),
@@ -73,6 +81,9 @@ export const EditionSchema = z.object({
   // render right-to-left in Nastaliq) and whether to typeset large print.
   language: z.enum(['en', 'ur']).default('en'),
   largePrint: z.boolean().default(false),
+  // "Since you asked": followed questions/stories that new stories changed since the last paper (Follow & Ask).
+  // Absent when there is nothing new. Render at the top of the paper; sources are links, never AI text.
+  updates: z.array(UpdateSchema).optional(),
   gift: z
     .object({
       forName: z.string(),
@@ -100,3 +111,4 @@ export type WorldLine = z.infer<typeof WorldLineSchema>;
 export type StorySlot = z.infer<typeof StorySlotSchema>;
 export type QuizItem = z.infer<typeof QuizItemSchema>;
 export type Edition = z.infer<typeof EditionSchema>;
+export type EditionUpdateItem = z.infer<typeof UpdateSchema>;
