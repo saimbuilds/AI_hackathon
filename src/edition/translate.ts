@@ -1,6 +1,7 @@
 // Translate a finished edition (gift papers, Urdu readers). The edition's facts are already fixed, so this is
 // a pure language pass with guards: same number of strings back, figures preserved, otherwise keep the English.
 import { z } from 'zod';
+import pLimit from 'p-limit';
 import { llm, LLMUnavailableError } from '../lib/llm';
 import type { Edition, StorySlot } from '../types/edition';
 
@@ -68,10 +69,12 @@ export async function translateEdition(edition: Edition, lang: Lang): Promise<{ 
 
   let translated = 0;
   let failedChunks = 0;
-  for (const chunk of chunks) {
+  // Chunks are independent (each rewrites its own strings), so run them side by side: ~110 s sequential -> ~25 s.
+  const limit = pLimit(6);
+  await Promise.all(chunks.map((chunk) => limit(async () => {
     try {
       const res = await llm({ task: 'translate', system: SYSTEM(lang), user: JSON.stringify(chunk.map((r) => r.text)), schema: Out });
-      if (res.data.t.length !== chunk.length) { failedChunks += 1; continue; } // misaligned: keep this chunk in English
+      if (res.data.t.length !== chunk.length) { failedChunks += 1; return; } // misaligned: keep this chunk in English
       chunk.forEach((r, i) => {
         const out = res.data.t[i].trim();
         if (out && preservesFigures(r.text, out)) { r.set(out); translated += 1; }
@@ -80,6 +83,6 @@ export async function translateEdition(edition: Edition, lang: Lang): Promise<{ 
       if (!(err instanceof LLMUnavailableError)) throw err;
       failedChunks += 1;
     }
-  }
+  })));
   return { edition: e, translated, total: refs.length, failedChunks };
 }
