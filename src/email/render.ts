@@ -21,7 +21,7 @@ export function verifyUnsubscribeToken(token: string): string | null {
   return a.length === b.length && timingSafeEqual(a, b) && /^[0-9a-f-]{36}$/.test(userId) ? userId : null;
 }
 
-export const appUrl = () => (process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-hackathon-five-sigma.vercel.app').replace(/\/$/, '');
+export const appUrl = () => (process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://endpage-nascon.vercel.app').replace(/\/$/, '');
 // The reader route is the frontend's call; this template lets them change it without touching the backend.
 export const editionUrl = (e: Pick<Edition, 'id' | 'date'>) => (process.env.EDITION_URL_TEMPLATE ?? `${appUrl()}/paper/{date}`).replace('{date}', e.date).replace('{id}', e.id);
 
