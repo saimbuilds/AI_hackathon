@@ -79,12 +79,12 @@ const CHIP_ALIASES: Record<string, (all: Set<string>) => string[]> = {
   economy: (all) => (all.has('pakistan') ? ['pakistan-economy'] : ['global-economy']),
   business: (all) => (all.has('pakistan') ? ['pakistan-economy', 'business'] : ['business']),
   politics: (all) => (all.has('pakistan') ? ['pakistan-politics'] : ['geopolitics']),
-  pakistan: () => ['pakistan-politics', 'pakistan-economy'], cricket: () => ['cricket'], football: () => ['football'],
+  pakistan: () => ['pakistan-politics', 'pakistan-economy'], cricket: () => ['cricket'], football: () => ['football', 'american-football'], soccer: () => ['football'], nfl: () => ['american-football'], mlb: () => ['baseball'], baseball: () => ['baseball'], nba: () => ['basketball'], basketball: () => ['basketball'], tennis: () => ['tennis'],
   f1: () => ['cars'], 'formula 1': () => ['cars'], science: () => ['science'], health: () => ['health'], climate: () => ['climate'],
   crypto: () => ['crypto'], markets: () => ['markets'], space: () => ['space'], gaming: () => ['gaming'], movies: () => ['movies'],
   music: () => ['music'], books: () => ['books'], education: () => ['education'], jobs: () => ['jobs-careers'], careers: () => ['jobs-careers'],
   celebrity: () => ['celebrity'], 'celebrity news': () => ['celebrity'], 'celebrity gossip': () => ['celebrity'], gossip: () => ['celebrity'],
-  sports: () => ['cricket', 'football'], world: () => ['geopolitics'], 'world news': () => ['geopolitics'],
+  sports: () => ['cricket', 'football', 'american-football', 'basketball', 'baseball'], world: () => ['geopolitics'], 'world news': () => ['geopolitics'],
 };
 
 // Onboarding chips -> topic slugs (server-side safety net when the client sends chips but no topics).
