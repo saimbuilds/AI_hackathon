@@ -6,7 +6,7 @@ import { ask, followQuestion, type AskResult } from "./api";
 import { PillButton } from "@/components/ui/PillButton";
 import { Check } from "@/components/ui/icons";
 
-const EXAMPLES = ["What do new cars cost in Pakistan now?", "Is the IMF deal on track?", "What happened with petrol prices this week?"];
+const EXAMPLES = ["What happened with oil prices this week?", "Is the Fed likely to cut rates?", "Who is ahead in the Premier League?"];
 
 type FollowState = "idle" | "busy" | "done" | "plus" | "error";
 

@@ -95,7 +95,7 @@ export const EXTRA_KEYS: Record<string, keyof CompleteBody["extras"]> = {
   Weather: "weather",
   "Prayer times": "prayer",
   Markets: "markets",
-  "Cricket scores": "cricket",
+  "Sports scores": "cricket",
   "On this day": "onThisDay",
   "Daily quiz": "quiz",
 };

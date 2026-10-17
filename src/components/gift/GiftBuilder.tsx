@@ -12,26 +12,26 @@ type Lang = "en" | "ur";
 type Delivery = "whatsapp" | "email" | "print";
 
 const EXAMPLES: { forName: string; relation: string; about: string; lang: Lang; city: string }[] = [
-  { forName: "Abbu", relation: "father", about: "Retired banker in Lahore. Cricket and markets. Reads Urdu.", lang: "ur", city: "Lahore" },
   { forName: "Mum", relation: "mother", about: "Retired nurse in Manila. Basketball, church news and the weather.", lang: "en", city: "Manila" },
   { forName: "Abuela", relation: "grandmother", about: "Teacher for forty years in Mexico City. Culture, food and family news from abroad.", lang: "en", city: "Mexico City" },
+  { forName: "Ammi", relation: "mother", about: "Retired teacher in Lahore. Markets, health and family news. Reads Urdu.", lang: "ur", city: "Lahore" },
 ];
 
 /** Describe someone, pick their language and type size, and watch their paper set itself. */
 export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: PaperData }) {
   const [fromName, setFromName] = useSavedName();
-  const [forName, setForName] = useState("Abbu");
+  const [forName, setForName] = useState("Mum");
   const [about, setAbout] = useState(EXAMPLES[0].about);
-  const [lang, setLang] = useState<Lang>("ur");
+  const [lang, setLang] = useState<Lang>("en");
   const [large, setLarge] = useState(true);
   const [delivery, setDelivery] = useState<Delivery>("whatsapp");
-  const [relation, setRelation] = useState("father");
+  const [relation, setRelation] = useState("mother");
   const [email, setEmail] = useState("");
   const [done, setDone] = useState<{ giftId: string; url: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const from = fromName.trim() || "you";
-  const to = forName.trim() || "Abbu";
+  const to = forName.trim() || "Mum";
 
   const preview: PaperData = useMemo(() => {
     if (lang === "ur") {
@@ -65,7 +65,7 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
                 text: about.trim() || undefined,
                 language: lang,
                 largePrint: large,
-                tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Karachi",
+                tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
                 emailEveryMorning: delivery === "email" && email.includes("@"),
                 recipientEmail: delivery === "email" && email.includes("@") ? email.trim() : undefined,
               },
@@ -156,7 +156,7 @@ export function GiftBuilder({ english, urdu }: { english: PaperData; urdu: Paper
           {delivery === "email" && (
             <label className="mt-3 block">
               <span className="t-sm text-ink-3">Their email address</span>
-              <input type="email" className="field mt-1.5" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="abbu@example.com" autoComplete="off" />
+              <input type="email" className="field mt-1.5" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mum@example.com" autoComplete="off" />
             </label>
           )}
         </fieldset>
