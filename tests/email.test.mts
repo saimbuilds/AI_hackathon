@@ -38,11 +38,11 @@ test('email renders from the fixture edition, escapes content, carries the unsub
   const ed = EditionSchema.parse(JSON.parse(readFileSync('fixtures/edition.sample.json', 'utf8')));
   ed.lead.headline = 'Trump <script>alert(1)</script> & friends';
   const m = renderEmail(ed, '06b8eeb2-c09e-4465-af7d-60e680452ab0');
-  assert.ok(m.subject.startsWith('The Saim Times:'));
+  assert.ok(m.subject.startsWith(`${ed.paperName}:`));
   assert.ok(!m.html.includes('<script>'));
   assert.ok(m.html.includes('&lt;script&gt;'));
   assert.ok(m.html.includes('/api/unsubscribe?t='));
-  assert.ok(m.html.includes('Islamabad Edition'));
+  assert.ok(m.html.includes(`${ed.city} Edition`));
   assert.ok(m.text.includes('Three things to remember'));
   assert.equal(esc('a&b<"c">'), 'a&amp;b&lt;&quot;c&quot;&gt;');
 });

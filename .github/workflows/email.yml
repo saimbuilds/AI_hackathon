@@ -31,6 +31,11 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GMAIL_USER: ${{ secrets.GMAIL_USER }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
       APP_URL: ${{ secrets.APP_URL }}
     steps:
       - uses: actions/checkout@v4

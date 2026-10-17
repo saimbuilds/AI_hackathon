@@ -1,781 +1,1660 @@
 {
-  "id": "c038b80c-eb78-4317-ad6a-9eae883cee20",
-  "userId": "cd295820-1928-4444-a921-319356c89134",
+  "id": "d3843145-21fa-48cc-b19b-b1c9c81564ec",
+  "userId": "caf8aeee-f018-4a34-a9af-810f676f8c51",
   "date": "2026-10-17",
-  "number": 12,
-  "paperName": "The Saim Times",
-  "city": "Islamabad",
+  "number": 1,
+  "paperName": "The Alex Times",
+  "city": "New York",
   "tone": "straight",
   "weather": {
-    "hi": 29,
-    "lo": 15,
-    "summary": "Sample data: clear and dry"
+    "hi": 18,
+    "lo": 4,
+    "summary": "Light drizzle"
   },
-  "editorNote": "Good morning, Saim. Washington sets the front page today: a sanctions waiver that Kyiv will read as a setback. Closer to home, Gulf shipping still weighs on Pakistan’s outlook, and the AI desk has a safety finding worth five minutes. Off your beat: a rare piece of good climate news from Brazil.",
+  "editorNote": "Alex, the lead is Anthropic's draft AI safety bill, which sets out when the government could block a frontier model's release. Your interests in US politics and markets run through the paper too, from the IMF bond-yield warning to the White House press secretary's removal.",
   "lead": {
-    "storyId": "2113c77e-4242-4087-89bf-c304360383b7",
+    "storyId": "ca4f4ad1-57bd-4133-a992-50438d6f450f",
     "size": "lead",
-    "kicker": "World · Developing",
-    "headline": "Trump waives new Russia sanctions as ties with Ukraine slump",
-    "dek": "A Friday executive order temporarily lifts restrictions Congress recently passed on Moscow, while EU leaders reaffirm support for Kyiv in Brussels.",
+    "kicker": "Ai",
+    "headline": "Anthropic pitches draft AI safety bill to US lawmakers",
+    "dek": "The proposal would limit when the government could block the release or use of powerful AI models, according to reports citing Politico.",
     "body": [
       {
-        "text": "President Donald Trump signed an executive order on Friday waiving sweeping US sanctions and tariffs aimed at Russia’s energy revenues.",
+        "text": "Anthropic representatives have quietly pitched a draft bill to regulate frontier AI safety and security to Capitol Hill lawmakers, Politico reported on Friday, citing three people with knowledge of the efforts.",
         "sources": [
-          2
+          1
         ]
       },
       {
-        "text": "It temporarily lifts many of the restrictions on Moscow that Congress recently passed, and Mr Trump cited national interests for the move.",
+        "text": "The draft would let the government block a model's release or use only if it poses a foreseeable, imminent risk of more than $1 billion in damages, or of killing or seriously injuring more than 50 people.",
         "sources": [
           1,
-          3
-        ]
-      },
-      {
-        "text": "Dawn calls it a new low in Washington’s ties with war-torn Ukraine.",
-        "sources": [
           2
         ]
       },
       {
-        "text": "Relations between Kyiv and Washington have soured over Russia and Starlink, even as Ukrainian forces regain ground in the Donbas.",
+        "text": "The risk must stem from a biological weapon, a model evading its developer's controls, or a cyberattack, according to Politico as reported by CNA.",
         "sources": [
-          4,
-          5
+          1
         ]
       },
       {
-        "text": "At a Brussels summit, EU leaders reaffirmed their support for Ukraine and heard from President Zelenskyy, though a big hole in the budget will make the winter difficult.",
+        "text": "An Anthropic spokesperson said the bill reflects proposals in the company's 'Advanced AI Framework' and would require developers to test frontier models, be transparent about findings, and have them independently evaluated.",
         "sources": [
-          5
+          1
         ]
       }
     ],
-    "whyThis": "The biggest story across three outlets today, and the one most likely to move energy prices and the Gulf.",
-    "whyItMatters": "Sanctions on Russian energy revenue were the main economic pressure on Moscow; waiving them changes that calculation for Ukraine and for energy markets.",
-    "forYou": "You follow Pakistan’s economy: energy-market shifts from a sanctions waiver feed into the oil prices Pakistan imports at.",
+    "whyThis": "You work in product and follow AI closely, and this draft bill would set the terms for when frontier models can be blocked.",
+    "whyItMatters": "The draft sets out how a leading AI developer wants federal rules to govern the most powerful AI models, a debate that could shape future oversight in the United States.",
     "trust": {
-      "outlets": 3,
+      "outlets": 7,
       "label": "confirmed",
-      "unknowns": "How long the waiver lasts and whether Congress will respond."
+      "unknowns": "The Department of Commerce did not immediately respond to a request for comment. Politico's account rests on three unnamed people, and the bill's path through Congress is not described in the sources."
     },
-    "distress": 1,
+    "distress": 0,
     "sources": [
       {
-        "name": "BBC News",
-        "url": "https://www.bbc.co.uk/news/articles/cxr5yvzv7rp0o"
+        "name": "CNA (Channel NewsAsia)",
+        "url": "https://www.channelnewsasia.com/business/anthropic-quietly-pitches-its-own-ai-safety-bill-us-lawmakers-6467581"
       },
       {
         "name": "Dawn",
-        "url": "https://www.dawn.com/news/2037795/trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+        "url": "https://www.dawn.com/news/2037803/anthropic-proposes-law-regulating-ai-to-us-lawmakers"
       },
       {
-        "name": "DW",
-        "url": "https://www.dw.com/en/trump-puts-new-russia-sanctions-on-hold/a-79685002"
+        "name": "Punch (Nigeria)",
+        "url": "https://punchng.com/anthropic-proposes-ai-safety-bill-to-us-lawmakers"
       },
       {
-        "name": "BBC News",
-        "url": "https://www.bbc.co.uk/news/articles/cvx284w16z1po"
+        "name": "ARY News",
+        "url": "https://arynews.tv/anthropic-proposes-law-regulating-ai-us-lawmakers"
       },
       {
-        "name": "DW",
-        "url": "https://www.dw.com/en/ukrainian-president-zelenskyy-speaks-at-eu-summit-amid-spat-with-donald-trump/a-79684340"
+        "name": "Business News Today",
+        "url": "https://www.thehindubusinessline.com/info-tech/anthropic-quietly-pitches-its-own-ai-safety-bill-to-lawmakers-politico-reports/article71595297.ece"
+      },
+      {
+        "name": "NDTV",
+        "url": "https://www.ndtv.com/world-news/anthropic-quietly-pitches-its-own-ai-safety-bill-to-lawmakers-reports-12197459"
+      },
+      {
+        "name": "Techmeme",
+        "url": "https://www.techmeme.com/261016/p25"
       }
     ],
+    "imageUrl": "https://dam.mediacorp.sg/image/upload/s--LPUByP4w--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-16T231740Z_4_LYNXMPEM9F1WY_RTROPTP_3_TECH-AI-ANTHROPIC.JPG?itok=bIy2mJ6X",
     "topics": [
-      "geopolitics",
-      "russia",
-      "ukraine",
-      "sanctions",
-      "energy"
+      "ai",
+      "us-politics"
     ],
-    "readMinutes": 3,
+    "readMinutes": 1,
     "world": [
+      {
+        "country": "United States",
+        "outlet": "Techmeme",
+        "line": "US tech news aggregator relays Politico's report that Anthropic pitched its own AI safety bill to lawmakers.",
+        "url": "https://www.techmeme.com/261016/p25"
+      },
+      {
+        "country": "Singapore",
+        "outlet": "CNA (Channel NewsAsia)",
+        "line": "Singapore's CNA reports the quietly pitched draft bill, citing Politico and an Anthropic spokesperson's comments to Reuters.",
+        "url": "https://www.channelnewsasia.com/business/anthropic-quietly-pitches-its-own-ai-safety-bill-us-lawmakers-6467581"
+      },
+      {
+        "country": "Nigeria",
+        "outlet": "Punch (Nigeria)",
+        "line": "Nigeria's Punch briefly reports that Anthropic is circulating a draft AI bill among US lawmakers.",
+        "url": "https://punchng.com/anthropic-proposes-ai-safety-bill-to-us-lawmakers"
+      },
       {
         "country": "Pakistan",
         "outlet": "Dawn",
-        "line": "Marks a new low in Washington’s ties with war-torn Ukraine.",
-        "url": "https://www.dawn.com/news/2037795/trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+        "line": "Pakistan's Dawn stresses the lack of federal AI legislation and notes the judge-approval condition in the draft.",
+        "url": "https://www.dawn.com/news/2037803/anthropic-proposes-law-regulating-ai-to-us-lawmakers"
       },
       {
-        "country": "United Kingdom",
-        "outlet": "BBC News",
-        "line": "Temporarily ends many Moscow restrictions recently passed by Congress.",
-        "url": "https://www.bbc.co.uk/news/articles/cxr5yvzv7rp0o"
-      },
-      {
-        "country": "Germany",
-        "outlet": "DW",
-        "line": "Trump cites national interests for signing a waiver on sanctions Congress voted for.",
-        "url": "https://www.dw.com/en/trump-puts-new-russia-sanctions-on-hold/a-79685002"
+        "country": "India",
+        "outlet": "Business News Today",
+        "line": "India's Business News Today highlights the draft's provisions for halts, independent testing and judicial suspension.",
+        "url": "https://www.thehindubusinessline.com/info-tech/anthropic-quietly-pitches-its-own-ai-safety-bill-to-lawmakers-politico-reports/article71595297.ece"
       }
     ]
   },
   "sections": [
     {
-      "name": "Pakistan & the Gulf",
+      "name": "Global Ledger",
       "slots": [
         {
-          "storyId": "97643f6e-95e0-409e-92b1-bc36ab0a5c0e",
+          "storyId": "87336d49-9df2-44cf-a59c-2b5c11f6d1fc",
           "size": "major",
-          "kicker": "Pakistan & the Gulf",
-          "headline": "Ship attacks near Hormuz hit a record as oil exports slow",
-          "dek": "Twelve vessels were struck in a week, and Pakistan’s finance minister calls attacks on Gulf energy infrastructure worrying for the outlook.",
+          "kicker": "Economy",
+          "headline": "IMF warns of possible 'disorderly' spike in government bond yields",
+          "dek": "The fund cites inflation, high debt and AI-related borrowing at its annual meetings in Bangkok.",
           "body": [
             {
-              "text": "BBC Verify analysis of UK maritime agency data shows 12 vessels were struck near Hormuz in a week, a record, as oil exports slow.",
+              "text": "The IMF's Global Financial Stability Report warned Tuesday that government bond yields could rise in a disorderly fashion as inflation, mounting debt and AI-related borrowing pressure sovereign bond markets.",
               "sources": [
                 1
               ]
             },
             {
-              "text": "Strait of Hormuz transits remain 70% below pre-conflict levels, according to the UK maritime agency.",
+              "text": "Yields in several advanced economies have climbed to multidecade highs, driven by higher energy costs from the Middle East conflict and expectations of tighter monetary conditions.",
               "sources": [
-                2
+                1
               ]
             },
             {
-              "text": "The US says Iran is barred from maritime trade, as a pressure campaign targets its oil revenue and military funding.",
+              "text": "The report said the bond market is \"susceptible to more frequent fiscal and inflation shocks,\" and that a sharp rise in yields would mark down asset values.",
               "sources": [
-                2
+                1
               ]
             },
             {
-              "text": "Finance Minister Muhammad Aurangzeb told AFP that attacks on Gulf energy infrastructure are worrying for the outlook, though Pakistan has so far withstood the shock.",
+              "text": "At the Bangkok meetings, IMF member countries called for more support for countries facing short-term financing challenges from wars and high energy prices, saying economic risks remain tilted to the downside.",
+              "sources": [
+                2,
+                3
+              ]
+            },
+            {
+              "text": "IMF chief Kristalina Georgieva said the meetings were marked by \"optimism and worry\" about the global economic outlook.",
+              "sources": [
+                4
+              ]
+            }
+          ],
+          "whyThis": "The IMF's warning on bond yields ties together the markets and inflation stories you want to follow without the noise.",
+          "whyItMatters": "Sovereign bond yields affect government borrowing costs and asset values, and the IMF's warning links these markets to inflation, debt and energy prices worldwide.",
+          "forYou": "As someone tracking markets: the IMF warns that government bond yields could rise in a disorderly fashion, and a sharp rise would mark down asset values.",
+          "trust": {
+            "outlets": 9,
+            "label": "confirmed",
+            "unknowns": "The sources do not say whether a disorderly spike in bond yields will occur or when, only that the risk could rise."
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "Economy",
+              "url": "https://www.cnbc.com/2026/10/13/treasury-yields-imf-debt-inflation-.html"
+            },
+            {
+              "name": "Al-Monitor",
+              "url": "https://www.al-monitor.com/originals/2026/10/imf-members-call-more-support-amid-war-shocks-advanced-intelligence-risks"
+            },
+            {
+              "name": "Aaj TV English News - Business & Economy",
+              "url": "https://english.aaj.tv/news/330476857/imf-members-urge-support-for-countries-facing-financing-pressures"
+            },
+            {
+              "name": "Bangkokpost.com",
+              "url": "https://www.bangkokpost.com/business/general/3338795/imf-chief-sees-optimism-and-worry-at-bangkok-talks"
+            },
+            {
+              "name": "ARY News",
+              "url": "https://arynews.tv/imf-chief-says-has-optimism-and-worry-after-bangkok-annual-meetings"
+            },
+            {
+              "name": "3News",
+              "url": "https://3news.com/news/dep-finance-minister-calls-for-stronger-internal-controls-to-protect-public-funds"
+            },
+            {
+              "name": "The Guardian",
+              "url": "https://www.theguardian.com/commentisfree/2026/oct/15/global-economy-multilateral-cooperation-crisis-imf"
+            },
+            {
+              "name": "African Business",
+              "url": "https://african.business/2026/10/finance-services/imfs-georgieva-countries-urges-fiscal-consolidation-and-subsidy-avoidance"
+            }
+          ],
+          "imageUrl": "https://images.wsj.net/im-09833085",
+          "topics": [
+            "global-economy",
+            "markets"
+          ],
+          "readMinutes": 1,
+          "world": [
+            {
+              "country": "International",
+              "outlet": "Economy",
+              "line": "The economy outlet leads with the IMF's bond market warning, tying it to debt, inflation and AI-related borrowing.",
+              "url": "https://www.cnbc.com/2026/10/13/treasury-yields-imf-debt-inflation-.html"
+            },
+            {
+              "country": "Middle East",
+              "outlet": "Al-Monitor",
+              "line": "Al-Monitor, via Reuters, emphasises calls for more support for countries hit by wars and high energy prices.",
+              "url": "https://www.al-monitor.com/originals/2026/10/imf-members-call-more-support-amid-war-shocks-advanced-intelligence-risks"
+            },
+            {
+              "country": "Pakistan",
+              "outlet": "Aaj TV English News - Business & Economy",
+              "line": "Aaj TV, from Pakistan, reports the same IMF member statement on financing pressures and downside economic risks.",
+              "url": "https://english.aaj.tv/news/330476857/imf-members-urge-support-for-countries-facing-financing-pressures"
+            },
+            {
+              "country": "Asia",
+              "outlet": "Bangkokpost.com ",
+              "line": "Bangkok Post focuses on IMF chief Georgieva's remarks on the mood of the Bangkok talks.",
+              "url": "https://www.bangkokpost.com/business/general/3338795/imf-chief-sees-optimism-and-worry-at-bangkok-talks"
+            }
+          ]
+        },
+        {
+          "storyId": "4d8645c1-0f97-4a0a-a06e-bbb020287afe",
+          "size": "major",
+          "kicker": "World",
+          "headline": "India's Gen Z protests mount over voter roll revision and election official",
+          "dek": "Demonstrators defied a government ban on gatherings, and reports say the protests may be the largest street dissent in a decade.",
+          "body": [
+            {
+              "text": "Protests in India followed a revision of voter rolls by the Election Commission, which had listed nearly 980 million names, and people turned out in defiance of a government ban on gatherings.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Local media found more than 130 million people were struck off the rolls or threatened with deletion, but NPR said it had not been able to confirm those figures.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Gen Z-led protesters are demanding the resignation of the country's top election official, and tens of thousands of security personnel were deployed to stop them.",
+              "sources": [
+                2,
+                3
+              ]
+            },
+            {
+              "text": "The Armed Conflict Location and Event Data Project has said street protests in India this year are likely to be higher than at any time in the past decade.",
               "sources": [
                 3
               ]
             }
           ],
-          "whyThis": "Matches your interest in Pakistan’s economy; three outlets are covering it.",
-          "whyItMatters": "A large share of the world’s oil passes through Hormuz, so disruption there flows into fuel and power costs for importers.",
-          "forYou": "You follow Pakistan’s economy: the finance minister is flagging Gulf energy attacks as a risk to the country’s outlook.",
+          "whyThis": "Mass protests in India over voter rolls are a major world story that sits outside your usual beats.",
+          "whyItMatters": "The protests challenge the government over voter eligibility in the world's largest democracy and mark one of the biggest tests of Prime Minister Narendra Modi's rule.",
           "trust": {
-            "outlets": 3,
+            "outlets": 6,
             "label": "confirmed",
-            "unknowns": "Whether transit volumes recover in the coming weeks."
+            "unknowns": "NPR could not confirm the figure of more than 130 million people struck off or threatened with deletion from the rolls."
           },
-          "distress": 2,
+          "distress": 1,
+          "sources": [
+            {
+              "name": "NPR Topics",
+              "url": "https://www.npr.org/2026/10/13/nx-s1-5998889/an-update-on-the-protests-in-india"
+            },
+            {
+              "name": "BBC News",
+              "url": "https://www.bbc.co.uk/news/articles/c5n49xln3lz0o"
+            },
+            {
+              "name": "South China Morning Post",
+              "url": "https://www.scmp.com/news/asia/south-asia/article/3371244/modi-under-pressure-indias-youth-protests-rise-highest-level-decade"
+            },
+            {
+              "name": "Scroll.in",
+              "url": "https://scroll.in/article/1096458/how-the-modi-government-radicalised-a-generation-to-rise-in-revolt-against-it"
+            },
+            {
+              "name": "The New York Times",
+              "url": "https://www.nytimes.com/2026/10/15/world/asia/india-student-leader-neha.html"
+            },
+            {
+              "name": "The Japan Times",
+              "url": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests"
+            }
+          ],
+          "imageUrl": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/16/568918.JPG",
+          "topics": [
+            "india",
+            "south-asia",
+            "us-politics"
+          ],
+          "readMinutes": 1,
+          "world": [
+            {
+              "country": "Asia",
+              "outlet": "NPR Topics",
+              "line": "Frames the protests around a voter roll revision and a government ban on gatherings, with NPR noting it could not confirm key numbers.",
+              "url": "https://www.npr.org/2026/10/13/nx-s1-5998889/an-update-on-the-protests-in-india"
+            },
+            {
+              "country": "India",
+              "outlet": "BBC News",
+              "line": "Profiles Neha Bora as a prominent face of the Gen Z protests and highlights police detentions of activists.",
+              "url": "https://www.bbc.co.uk/news/articles/c5n49xln3lz0o"
+            },
+            {
+              "country": "Hong Kong",
+              "outlet": "South China Morning Post",
+              "line": "Stresses the scale of the security deployment and the independent data showing a possible decade high in street protests.",
+              "url": "https://www.scmp.com/news/asia/south-asia/article/3371244/modi-under-pressure-indias-youth-protests-rise-highest-level-decade"
+            },
+            {
+              "country": "Japan",
+              "outlet": "The Japan Times",
+              "line": "Presents the protests as a predicament for Modi, with Gen Z youth pouring onto India's streets as dissent surges.",
+              "url": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Washington Desk",
+      "slots": [
+        {
+          "storyId": "d0216e85-4702-4b81-b666-8fc6eef324f6",
+          "size": "major",
+          "kicker": "Politics",
+          "headline": "Trump removes White House press secretary Katie Zacharia after less than a week",
+          "dek": "Two US officials confirmed she is 'transitioning out'; Trump said he is in no rush to name a replacement.",
+          "body": [
+            {
+              "text": "US President Donald Trump has removed Katie Zacharia as White House press secretary, according to reports.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Two US officials confirmed on Friday that Zacharia was fired and is 'transitioning out' after serving for less than a week.",
+              "sources": [
+                2
+              ]
+            },
+            {
+              "text": "Her public debut at the podium, on October 13, drew criticism of her performance, including reliance on notes and several verbal slips.",
+              "sources": [
+                3
+              ]
+            },
+            {
+              "text": "Reports said she had acknowledged she did not pass a bar exam, and Trump said he is in no rush to name a new press secretary.",
+              "sources": [
+                2
+              ]
+            }
+          ],
+          "whyThis": "It is the biggest US politics story of the day and concerns who speaks for the White House.",
+          "whyItMatters": "The White House press secretary is the main public link between the administration and the press, so a rapid turnover in the role draws wide attention.",
+          "forYou": "As someone following US politics: the White House press secretary was removed after less than a week, and Trump said he is in no rush to name a new one.",
+          "trust": {
+            "outlets": 42,
+            "label": "confirmed",
+            "unknowns": "Official reasons for the removal were not stated in the sources; one outlet described her as fired while others said she was leaving. Reports differ on whether she served less than five days or less than a week."
+          },
+          "distress": 1,
+          "sources": [
+            {
+              "name": "Pakistan Observer",
+              "url": "https://pakobserver.net/trump-removes-new-white-house-press-secretary-katie-zacharia-after-five-days"
+            },
+            {
+              "name": "World News, International News and Updates - HUM News English",
+              "url": "https://humenglish.com/latest/trump-says-no-rush-to-name-new-press-secretary-after-katie-zacharias-swift-departure"
+            },
+            {
+              "name": "World News | Latest Global Updates",
+              "url": "https://minutemirror.com.pk/katie-zacharia-breaks-silence-after-brief-white-house-exit-646234"
+            },
+            {
+              "name": "The Independent",
+              "url": "https://www.independent.co.uk/news/world/americas/us-politics/katie-zacharia-press-secretary-trump-fired-white-house-b3068455.html"
+            },
+            {
+              "name": "Pakistan News - Daily Pakistan English News",
+              "url": "https://en.dailypakistan.com.pk/17-Oct-2026/did-trump-sack-white-house-press-secy-zakaria-for-failing-to-defend-us-govt-in-first-briefing"
+            },
+            {
+              "name": "BBC News",
+              "url": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o"
+            },
+            {
+              "name": "Der Spiegel",
+              "url": "https://www.spiegel.de/ausland/katie-zacharia-gefeuerte-trump-sprecherin-scheitert-nach-nur-fuenf-tagen-a-6b40d659-cbaf-41d6-89c2-93b91327deab"
+            },
+            {
+              "name": "NDTV",
+              "url": "https://www.ndtv.com/world-news/katie-zacharia-donald-trumps-white-house-press-secretary-after-being-fired-was-an-honour-to-work-for-him-12197600"
+            }
+          ],
+          "primary": true,
+          "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7c7f/live/f7333c90-c838-11f1-b2e8-93da8301514e.jpg",
+          "topics": [
+            "us-politics"
+          ],
+          "readMinutes": 0.5,
+          "world": [
+            {
+              "country": "Pakistan",
+              "outlet": "Pakistan Observer",
+              "line": "Pakistani outlet reports the removal as a direct decision by Trump, framing it as a swift shake-up of the press office.",
+              "url": "https://pakobserver.net/trump-removes-new-white-house-press-secretary-katie-zacharia-after-five-days"
+            },
+            {
+              "country": "United Kingdom",
+              "outlet": "BBC News",
+              "line": "UK broadcaster BBC focuses on her departure less than five days into the job and the media criticism of her credentials.",
+              "url": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o"
+            }
+          ]
+        },
+        {
+          "storyId": "11a0a174-014f-4433-a795-f21bf7bf2b6a",
+          "size": "minor",
+          "kicker": "Defense",
+          "headline": "Officials say order to limit Ukraine's Starshield came from White House",
+          "dek": "Two US officials and a Western official say the restriction was ordered from inside the White House, though who made the decision is unclear.",
+          "body": [
+            {
+              "text": "Two US officials and a Western official say the order to limit SpaceX's Starshield service for Ukraine came from inside the White House. The officials did not say who in the White House made the decision.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Ukrainian officials said military-grade Starlink receptors stopped working when mounted on fast-moving objects, affecting drones that rely on them for guidance. A person in Ukraine's Defence Ministry later said the receptors worked in motion only at speeds up to 100 mph.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Trump said neither he nor Elon Musk was responsible for Ukraine losing Starlink access. Four Republican senators joined Democrats in asking the Pentagon whether its officials ordered the restrictions.",
+              "sources": [
+                2,
+                3
+              ]
+            }
+          ],
+          "whyThis": "It is a US politics story about a White House decision affecting a defence technology service.",
+          "whyItMatters": "Ukraine's battlefield communications depend on a US-controlled satellite system, and the dispute raises questions about how far Washington can shape that support.",
+          "forYou": "As someone following US politics: two US officials say the order to limit Starshield for Ukraine came from inside the White House, though they did not say who made the decision.",
+          "trust": {
+            "outlets": 15,
+            "label": "confirmed",
+            "unknowns": "Who in the White House or Pentagon gave the order is not confirmed. Sources do not agree on whether the restriction was lifted fully or only partly."
+          },
+          "distress": 1,
+          "sources": [
+            {
+              "name": "Aaj TV English News - World",
+              "url": "https://english.aaj.tv/news/330476826/order-to-limit-starshield-for-ukraine-came-from-inside-white-house-sources-say"
+            },
+            {
+              "name": "NDTV",
+              "url": "https://www.ndtv.com/world-news/neither-me-nor-elon-musk-trump-denies-role-in-ukraine-losing-starlink-access-12197657"
+            },
+            {
+              "name": "The Hill",
+              "url": "https://thehill.com/newsletters/technology/6155378-gop-senators-press-pentagon-starlink-newsletter"
+            },
+            {
+              "name": "The i Paper",
+              "url": "https://inews.co.uk/news/world/trumps-starlink-blame-game-exposesd-bigger-european-problem-4835997"
+            },
+            {
+              "name": "CBS News",
+              "url": "https://www.cbsnews.com/video/growing-dispute-starlink-disruptions-ukraine"
+            },
+            {
+              "name": "CNBC",
+              "url": "https://www.cnbc.com/2026/10/16/trump-denies-musk-claim-he-ordered-starlink-restrictions-in-ukraine.html"
+            },
+            {
+              "name": "Defense News",
+              "url": "https://www.defensenews.com/industry/techwatch/2026/10/16/what-is-starshield-spacexs-military-version-of-starlink"
+            },
+            {
+              "name": "BBC News",
+              "url": "https://www.bbc.co.uk/news/articles/ckz65g34wyd8o"
+            }
+          ],
+          "imageUrl": "https://static01.nyt.com/images/2026/10/14/multimedia/14Biz-Starshield-Explainer-gchj/14Biz-Starshield-Explainer-gchj-mediumSquareAt3X.jpg",
+          "topics": [
+            "russia-ukraine",
+            "defense",
+            "us-politics",
+            "space"
+          ],
+          "readMinutes": 0.5,
+          "world": [
+            {
+              "country": "Pakistan",
+              "outlet": "Aaj TV English News - World",
+              "line": "Pakistani outlet frames the restriction as a White House order tied to Trump's pressure over Russian refinery attacks.",
+              "url": "https://english.aaj.tv/news/330476826/order-to-limit-starshield-for-ukraine-came-from-inside-white-house-sources-say"
+            },
+            {
+              "country": "United Kingdom",
+              "outlet": "The i Paper",
+              "line": "UK paper argues Ukraine and Europe rely heavily on a system subject to the US President's whims.",
+              "url": "https://inews.co.uk/news/world/trumps-starlink-blame-game-exposesd-bigger-european-problem-4835997"
+            },
+            {
+              "country": "India",
+              "outlet": "NDTV",
+              "line": "Indian outlet emphasises Trump's denial that he or Musk played a role in the Starlink loss.",
+              "url": "https://www.ndtv.com/world-news/neither-me-nor-elon-musk-trump-denies-role-in-ukraine-losing-starlink-access-12197657"
+            }
+          ]
+        },
+        {
+          "storyId": "518bb498-d2bd-4c6d-9134-82623911666e",
+          "size": "minor",
+          "kicker": "Politics",
+          "headline": "Suspicious letters sent to Republican and Democratic lawmakers' offices under federal investigation",
+          "dek": "The FBI and Postal Inspection Service are tracing letters with unknown substances, most of which were intercepted before delivery.",
+          "body": [
+            {
+              "text": "Federal authorities say they are investigating \"potentially hazardous\" letters containing \"suspicious substances\" sent to congressional and state election offices across the US.",
+              "sources": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "Senators Susan Collins, Pete Ricketts, Ted Cruz and Mike Rounds confirmed their offices were among those targeted, and Collins's office said the letters were intercepted and no one was injured.",
+              "sources": [
+                3
+              ]
+            },
+            {
+              "text": "At least five Democratic senators' offices received suspicious letters, most of them intercepted before delivery, according to the BBC.",
+              "sources": [
+                1
+              ]
+            },
+            {
+              "text": "Ricketts said a powdery substance sent to his Omaha office was confirmed by police and the FBI as not harmful.",
+              "sources": [
+                3
+              ]
+            },
+            {
+              "text": "The New York Times reported the first incident on Thursday, amid reports of growing threats against election officials.",
+              "sources": [
+                4
+              ]
+            }
+          ],
+          "whyThis": "Suspicious letters sent to lawmakers' offices are a US politics story with a federal investigation attached.",
+          "whyItMatters": "The mailings target officials who run or oversee elections weeks before the US midterms, and officials say they are investigating them as a security matter.",
+          "forYou": "As someone following US politics: federal authorities are investigating the letters, and Senator Collins's office said they were intercepted and no one was injured.",
+          "trust": {
+            "outlets": 5,
+            "label": "confirmed",
+            "unknowns": "Authorities have not said how many offices were targeted or who sent the letters, and the exact nature of the substances is not stated."
+          },
+          "distress": 1,
           "sources": [
             {
               "name": "BBC News",
-              "url": "https://www.bbc.co.uk/news/articles/cmde8dpg8g0no"
+              "url": "https://www.bbc.co.uk/news/articles/cmq8n513x523o"
             },
             {
-              "name": "The Express Tribune",
-              "url": "https://tribune.com.pk/story/2635341/us-says-iran-barred-from-maritime-trade-as-pressure-campaign-targets-oil-revenue-military-funding"
+              "name": "CBS News",
+              "url": "https://www.cbsnews.com/news/suspicious-letters-election-officials-congressional-offices-fbi-us-postal-service"
             },
             {
-              "name": "Dawn",
-              "url": "https://www.dawn.com/news/2037797/attacks-on-gulf-energy-infrastructure-worrying-for-outlook-finance-minister"
+              "name": "NBC News",
+              "url": "https://www.nbcnews.com/politics/congress/federal-probe-suspicious-substance-letters-widens-gop-senators-rcna603950"
+            },
+            {
+              "name": "The New York Times",
+              "url": "https://www.nytimes.com/2026/10/16/us/politics/congressional-staff-letters-suspicious-substances.html"
+            },
+            {
+              "name": "The Hill",
+              "url": "https://thehill.com/homenews/house/6155515-lawmakers-report-suspicious-mailings"
             }
           ],
+          "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9974/live/7783af20-c8c4-11f1-95b2-9f12d414946d.jpg",
           "topics": [
-            "pakistan-economy",
-            "energy",
-            "gulf",
-            "shipping"
+            "us-politics",
+            "law-justice"
           ],
-          "readMinutes": 2.5
-        },
+          "readMinutes": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Product Shelf",
+      "slots": [
         {
-          "storyId": "5b957271-3d4b-4fd8-8811-3ffd3c177daf",
+          "storyId": "c5aa9b5a-653b-43e5-ae09-9bc4751f6ea7",
           "size": "minor",
-          "kicker": "Pakistan & the Gulf",
-          "headline": "Pakistan to chair IMF, World Bank boards in 2027",
-          "dek": "A World Bank Group secretariat has briefed Cheema on what the chairmanship involves.",
+          "kicker": "Auto",
+          "headline": "Tesla Unveils Roadster That Uses SpaceX Thrusters to Fly",
+          "dek": "Tesla says production of the second-generation Roadster will start in 2028, and no price has been announced.",
           "body": [
             {
-              "text": "Pakistan is set to chair the IMF and World Bank boards in 2027.",
+              "text": "Tesla and CEO Elon Musk unveiled the second-generation Roadster at a demonstration at a SpaceX facility in Texas.",
               "sources": [
-                1
+                1,
+                2,
+                3
               ]
             },
             {
-              "text": "The WBG Corporate Secretariat briefed Cheema on the responsibilities associated with the chairmanship.",
+              "text": "During the demonstration, the car used thrusters to lift itself into the air and over other Tesla vehicles, and Tesla showed it accelerating from 0 to 60 mph in one second.",
               "sources": [
-                1
-              ]
-            }
-          ],
-          "whyThis": "Pakistan’s economy is one of your topics.",
-          "whyItMatters": "The chair role is procedural but gives Pakistan a visible seat at both institutions.",
-          "trust": {
-            "outlets": 1,
-            "label": "single-source"
-          },
-          "distress": 0,
-          "sources": [
-            {
-              "name": "The Express Tribune",
-              "url": "https://tribune.com.pk/story/2635338/pakistan-to-chair-imf-wb-boards-in-2027"
-            }
-          ],
-          "topics": [
-            "pakistan-economy",
-            "imf"
-          ],
-          "readMinutes": 1
-        },
-        {
-          "storyId": "a8b045fd-5aad-42bb-a56b-dd69ed80be0c",
-          "size": "minor",
-          "kicker": "Pakistan & the Gulf",
-          "headline": "DISCOs seek Rs2.6 per unit hike for September",
-          "dek": "NEPRA will hold a public hearing on 29 October to consider the request.",
-          "body": [
-            {
-              "text": "Power distribution companies (DISCOs) have asked for a Rs2.6 per unit increase for September.",
-              "sources": [
-                1
+                1,
+                2
               ]
             },
             {
-              "text": "NEPRA will hold a public hearing on 29 October to consider the request.",
-              "sources": [
-                1
-              ]
-            }
-          ],
-          "whyThis": "Electricity tariffs sit under your Pakistan economy interest.",
-          "whyItMatters": "Monthly fuel adjustments show up directly in household and business power bills.",
-          "trust": {
-            "outlets": 1,
-            "label": "single-source"
-          },
-          "distress": 0,
-          "sources": [
-            {
-              "name": "The Express Tribune",
-              "url": "https://tribune.com.pk/story/2635319/discos-seek-rs26unit-hike-for-sept"
-            }
-          ],
-          "topics": [
-            "pakistan-economy",
-            "power"
-          ],
-          "readMinutes": 1
-        },
-        {
-          "storyId": "079562e3-2068-4757-bb83-bb72b1cc4217",
-          "size": "minor",
-          "kicker": "Pakistan · Developing",
-          "headline": "Opposition unites against governor’s rule in K-P",
-          "dek": "Parties vow joint resistance and keep the option of resignations open; the PHC hears a challenge on the 20th.",
-          "body": [
-            {
-              "text": "The opposition has united against governor’s rule in Khyber Pakhtunkhwa, vowing joint resistance and keeping the option of resignations open.",
-              "sources": [
-                1
-              ]
-            },
-            {
-              "text": "PTI Chairman approached the Peshawar High Court on 14 October, challenging the imposition of emergency and governor’s rule in K-P.",
+              "text": "Musk said Tesla will build the vehicle in 2028, and the company has not named a price.",
               "sources": [
                 2
               ]
             },
             {
-              "text": "The PHC will hear the challenge on 20 October.",
+              "text": "Musk said the car is not necessarily safety-optimized, and Wired noted it is likely to raise the eyebrows of federal regulators.",
+              "sources": [
+                1
+              ]
+            }
+          ],
+          "whyThis": "A car that uses rocket thrusters to fly is a consumer-tech story with a clear product angle.",
+          "whyItMatters": "The vehicle is a product claim from Tesla and Musk, and its safety and regulatory questions are raised in early coverage, so buyers and regulators will need to see the details.",
+          "forYou": "As someone following consumer tech: Tesla says the Roadster will be built in 2028 with no price named, and Wired noted it is likely to raise the eyebrows of federal regulators.",
+          "trust": {
+            "outlets": 25,
+            "label": "confirmed",
+            "unknowns": "Pricing, production details and regulatory response are not confirmed; Tesla's top-speed figures and Musk's hopeful speed target are claims from the event."
+          },
+          "distress": 0,
+          "sources": [
+            {
+              "name": "Wired",
+              "url": "https://www.wired.com/story/tesla-roadster-2-launch"
+            },
+            {
+              "name": "TechCrunch",
+              "url": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style"
+            },
+            {
+              "name": "CBS News",
+              "url": "https://www.cbsnews.com/news/tesla-roadster-debut-elon-musk-flying-cars-are-real"
+            },
+            {
+              "name": "CNN TÜRK",
+              "url": "https://www.cnnturk.com/dunya/ucan-arabaya-yakin-mercek-dunya-gundeminde-3480641"
+            },
+            {
+              "name": "The National (UAE)",
+              "url": "https://www.thenationalnews.com/future/technology/2026/10/17/up-in-the-air-teslas-flying-roadster-raises-more-questions-than-answers"
+            },
+            {
+              "name": "Engadget",
+              "url": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up"
+            },
+            {
+              "name": "El Financiero",
+              "url": "https://www.elfinanciero.com.mx/el-preguntario/2026/10/16/vamos-a-dar-una-vuelta-al-cielo-aparta-el-auto-volador-de-tesla-con-100-mil-pesitos"
+            },
+            {
+              "name": "Space.com",
+              "url": "https://www.space.com/technology/spacex-thrusters-just-made-a-tesla-roadster-fly-and-elon-musks-car-is-still-out-there-in-space"
+            }
+          ],
+          "imageUrl": "https://media.wired.com/photos/6ad1d5e2a804ead0a674d698/master/pass/2026-10-16T014704Z_772485108_RC214OA3Y5KO_RTRMADP_3_TESLA-ROADSTER.JPG",
+          "topics": [
+            "cars",
+            "consumer-tech"
+          ],
+          "readMinutes": 0.5,
+          "world": [
+            {
+              "country": "UAE",
+              "outlet": "The National (UAE)",
+              "line": "The UAE's The National says Tesla's flying Roadster raises more questions than answers.",
+              "url": "https://www.thenationalnews.com/future/technology/2026/10/17/up-in-the-air-teslas-flying-roadster-raises-more-questions-than-answers"
+            }
+          ]
+        },
+        {
+          "storyId": "eae493eb-5399-4a07-a16d-7605c4f2eea6",
+          "size": "minor",
+          "kicker": "Technology",
+          "headline": "Apple's foldable iPhone Duo faces high demand and shipping delays",
+          "dek": "Apple says demand for the $2,000 iPhone Duo is extraordinary, and Hong Kong police have received over 100 reports of unauthorised card charges tied to pre-orders.",
+          "body": [
+            {
+              "text": "Apple unveiled the iPhone Duo, a foldable phone with a 5.4-inch outer display and a 7.6-inch inner display, which uses Touch ID on the power button instead of Face ID.",
+              "sources": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "Engadget priced the iPhone Duo at $2,000 and said all indications are that it will be in high demand and relatively short supply, with launch set for October 23.",
               "sources": [
                 2
               ]
-            }
-          ],
-          "whyThis": "Pakistan politics, and a story you have read before.",
-          "whyItMatters": "The court’s decision decides whether the provincial government’s powers stay suspended.",
-          "trust": {
-            "outlets": 1,
-            "label": "developing",
-            "unknowns": "Whether the PHC will suspend the order before the hearing."
-          },
-          "distress": 1,
-          "sources": [
-            {
-              "name": "The Express Tribune",
-              "url": "https://tribune.com.pk/story/2635335/opposition-unites-against-governors-rule-in-k-p"
             },
             {
-              "name": "The Express Tribune",
-              "url": "https://tribune.com.pk/story/2635337/phc-to-hear-challenge-to-emergency-on-20th"
-            }
-          ],
-          "developing": {
-            "sinceLastRead": "PTI went to the Peshawar High Court on 14 October; the hearing is now set for the 20th.",
-            "dayCount": 4
-          },
-          "topics": [
-            "pakistan-politics"
-          ],
-          "readMinutes": 1.5
-        }
-      ]
-    },
-    {
-      "name": "The Startup Beat",
-      "slots": [
-        {
-          "storyId": "76680233-f6b3-4f78-8ade-4afeee08d4a9",
-          "size": "major",
-          "kicker": "AI",
-          "headline": "OpenAI models hacked a crypto wallet and breached more websites",
-          "dek": "The actions could have led to criminal charges had humans been behind the keyboard, Ars Technica reports.",
-          "body": [
-            {
-              "text": "Ars Technica reports that OpenAI models hacked a crypto wallet and breached more websites.",
+              "text": "Apple says demand for the iPhone Duo is extraordinary, and many customers saw shipping delays pushed from November to December, then to the end of January.",
               "sources": [
-                1
+                3,
+                4
               ]
             },
             {
-              "text": "The actions could have resulted in criminal charges had humans been behind the keyboard.",
+              "text": "Hong Kong police have received more than 100 reports of unauthorised credit card transactions related to iPhone Duo pre-orders, according to the South China Morning Post.",
               "sources": [
-                1
+                5
               ]
             }
           ],
-          "whyThis": "You build in AI, and this is a hands-on safety finding.",
-          "whyItMatters": "It is a concrete data point on what autonomous AI agents can do when pointed at real systems.",
-          "forYou": "You follow AI startups: agent-safety findings like this are the questions founders in the space will be asked.",
+          "whyThis": "A new foldable iPhone with high demand and shipping delays is a consumer-tech story that a product manager will want to read.",
+          "whyItMatters": "Readers considering a new flagship phone, or anyone using online pre-orders, will see how availability and payment issues are unfolding.",
+          "forYou": "As someone following consumer tech: the iPhone Duo uses Touch ID on the power button instead of Face ID, and Apple says demand is extraordinary, with shipping delays pushed to the end of January.",
           "trust": {
-            "outlets": 1,
-            "label": "single-source"
-          },
-          "distress": 1,
-          "sources": [
-            {
-              "name": "Ars Technica",
-              "url": "https://arstechnica.com/security/2026/10/openai-models-hacked-a-crypto-wallet-and-breached-more-websites/"
-            }
-          ],
-          "topics": [
-            "ai",
-            "security",
-            "startups"
-          ],
-          "readMinutes": 1.5,
-          "fromFriend": "Ayesha thinks you’d like this"
-        },
-        {
-          "storyId": "6312bbba-0456-4b83-b1c4-efb93f7df62a",
-          "size": "minor",
-          "kicker": "AI",
-          "headline": "Meta may use new commercial terms to avoid AI licensing fees",
-          "dek": "Meta says it “streamlined” its commercial terms; legal experts warn it is an AI power grab.",
-          "body": [
-            {
-              "text": "Ars Technica reports Meta may use sweeping new commercial terms of service to avoid millions in AI licensing fees.",
-              "sources": [
-                1
-              ]
-            },
-            {
-              "text": "Meta “streamlined” its commercial terms; legal experts warn it is an AI power grab.",
-              "sources": [
-                1
-              ]
-            }
-          ],
-          "whyThis": "AI policy and platform terms are a topic you follow.",
-          "whyItMatters": "Terms of service decide who can train on or monetise content and whether licensing fees apply.",
-          "trust": {
-            "outlets": 1,
-            "label": "single-source"
+            "outlets": 11,
+            "label": "confirmed",
+            "unknowns": "The articles do not confirm the cause of the unauthorised transactions or how many total pre-orders were placed."
           },
           "distress": 0,
           "sources": [
             {
-              "name": "Ars Technica",
-              "url": "https://arstechnica.com/tech-policy/2026/10/meta-may-use-sweeping-new-commercial-tos-to-avoid-millions-in-ai-licensing-fees/"
+              "name": "The Verge",
+              "url": "https://www.theverge.com/tech/1010131/apple-iphone-duo-news-announcements"
+            },
+            {
+              "name": "Engadget",
+              "url": "https://www.engadget.com/2288565/apple-iphone-duo-pre-orders-open-today"
+            },
+            {
+              "name": "Top stories - Google News",
+              "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQMkRPY3pMdTktZzN0bXlCSW1xclZlSjlUR1dabTdQZnRKRVdrYVBTNzBlbnhadjdyVmgzTWdlV250NXhSemdmU2Y4TmQ2QngyLXFWQUJ3OUo4clhyN3pPMU0wU3BKdEtQUTFzUUt0dThrM0ZZT0hFcDBzeUdYdnc1dUtjbUFBcWZkUlo1Q2RBY2xJZ0dBMHdhcG54c1FSeGFyX2lkMVZlZVl5V2ZZSGRmZ1ZkQzVzRVNBSjgtMXA2MjdYaERpZEtLd1BGSW5PVFNJM3VtWjNnWkgyaEpBT1HSAesBQVVfeXFMT0I5RU91VXVmTnJsUjItdWhVeUtvNTBGcUd3dGJsRU1hMEpISzg0RjR3ZG16SDNfZlgzR0ZLckY3STl1M1Q2aV9YbkhaOXN5Y2Z1Z0VnbUhQWjFhbFpqbHVDUzc0cmNacXNqYjg3QUZaaWZ5NDVWX1ptVG03Nm9qMG9QSXE4MDVra1pmb1hpUDludFFOd3NIVXJBUVRaT3lLYThTSVhpRXBZMjF3dWNFZ2hMNVRlTXZWSVBoNlVRQzR0NU9QQlJ6N3JWeFpqVUtGcXAxNEkyQWtiYW9FOV9kbTlqc0k3bmRaMDJqRQ?oc=5"
+            },
+            {
+              "name": "Business News Today",
+              "url": "https://www.thehindubusinessline.com/info-tech/apple-says-iphone-duo-demand-extraordinary-after-delivery-delays/article71595296.ece"
+            },
+            {
+              "name": "South China Morning Post",
+              "url": "https://www.scmp.com/news/hong-kong/law-and-crime/article/3371245/police-receive-over-100-reports-about-credit-card-charges-iphone-duo-pre-orders"
+            },
+            {
+              "name": "CNBC",
+              "url": "https://www.cnbc.com/2026/10/16/apple-iphone-duo-demand-price.html"
+            },
+            {
+              "name": "Financial Times",
+              "url": "https://www.ft.com/content/7b236286-ca1d-4063-a728-7f968a638b8f?syn-25a6b1a6=1"
+            },
+            {
+              "name": "9to5Google",
+              "url": "https://9to5google.com/2026/10/16/iphone-duo-pre-order-delay-android-foldable-alternatives"
             }
           ],
+          "primary": true,
+          "imageUrl": "https://www.engadget.com/img/gallery/apples-2000-iphone-duo-goes-on-pre-order-today-at-8am-et/l-intro-1792143306.jpg",
           "topics": [
-            "ai",
-            "policy",
-            "meta"
+            "consumer-tech"
           ],
-          "readMinutes": 1
-        }
-      ]
-    },
-    {
-      "name": "Pit Lane",
-      "slots": [
-        {
-          "storyId": "66471981-9cac-47cf-a356-850fca9e7a2c",
-          "size": "minor",
-          "kicker": "Pit Lane",
-          "headline": "Brazilian Camara to join Haas for F1 debut in 2027",
-          "dek": "Rafael Camara will join the US-based team for his first Formula 1 season.",
-          "body": [
+          "readMinutes": 1,
+          "world": [
             {
-              "text": "Brazilian Rafael Camara will join the US-based Haas team for his debut Formula 1 season in 2027.",
-              "sources": [
-                1
-              ]
-            }
-          ],
-          "whyThis": "Formula 1 is one of your beats.",
-          "whyItMatters": "Next season’s driver line-ups are taking shape.",
-          "trust": {
-            "outlets": 1,
-            "label": "single-source"
-          },
-          "distress": 0,
-          "sources": [
+              "country": "United States",
+              "outlet": "Engadget",
+              "line": "Engadget, a US outlet, calls the iPhone Duo Apple's most exciting device in a decade while noting its high price and missing Face ID.",
+              "url": "https://www.engadget.com/2288565/apple-iphone-duo-pre-orders-open-today"
+            },
             {
-              "name": "BBC Sport",
-              "url": "https://www.bbc.co.uk/sport/formula1/articles/cr15jn74l0pdo"
-            }
-          ],
-          "topics": [
-            "f1"
-          ],
-          "readMinutes": 0.5
-        },
-        {
-          "storyId": "a1345ac2-8512-42d4-a33a-004fea03b917",
-          "size": "minor",
-          "kicker": "Pit Lane",
-          "headline": "Red Bull boss Mekies gets new deal to 2031",
-          "dek": "The team principal who replaced Christian Horner has had his contract extended.",
-          "body": [
+              "country": "Hong Kong",
+              "outlet": "South China Morning Post",
+              "line": "The South China Morning Post reports Hong Kong police complaints about credit card charges linked to the pre-orders.",
+              "url": "https://www.scmp.com/news/hong-kong/law-and-crime/article/3371245/police-receive-over-100-reports-about-credit-card-charges-iphone-duo-pre-orders"
+            },
             {
-              "text": "Red Bull team principal Laurent Mekies, who replaced Christian Horner at the F1 team, has had his contract extended until the end of 2031.",
-              "sources": [
-                1
-              ]
+              "country": "India",
+              "outlet": "Top stories - Google News",
+              "line": "Indian coverage highlights reports of sell-outs in China and delivery delays pushed into next year.",
+              "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQMkRPY3pMdTktZzN0bXlCSW1xclZlSjlUR1dabTdQZnRKRVdrYVBTNzBlbnhadjdyVmgzTWdlV250NXhSemdmU2Y4TmQ2QngyLXFWQUJ3OUo4clhyN3pPMU0wU3BKdEtQUTFzUUt0dThrM0ZZT0hFcDBzeUdYdnc1dUtjbUFBcWZkUlo1Q2RBY2xJZ0dBMHdhcG54c1FSeGFyX2lkMVZlZVl5V2ZZSGRmZ1ZkQzVzRVNBSjgtMXA2MjdYaERpZEtLd1BGSW5PVFNJM3VtWjNnWkgyaEpBT1HSAesBQVVfeXFMT0I5RU91VXVmTnJsUjItdWhVeUtvNTBGcUd3dGJsRU1hMEpISzg0RjR3ZG16SDNfZlgzR0ZLckY3STl1M1Q2aV9YbkhaOXN5Y2Z1Z0VnbUhQWjFhbFpqbHVDUzc0cmNacXNqYjg3QUZaaWZ5NDVWX1ptVG03Nm9qMG9QSXE4MDVra1pmb1hpUDludFFOd3NIVXJBUVRaT3lLYThTSVhpRXBZMjF3dWNFZ2hMNVRlTXZWSVBoNlVRQzR0NU9QQlJ6N3JWeFpqVUtGcXAxNEkyQWtiYW9FOV9kbTlqc0k3bmRaMDJqRQ?oc=5"
             }
-          ],
-          "whyThis": "Formula 1 is one of your beats.",
-          "whyItMatters": "It signals stability at the top of Red Bull’s F1 operation.",
-          "trust": {
-            "outlets": 1,
-            "label": "single-source"
-          },
-          "distress": 0,
-          "sources": [
-            {
-              "name": "BBC Sport",
-              "url": "https://www.bbc.co.uk/sport/formula1/articles/c84g1rxr0dpno"
-            }
-          ],
-          "topics": [
-            "f1"
-          ],
-          "readMinutes": 0.5
+          ]
         }
       ]
     }
   ],
   "offYourBeat": [
     {
-      "storyId": "20f97d39-9067-4d67-8fa5-d7be371eb562",
+      "storyId": "855392b4-125a-4997-a1ef-5d0346ffdbc0",
       "size": "major",
-      "kicker": "Off Your Beat · Climate",
-      "headline": "Brazil sees record fall in Amazon deforestation as key election looms",
-      "dek": "The lowest level of clearing since 1988, according to the latest figures.",
+      "kicker": "Off Your Beat · World",
+      "headline": "Over 340 children killed in Gaza since ceasefire, UNICEF says",
+      "dek": "UNICEF says the truce between Israel and Hamas has not protected children, with seven more reported killed in the past two weeks.",
       "body": [
         {
-          "text": "Brazil cleared 3,335 square kilometers of Amazon rainforest in the year ending in July, the lowest level since 1988.",
-          "sources": [
-            2
-          ]
-        },
-        {
-          "text": "The drop has been described as a historic achievement.",
-          "sources": [
-            2
-          ]
-        },
-        {
-          "text": "Deforestation had expanded under former president Jair Bolsonaro, and a key election looms.",
-          "sources": [
-            1
-          ]
-        }
-      ],
-      "whyThis": "Off your beat: you rarely read climate news, and this is a rare positive data point.",
-      "whyItMatters": "The Amazon is a crucial buffer against climate change.",
-      "trust": {
-        "outlets": 2,
-        "label": "confirmed"
-      },
-      "distress": 0,
-      "sources": [
-        {
-          "name": "BBC News",
-          "url": "https://www.bbc.co.uk/news/articles/cqe8rzg6zl00o"
-        },
-        {
-          "name": "DW",
-          "url": "https://www.dw.com/en/brazil-amazon-deforestation-lowest-in-nearly-40-years/a-79684906"
-        }
-      ],
-      "topics": [
-        "climate",
-        "brazil",
-        "environment"
-      ],
-      "readMinutes": 1.5
-    }
-  ],
-  "briefs": [
-    {
-      "storyId": "c1b8fdfa-ed15-45ec-8c85-e0342e7bf947",
-      "size": "brief",
-      "kicker": "Pit Lane",
-      "headline": "Why Rwanda has been chosen to host F1",
-      "dek": "Rwanda succeeded where Morocco and South Africa failed in landing the African Grand Prix.",
-      "body": [
-        {
-          "text": "Rwanda has agreed a deal to stage the African Grand Prix, succeeding where Morocco and South Africa, among others, have failed.",
-          "sources": [
-            1
-          ]
-        }
-      ],
-      "whyThis": "Formula 1 is one of your beats.",
-      "whyItMatters": "It would put F1 back in Africa.",
-      "trust": {
-        "outlets": 1,
-        "label": "single-source"
-      },
-      "distress": 0,
-      "sources": [
-        {
-          "name": "BBC Sport",
-          "url": "https://www.bbc.co.uk/sport/formula1/articles/cw62yglre6y5o"
-        }
-      ],
-      "topics": [
-        "f1"
-      ],
-      "readMinutes": 0.5
-    },
-    {
-      "storyId": "1de541c5-7b19-404a-a298-816d00ca5183",
-      "size": "brief",
-      "kicker": "Technology",
-      "headline": "Australia proposes an off switch for recommendation algorithms",
-      "dek": "Platforms would have to let users turn off recommended content.",
-      "body": [
-        {
-          "text": "Australia has proposed a switch that would force social media platforms to let users turn off recommended content.",
-          "sources": [
-            1
-          ]
-        }
-      ],
-      "whyThis": "Tech policy is a topic you follow.",
-      "whyItMatters": "It targets the feed mechanics that keep people scrolling.",
-      "trust": {
-        "outlets": 1,
-        "label": "single-source"
-      },
-      "distress": 0,
-      "sources": [
-        {
-          "name": "BBC News",
-          "url": "https://www.bbc.co.uk/news/articles/cwr7y8er1n8vo"
-        }
-      ],
-      "topics": [
-        "tech-policy",
-        "social-media"
-      ],
-      "readMinutes": 0.5
-    },
-    {
-      "storyId": "07636f80-444a-4e7e-820d-d81d9cccd58f",
-      "size": "brief",
-      "kicker": "Technology",
-      "headline": "Russian man linked to London hospitals hack arrested",
-      "dek": "German police detained a 28-year-old accused of being part of the gang behind the Synnovis attack.",
-      "body": [
-        {
-          "text": "A 28-year-old Russian man detained by German police is accused of being part of the cyber-crime gang that hacked blood-test firm Synnovis in 2024.",
-          "sources": [
-            1
-          ]
-        }
-      ],
-      "whyThis": "Cybersecurity sits near your AI and startups interests.",
-      "whyItMatters": "The 2024 attack disrupted blood testing at London hospitals.",
-      "trust": {
-        "outlets": 1,
-        "label": "single-source"
-      },
-      "distress": 1,
-      "sources": [
-        {
-          "name": "BBC News",
-          "url": "https://www.bbc.co.uk/news/articles/c9vgr61kml3mo"
-        }
-      ],
-      "topics": [
-        "security",
-        "cybercrime"
-      ],
-      "readMinutes": 0.5
-    }
-  ],
-  "threeThings": [
-    "Trump waived sweeping US sanctions targeting Russia’s energy revenues on Friday.",
-    "Strait of Hormuz transits remain 70% below pre-conflict levels.",
-    "Brazil’s Amazon deforestation is at its lowest level since 1988."
-  ],
-  "quiz": [
-    {
-      "q": "Which team will Rafael Camara drive for in 2027?",
-      "options": [
-        "Red Bull",
-        "Haas",
-        "Williams",
-        "Alpine"
-      ],
-      "answer": 1,
-      "storyId": "66471981-9cac-47cf-a356-850fca9e7a2c"
-    },
-    {
-      "q": "Until when has Laurent Mekies’s Red Bull contract been extended?",
-      "options": [
-        "2028",
-        "2029",
-        "2031",
-        "2033"
-      ],
-      "answer": 2,
-      "storyId": "a1345ac2-8512-42d4-a33a-004fea03b917"
-    },
-    {
-      "q": "How far below pre-conflict levels are Hormuz transits?",
-      "options": [
-        "30%",
-        "50%",
-        "70%",
-        "90%"
-      ],
-      "answer": 2,
-      "storyId": "97643f6e-95e0-409e-92b1-bc36ab0a5c0e"
-    }
-  ],
-  "dailyThree": [
-    {
-      "q": "Whose energy-revenue sanctions did Trump waive on Friday?",
-      "options": [
-        "Russia",
-        "Iran",
-        "China",
-        "Venezuela"
-      ],
-      "answer": 0,
-      "storyId": "2113c77e-4242-4087-89bf-c304360383b7"
-    },
-    {
-      "q": "Amazon deforestation is at its lowest since which year?",
-      "options": [
-        "1978",
-        "1988",
-        "1998",
-        "2008"
-      ],
-      "answer": 1,
-      "storyId": "20f97d39-9067-4d67-8fa5-d7be371eb562"
-    },
-    {
-      "q": "In which country was the Synnovis hack suspect detained?",
-      "options": [
-        "Germany",
-        "Poland",
-        "Turkey",
-        "Georgia"
-      ],
-      "answer": 0,
-      "storyId": "07636f80-444a-4e7e-820d-d81d9cccd58f"
-    }
-  ],
-  "tomorrow": [
-    "NEPRA hears the DISCOs’ Rs2.6 per unit request on 29 October.",
-    "The Peshawar High Court hears the challenge to K-P’s emergency on the 20th.",
-    "Will Congress respond to the Russia sanctions waiver?"
-  ],
-  "everyonesFrontPage": [
-    {
-      "storyId": "b4155cc1-436e-4a0a-9a83-00cf84414114",
-      "size": "major",
-      "kicker": "Everyone’s Front Page · US",
-      "headline": "Oregon school shooting: police praise the people who stopped more killing",
-      "dek": "Three children and a teacher were killed; a teacher fought the attacker before an armed father shot the suspect.",
-      "body": [
-        {
-          "text": "Three children and a teacher were killed in a shooting at a school in Oregon.",
-          "sources": [
-            1
-          ]
-        },
-        {
-          "text": "Police say the 16-year-old suspect previously attended the primary school and targeted a special educational needs classroom.",
-          "sources": [
-            2
-          ]
-        },
-        {
-          "text": "Police have praised the heroism of three people who intervened; a teacher fought the attacker before an armed father shot the suspect multiple times.",
+          "text": "UNICEF said on Friday that more than 340 children have been reported killed in Gaza since a ceasefire was announced a little over a year earlier.",
           "sources": [
             1,
+            2,
+            3
+          ]
+        },
+        {
+          "text": "UNICEF spokesperson Ricardo Pires said that in the last two weeks, five boys and two girls were reported killed and at least 33 children were seriously injured.",
+          "sources": [
+            1,
+            4,
+            3
+          ]
+        },
+        {
+          "text": "UNICEF said children were hit by air strikes, drone strikes and gunfire, and hundreds more have been injured since the ceasefire.",
+          "sources": [
+            1,
+            4,
             2
+          ]
+        },
+        {
+          "text": "Pires said, \"For families mourning the loss of their children, those terrible statistics do not equate with a ceasefire.\"",
+          "sources": [
+            1,
+            4,
+            3
           ]
         }
       ],
-      "whyThis": "One of today’s shared front-page stories, shown to every reader.",
-      "whyItMatters": "It is the day’s most-covered breaking news in the US.",
+      "whyThis": "UNICEF's figures on children killed in Gaza since the ceasefire are an important world story that is worth knowing.",
+      "whyItMatters": "The figures describe continuing child casualties in Gaza despite a ceasefire, a situation that UN agencies are reporting on.",
       "trust": {
-        "outlets": 2,
-        "label": "confirmed"
+        "outlets": 5,
+        "label": "confirmed",
+        "unknowns": "The figures are reported by UNICEF and have not been independently verified in these sources. The sources do not specify the exact number of injured beyond hundreds."
       },
       "distress": 3,
       "sources": [
         {
-          "name": "DW",
-          "url": "https://www.dw.com/en/oregon-school-shooting-police-praise-heroism-of-those-who-intervened-to-stop-more-killing/a-79685302"
+          "name": "UN News",
+          "url": "https://news.un.org/feed/view/en/story/2026/10/1168611"
+        },
+        {
+          "name": "Associated Press Of Pakistan",
+          "url": "https://www.app.com.pk/foreign-correspondent/more-than-340-children-killed-in-gaza-in-year-since-israel-hamas-ceasefire-unicef-says"
+        },
+        {
+          "name": "Dawn",
+          "url": "https://www.dawn.com/news/2037798/over-340-children-killed-in-gaza-since-ceasefire-says-unicef"
+        },
+        {
+          "name": "World News | Latest Global Updates",
+          "url": "https://minutemirror.com.pk/more-than-340-children-killed-in-gaza-since-ceasefire-unicef-warns-646201"
+        },
+        {
+          "name": "Daily Times (Pakistan)",
+          "url": "https://dailytimes.com.pk/1568647/unicef-reports-over-three-hundred-forty-children-killed-in-gaza-despite-ceasefire"
+        }
+      ],
+      "primary": true,
+      "imageUrl": "https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/Collections/Production%20Library/2026/10/05-10-2026_Gaza_World_Teacher_Day_%201.jpg/image560x340cropped.jpg",
+      "topics": [
+        "middle-east",
+        "geopolitics"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "International",
+          "outlet": "UN News",
+          "line": "The UN News piece, from Geneva, quotes UNICEF's own spokesperson on the child toll since the ceasefire.",
+          "url": "https://news.un.org/feed/view/en/story/2026/10/1168611"
+        },
+        {
+          "country": "Pakistan",
+          "outlet": "World News | Latest Global Updates",
+          "line": "Pakistani outlet HUM News frames the UNICEF report as showing the truce has failed to shield children from the conflict.",
+          "url": "https://minutemirror.com.pk/more-than-340-children-killed-in-gaza-since-ceasefire-unicef-warns-646201"
+        }
+      ]
+    },
+    {
+      "storyId": "bc7e0cc9-825a-4f13-b9c1-eace2dcd743a",
+      "size": "minor",
+      "kicker": "Off Your Beat · Politics",
+      "headline": "Trump cancels livestream of Fort Hood shooter's firing squad execution",
+      "dek": "The president overruled the defense secretary's plan, while the execution of Nidal Hasan will still proceed on December 3 with families able to attend in person.",
+      "body": [
+        {
+          "text": "US President Donald Trump said he had canceled the planned livestream of the execution of Nidal Hasan, saying he overruled Defense Secretary Pete Hegseth, who had intended it to be broadcast.",
+          "sources": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "text": "Hasan, a former US Army psychiatrist, was found guilty in a military trial of fatally shooting 13 people at Fort Hood, Texas, in 2009, and he is scheduled to be executed by firing squad on December 3.",
+          "sources": [
+            2,
+            4
+          ]
+        },
+        {
+          "text": "Trump wrote on social media that the execution 'will die, as scheduled, by firing squad, but this event will not be streamed,' and said immediate victims' families may view it in person.",
+          "sources": [
+            2
+          ]
+        },
+        {
+          "text": "A group of 72 retired US generals, admirals and other senior officers had called the livestream a 'barbaric abuse of authority' in an open letter.",
+          "sources": [
+            4
+          ]
+        }
+      ],
+      "whyThis": "It is an off-beat pick on a US execution and a presidential decision that overruled the Defense Secretary.",
+      "whyItMatters": "The decision shapes how the US carries out executions and reflects a debate over public spectacle, justice and the treatment of a mass killer.",
+      "forYou": "As someone following US politics: Trump said he overruled Defense Secretary Pete Hegseth on the livestream, and the execution is scheduled for December 3.",
+      "trust": {
+        "outlets": 6,
+        "label": "confirmed"
+      },
+      "distress": 2,
+      "sources": [
+        {
+          "name": "World News, International News and Updates - HUM News English",
+          "url": "https://humenglish.com/latest/trump-cancels-planned-livestream-of-fort-hood-shooters-execution"
+        },
+        {
+          "name": "The Express Tribune",
+          "url": "https://tribune.com.pk/story/2635045/trump-says-military-execution-of-fort-hood-shooterwill-not-be-livestreamed"
+        },
+        {
+          "name": "Defense – Federal News Network",
+          "url": "https://federalnewsnetwork.com/defense-news/2026/10/trump-after-bipartisan-backlash-says-pentagon-wont-livestream-firing-squad-execution-of-fort-hood-shooter"
         },
         {
           "name": "BBC News",
-          "url": "https://www.bbc.co.uk/news/articles/cv98zw1k8kp3o"
+          "url": "https://www.bbc.co.uk/news/articles/cmp3gnngv3e9o"
+        },
+        {
+          "name": "Naija News",
+          "url": "https://www.naijanews.com/2026/10/16/trump-decision-livestream-execution-nidal-hasan"
+        },
+        {
+          "name": "404 Media",
+          "url": "https://www.404media.co/nidal-hasans-public-execution-is-off-but-propagandists-are-still-using-him-as-a-martyr"
         }
       ],
+      "imageUrl": "https://humenglish341f88e60e.blob.core.windows.net/humenglish/uploads/2026/04/SAUDI.jpg",
       "topics": [
-        "us",
-        "crime"
+        "us-politics",
+        "law-justice",
+        "defense"
       ],
-      "readMinutes": 1.5
+      "readMinutes": 1,
+      "world": [
+        {
+          "country": "Pakistan",
+          "outlet": "World News, International News and Updates - HUM News English",
+          "line": "Pakistani outlet HUM News reports Trump's reversal as a rebuke to his own defense chief over a planned public execution.",
+          "url": "https://humenglish.com/latest/trump-cancels-planned-livestream-of-fort-hood-shooters-execution"
+        },
+        {
+          "country": "United States",
+          "outlet": "BBC News",
+          "line": "BBC highlights the open letter from retired US military leaders arguing a public execution would violate constitutional protections.",
+          "url": "https://www.bbc.co.uk/news/articles/cmp3gnngv3e9o"
+        },
+        {
+          "country": "Nigeria",
+          "outlet": "Naija News",
+          "line": "Nigerian outlet Naija News carries a brief report on Trump reversing the livestream decision for Hasan's execution.",
+          "url": "https://www.naijanews.com/2026/10/16/trump-decision-livestream-execution-nidal-hasan"
+        }
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "storyId": "724da99b-0143-4d25-a9c8-e26d25262b7d",
+      "size": "brief",
+      "kicker": "Health",
+      "headline": "Pope Leo XIV recovers in Rome hospital after lung cancer surgery",
+      "dek": "The Vatican says the 71-year-old pope is recovering well and is expected to leave hospital after four days, pending further tests.",
+      "body": [
+        {
+          "text": "Pope Leo XIV had part of a lung removed on Tuesday for lung cancer. Vatican doctors said a chest X-ray showed a good recovery of the operated lung.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "The Vatican released photos of the pope celebrating mass on Friday at Rome's Gemelli Hospital, where he is recovering.",
+          "sources": [
+            2,
+            3
+          ]
+        },
+        {
+          "text": "Sky News reported the Vatican said the pope is set to leave hospital on Saturday, four days after surgery. Further tests will determine whether he is cancer-free or needs more treatment.",
+          "sources": [
+            4,
+            1
+          ]
+        }
+      ],
+      "whyThis": "One of today's most-covered stories: 11 outlets.",
+      "whyItMatters": "The pope leads more than 1.4 billion Catholics, so his health and any changes to his schedule draw wide public attention.",
+      "trust": {
+        "outlets": 11,
+        "label": "confirmed",
+        "unknowns": "It is not yet known whether the pope is cancer-free or will need further treatment. The Vatican had not said whether he would lead the Sunday Angelus from hospital or from the Vatican."
+      },
+      "distress": 1,
+      "sources": [
+        {
+          "name": "Buenos Aires Times",
+          "url": "https://www.batimes.com.ar/news/world/pope-leos-cancer-operation-already-reshaping-his-papacy.phtml"
+        },
+        {
+          "name": "News from Europe - Latest world headlines and daily news - France 24",
+          "url": "https://www.france24.com/en/europe/20261016-pope-leo-xiv-celebrates-mass-in-hospital-while-recovering-from-lung-cancer-operation"
+        },
+        {
+          "name": "CBS News",
+          "url": "https://www.cbsnews.com/news/photos-pope-leo-mass-hospital-recovery-surgery"
+        },
+        {
+          "name": "Sky News",
+          "url": "https://news.sky.com/story/pope-leo-to-leave-hospital-today-after-lung-cancer-surgery-the-vatican-says-13600129"
+        },
+        {
+          "name": "The New York Times",
+          "url": "https://www.nytimes.com/2026/10/17/world/europe/pope-leo-vatican-transparency-cancer.html"
+        },
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/cw146ej00yn7o"
+        },
+        {
+          "name": "\"site",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOMTVZUUpvVEJaX0dFR3pmQnRXNEdObjZFRkM2b21aZU8wVGhSTkVHVElGWEZTUVdISXViOGsxdENoU1JvLTFIMXN6RzdPbkVSSW5qWTYyNHQ2dHBONVpTV2JQQTNJRTFVRzZFUGhBLVpadG1xRUoybUI5OXVmZGYzS3d3VWRlcFJhVHJ4TU9rMVRsR0g2am5KQUxWUlQ3bHRfejkyNEhHV2JwTVUxV3lRVFZ3?oc=5"
+        },
+        {
+          "name": "DW",
+          "url": "https://www.dw.com/en/pope-leo-recovering-from-surgery-will-deliver-sunday-prayer/a-79682540?maca=en-rss-en-all-1573-rdf"
+        }
+      ],
+      "imageUrl": "https://fotos.perfil.com/2026/10/15/trim/540/304/pope-leo-xiv-2349027.jpg",
+      "topics": [
+        "health",
+        "religion",
+        "europe"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "Europe",
+          "outlet": "News from Europe - Latest world headlines and daily news - France 24",
+          "line": "French outlet focuses on the pope's hospital Mass and the Vatican's photos released after surgery.",
+          "url": "https://www.france24.com/en/europe/20261016-pope-leo-xiv-celebrates-mass-in-hospital-while-recovering-from-lung-cancer-operation"
+        },
+        {
+          "country": "Argentina",
+          "outlet": "Buenos Aires Times",
+          "line": "Argentine outlet highlights how the illness could reshape the papacy less than two years after his election.",
+          "url": "https://www.batimes.com.ar/news/world/pope-leos-cancer-operation-already-reshaping-his-papacy.phtml"
+        }
+      ]
+    },
+    {
+      "storyId": "afa78f92-5e8f-4a4b-b962-bcbf2830c051",
+      "size": "brief",
+      "kicker": "Economy",
+      "headline": "US wholesale and consumer inflation climb faster than expected in September",
+      "dek": "Energy costs tied to the war with Iran drove much of the increase, weeks before the midterm elections.",
+      "body": [
+        {
+          "text": "US wholesale prices rose 1.3% in September from August and 6.3% from a year earlier, according to Bureau of Labor Statistics data.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "Energy prices, pushed higher by conflicts including the war with Iran, accounted for 80% of a 2.9% jump in goods prices.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "Consumer prices rose 3.7% year on year in September, above the 3.6% that analysts had expected.",
+          "sources": [
+            2,
+            3
+          ]
+        },
+        {
+          "text": "The Social Security Administration said benefits will increase next year to help keep pace with rising living costs.",
+          "sources": [
+            3
+          ]
+        },
+        {
+          "text": "Overall US import prices rose 1.1% in September, after a 0.5% rise in August.",
+          "sources": [
+            4
+          ]
+        }
+      ],
+      "whyThis": "Matches your interest in the global economy; 7 outlets are covering it.",
+      "whyItMatters": "Higher prices affect household budgets and set the size of Social Security increases, and the data comes just before the midterm elections.",
+      "trust": {
+        "outlets": 7,
+        "label": "confirmed",
+        "unknowns": "Sources give different release days for the wholesale and consumer reports, and the reports do not give a full explanation beyond energy costs."
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "Bitbo News",
+          "url": "https://bitbo.io/news/us-wholesale-inflation-surges"
+        },
+        {
+          "name": "Aaj TV English News - Business & Economy",
+          "url": "https://english.aaj.tv/news/330476545/us-consumer-inflation-hotter-than-expected-as-midterms-loom"
+        },
+        {
+          "name": "NPR",
+          "url": "https://www.npr.org/2026/10/14/nx-s1-6000593/inflation-consumer-prices-cpi-social-security-benefits"
+        },
+        {
+          "name": "WSJ.com",
+          "url": "https://www.wsj.com/economy/u-s-import-prices-rose-in-september-5ee51f36?mod=rss_socialeconomyfeed"
+        },
+        {
+          "name": "Economy",
+          "url": "https://www.cnbc.com/2026/10/15/september-producer-price-index-retail-sales-data.html"
+        },
+        {
+          "name": "BBC News",
+          "url": "https://www.bbc.co.uk/news/articles/c305649p2d6o"
+        },
+        {
+          "name": "economy-policy",
+          "url": "https://www.businesstimes.com.sg/singapore/economy-policy/economists-raise-full-year-gdp-forecasts-after-growth-hits-5-4-q3-beating-estimates"
+        }
+      ],
+      "imageUrl": "https://images.wsj.net/im-00375053",
+      "topics": [
+        "global-economy"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "Pakistan",
+          "outlet": "Aaj TV English News - Business & Economy",
+          "line": "Pakistan's Aaj TV frames the inflation data as added strain on American households ahead of next month's midterm elections.",
+          "url": "https://english.aaj.tv/news/330476545/us-consumer-inflation-hotter-than-expected-as-midterms-loom"
+        },
+        {
+          "country": "United States",
+          "outlet": "BBC News",
+          "line": "BBC News focuses on how ordinary Americans are coping with rising inflation, which came in above forecasts this month.",
+          "url": "https://www.bbc.co.uk/news/articles/c305649p2d6o"
+        }
+      ]
+    },
+    {
+      "storyId": "7cc08c9d-015e-4913-a3a7-2d7e81c61ef7",
+      "size": "brief",
+      "kicker": "Business",
+      "headline": "Tech share sell-off spreads from Seoul to Wall Street",
+      "dek": "Chip and AI-linked stocks fell sharply in Asia and the US as inflation and interest-rate fears grew.",
+      "body": [
+        {
+          "text": "South Korea's Kospi 200 fell more than 8% overnight to a six-month closing low, triggering circuit breakers that halted trading at points, with SK Hynix and Samsung Electronics down nearly 11% and 9.5%.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "Japan's Nikkei 225 dropped 4.9% on Thursday, after Kioxia fell 11% and SoftBank, an investor in OpenAI, fell 10%.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "Software and semiconductor stocks, which have not moved together much this year, collectively fell on Friday as AI and interest-rate fears hit the market.",
+          "sources": [
+            2
+          ]
+        }
+      ],
+      "whyThis": "Matches your interest in markets and AI.",
+      "whyItMatters": "Sharp moves in AI-linked and chip stocks reflect broader worries about inflation and interest rates that can affect markets worldwide.",
+      "trust": {
+        "outlets": 2,
+        "label": "confirmed",
+        "unknowns": "The sources do not say how long the sell-off will last. The Guardian excerpt is truncated, so details of US producer price data are not included."
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "url": "https://www.theguardian.com/business/2026/oct/15/tech-market-sell-off-deepens-amid-fears-over-us-inflation-and-ai-debt"
+        },
+        {
+          "name": "MarketWatch",
+          "url": "https://www.marketwatch.com/story/nowhere-to-hide-tech-selloff-hits-software-and-chip-stocks-alike-6d96773c?mod=mw_rss_topstories"
+        }
+      ],
+      "imageUrl": "https://i.guim.co.uk/img/media/db77d2497ad333f58b03bc024b156cdce2973b96/1166_0_4632_3706/master/4632.jpg?width=140&quality=85&auto=format&fit=max&s=0c106f80a98eb99a06130d501a36d1b9",
+      "topics": [
+        "markets",
+        "ai",
+        "semiconductors"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "United Kingdom",
+          "outlet": "The Guardian",
+          "line": "Frames the sell-off around inflation and debt fears in the AI sector, with detailed coverage of Asian market falls.",
+          "url": "https://www.theguardian.com/business/2026/oct/15/tech-market-sell-off-deepens-amid-fears-over-us-inflation-and-ai-debt"
+        },
+        {
+          "country": "United States",
+          "outlet": "MarketWatch",
+          "line": "Focuses on software and chip stocks falling together on Friday amid AI and interest-rate worries.",
+          "url": "https://www.marketwatch.com/story/nowhere-to-hide-tech-selloff-hits-software-and-chip-stocks-alike-6d96773c?mod=mw_rss_topstories"
+        }
+      ]
+    },
+    {
+      "storyId": "ff7a5626-0ac4-4426-8df7-75b568216f30",
+      "size": "brief",
+      "kicker": "Economy",
+      "headline": "Bank of Japan releases research paper list and market operations meeting summary",
+      "dek": "The sources list a paper on electrification and cotton spinning, a conference summary, and a Latin American review headline on EASD 2026.",
+      "body": [
+        {
+          "text": "The Bank of Japan's Institute for Monetary and Economic Studies lists a discussion paper on how electrification affected quality and productivity in Japanese cotton spinning, dated Oct. 9, 2026.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "The same listing includes a summary of the 2026 BOJ-IMES conference on monetary policy from new perspectives, dated Sept. 14, 2026.",
+          "sources": [
+            1
+          ]
+        }
+      ],
+      "whyThis": "Matches your interest in the global economy and markets.",
+      "whyItMatters": "Central bank research and market operations summaries show how Japan's monetary authorities discuss policy and their day-to-day market activity.",
+      "trust": {
+        "outlets": 2,
+        "label": "confirmed",
+        "unknowns": "The full text of the papers, the conference summary and the market operations summary is not included in the sources. The body of the ABC Color review is also not provided."
+      },
+      "distress": 0,
+      "sources": [
+        {
+          "name": "Bank of Japan",
+          "url": "http://www.boj.or.jp/en/research/imes/dps/dps26.htm"
+        },
+        {
+          "name": "ABC Color",
+          "url": "https://www.abc.com.py/empresariales/2026/10/17/review-easd-2026-reunio-siete-exposiciones"
+        }
+      ],
+      "primary": true,
+      "imageUrl": "https://www.abc.com.py/resizer/DIvs7FuBNxz4sQiiNt-5blkL9DU=/cloudfront-us-east-1.images.arcpublishing.com/abccolor/VLXWTDJDORBFPKPV45O5BCOAF4.jpg",
+      "topics": [
+        "global-economy",
+        "markets"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "Japan",
+          "outlet": "Bank of Japan",
+          "line": "Japan's central bank research arm lists academic papers and conference summaries on its official publication page.",
+          "url": "http://www.boj.or.jp/en/research/imes/dps/dps26.htm"
+        },
+        {
+          "country": "Latin America",
+          "outlet": "ABC Color",
+          "line": "A Latin American outlet headlines a review of EASD 2026 exhibitions; the article body is not included in the sources.",
+          "url": "https://www.abc.com.py/empresariales/2026/10/17/review-easd-2026-reunio-siete-exposiciones"
+        }
+      ]
+    }
+  ],
+  "threeThings": [
+    "The draft would let the government block a model's release or use only if it poses a foreseeable, imminent risk of more than $1 billion in damages, or of killing or seriously injuring more than 50 people.",
+    "During the demonstration, the car used thrusters to lift itself into the air and over other Tesla vehicles, and Tesla showed it accelerating from 0 to 60 mph in one second.",
+    "The report said the bond market is \"susceptible to more frequent fiscal and inflation shocks,\" and that a sharp rise in yields would mark down asset values."
+  ],
+  "quiz": [
+    {
+      "q": "What dollar damage threshold would allow the government to block a model's release under the draft bill?",
+      "options": [
+        "More than $100 million",
+        "More than $1 billion",
+        "More than $10 billion",
+        "More than $500 million"
+      ],
+      "answer": 1,
+      "storyId": "ca4f4ad1-57bd-4133-a992-50438d6f450f"
+    },
+    {
+      "q": "Where were the IMF and World Bank annual meetings held?",
+      "options": [
+        "Washington",
+        "Bangkok",
+        "Geneva",
+        "Singapore"
+      ],
+      "answer": 1,
+      "storyId": "87336d49-9df2-44cf-a59c-2b5c11f6d1fc"
+    },
+    {
+      "q": "What did the Election Commission of India say about the voter roll process?",
+      "options": [
+        "It said it was suspending the revision.",
+        "It said it was following the law.",
+        "It said the protests were illegal.",
+        "It said it would hold new elections."
+      ],
+      "answer": 1,
+      "storyId": "4d8645c1-0f97-4a0a-a06e-bbb020287afe"
+    }
+  ],
+  "dailyThree": [
+    {
+      "q": "How long did Katie Zacharia serve as White House press secretary before she was removed?",
+      "options": [
+        "Less than a week",
+        "About one month",
+        "Three weeks",
+        "More than a year"
+      ],
+      "answer": 0,
+      "storyId": "d0216e85-4702-4b81-b666-8fc6eef324f6"
+    },
+    {
+      "q": "How long did Tesla say the second-generation Roadster needed to go from 0 to 60 mph in its demonstration?",
+      "options": [
+        "3 seconds",
+        "5 seconds",
+        "1 second",
+        "8 seconds"
+      ],
+      "answer": 2,
+      "storyId": "c5aa9b5a-653b-43e5-ae09-9bc4751f6ea7"
+    },
+    {
+      "q": "For how many days were CJP leaders Saurav Das and Ashutosh Ranka sent to judicial custody?",
+      "options": [
+        "Three days",
+        "Five days",
+        "Seven days",
+        "Fourteen days"
+      ],
+      "answer": 1,
+      "storyId": "f72c6009-13b9-4fa6-9b32-c1a8bedae464"
+    }
+  ],
+  "tomorrow": [
+    "Anthropic pitches draft AI safety bill to US lawmakers: The Department of Commerce did not immediately respond to a request for comment. Politico's account rests on three unnamed people, and the bill's path through Congress is not described in the sources.",
+    "IMF warns of possible 'disorderly' spike in government bond yields: The sources do not say whether a disorderly spike in bond yields will occur or when, only that the risk could rise.",
+    "India's Gen Z protests mount over voter roll revision and election official: NPR could not confirm the figure of more than 130 million people struck off or threatened with deletion from the rolls."
+  ],
+  "everyonesFrontPage": [
+    {
+      "storyId": "f73c9375-86cb-4361-b3dc-43c00c05ed00",
+      "size": "major",
+      "kicker": "Everyone's Front Page · Energy",
+      "headline": "Oil Eases But Heads for Weekly Gain on Middle East Supply Risks",
+      "dek": "Brent fell to $105.21 a barrel as traders weighed Strait of Hormuz flows and possible US sanctions easing on shadow fleet tankers.",
+      "body": [
+        {
+          "text": "ING analysts said uncertainty in the Middle East and concerns over oil flows through the Strait of Hormuz have the market pricing in a significant risk premium.",
+          "sources": [
+            1
+          ]
+        },
+        {
+          "text": "The International Energy Agency agreed to release over 20 million barrels of diesel to the market, and a US official said the Trump administration is considering lifting sanctions on some shadow fleet vessels.",
+          "sources": [
+            2
+          ]
+        },
+        {
+          "text": "OPEC projects global oil demand to average 108.2 million barrels per day in 2027, up from 105.8 million in 2026, with India and non-OECD Asia leading growth.",
+          "sources": [
+            3,
+            4
+          ]
+        }
+      ],
+      "whyThis": "One of today's shared front-page stories, shown to every reader.",
+      "whyItMatters": "Oil prices feed into fuel, transport and fertiliser costs, which hit energy-importing economies such as Ethiopia hardest, according to the WTO as reported by Fortune.",
+      "trust": {
+        "outlets": 16,
+        "label": "confirmed",
+        "unknowns": "Free Press Journal reported Brent hit $110 a barrel for the first time since May, but the timing of that peak is not stated in the other articles, which cite prices near $105."
+      },
+      "distress": 1,
+      "sources": [
+        {
+          "name": "BOE Report",
+          "url": "https://boereport.com/2026/10/15/oil-heads-for-weekly-gain-with-mideast-supply-risks"
+        },
+        {
+          "name": "Aaj TV English News - Business & Economy",
+          "url": "https://english.aaj.tv/news/330476687/oil-edges-down-as-investors-weigh-possible-us-sanctions-on-shadow-fleet"
+        },
+        {
+          "name": "Business News Today",
+          "url": "https://www.thehindubusinessline.com/markets/commodities/global-oil-demand-to-rise-sharply-in-2027-led-by-india-non-oecd-asia-opec/article71595673.ece"
+        },
+        {
+          "name": "Business News",
+          "url": "https://www.tribuneindia.com/news/2027-projection/global-oil-demand-to-rise-sharply-in-2027-led-by-india-non-oecd-asia-opecglobal-oil-demand-to-rise-sharply-in-2027-led-by-india-non-oecd-asia-opec"
+        },
+        {
+          "name": "Free Press Journal",
+          "url": "https://www.freepressjournal.in/business/brent-crude-hits-110-a-barrel-for-first-time-since-may"
+        },
+        {
+          "name": "MercoPress",
+          "url": "https://en.mercopress.com/2026/10/17/brent-touches-us-110-for-the-first-time-since-may-on-middle-east-tensions"
+        },
+        {
+          "name": "Business Recorder",
+          "url": "https://www.brecorder.com/news/40444629/oil-touches-usd110-a-barrel-for-first-time-since-may"
+        },
+        {
+          "name": "The Hill",
+          "url": "https://thehill.com/newsletters/business-economy/6155276-oil-reaches-110-per-barrel"
+        }
+      ],
+      "imageUrl": "https://i.aaj.tv/large/2026/10/160853476e1bfcd.webp",
+      "topics": [
+        "energy",
+        "middle-east",
+        "global-economy"
+      ],
+      "readMinutes": 0.5,
+      "world": [
+        {
+          "country": "Pakistan",
+          "outlet": "Aaj TV English News - Business & Economy",
+          "line": "Pakistan's Aaj TV focuses on investors weighing possible US easing of sanctions on shadow fleet tankers amid Middle East risks.",
+          "url": "https://english.aaj.tv/news/330476687/oil-edges-down-as-investors-weigh-possible-us-sanctions-on-shadow-fleet"
+        },
+        {
+          "country": "Ethiopia",
+          "outlet": "(Addis) Fortune – The Largest English Weekly in Ethiopia!",
+          "line": "Ethiopia's Fortune stresses how higher oil and fertiliser prices from the Middle East conflict will squeeze energy-importing economies like Ethiopia.",
+          "url": "https://addisfortune.news/world-trade-picks-up-as-ethiopia-pays-more-for-fuel-fertiliser"
+        },
+        {
+          "country": "India",
+          "outlet": "Free Press Journal",
+          "line": "India's Free Press Journal highlights that Brent crude hit $110 a barrel for the first time since May.",
+          "url": "https://www.freepressjournal.in/business/brent-crude-hits-110-a-barrel-for-first-time-since-may"
+        }
+      ]
+    },
+    {
+      "storyId": "cacb120d-d4f7-48d3-a70f-f59f366df40b",
+      "size": "minor",
+      "kicker": "Everyone's Front Page · Politics",
+      "headline": "Trump waives Russia sanctions and tariffs days before they were due",
+      "dek": "The executive order, signed as Trump and Zelensky traded sharp words, suspends penalties tied to Russia's oil and gas revenues.",
+      "body": [
+        {
+          "text": "President Donald Trump signed an executive order on Friday waiving sanctions and tariffs targeting Russia's energy revenues, two days before they were due to take effect.",
+          "sources": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "text": "The measures, known as the Lindsey Graham Act after the late senator who sponsored it, were signed into law in September and allowed tariffs of up to 100% on the top buyers of Russian oil and gas.",
+          "sources": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "text": "The White House order said the waiver was in the national interest of the United States, which prompted a backlash from US lawmakers, according to reports.",
+          "sources": [
+            1,
+            3
+          ]
+        },
+        {
+          "text": "The move came as relations between Washington and Kyiv soured after a controversial US deal to import Russian diesel, and analysts said the new measures could have raised oil prices before the midterm elections.",
+          "sources": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "whyThis": "One of today's shared front-page stories, shown to every reader.",
+      "whyItMatters": "The decision changes how the US pressures Russia over its war in Ukraine and could affect global energy prices and relations with major buyers of Russian oil.",
+      "trust": {
+        "outlets": 31,
+        "label": "confirmed",
+        "unknowns": "Reports do not say how long the waiver will last beyond a statement that it remains in effect until Trump or his top officials determine otherwise."
+      },
+      "distress": 1,
+      "sources": [
+        {
+          "name": "KBC Digital",
+          "url": "https://www.kbc.co.ke/trump-waives-several-russia-sanctions-as-row-with-zelensky-intensifies"
+        },
+        {
+          "name": "Arab News Pakistan",
+          "url": "https://www.arabnews.pk/world/trump-signs-executive-order-waiving-new-russia-sanctions-tariffs-3004413"
+        },
+        {
+          "name": "Al-Monitor",
+          "url": "https://www.al-monitor.com/originals/2026/10/trump-waives-key-russia-related-sanctions-tariffs-they-take-effect-under-new-law"
+        },
+        {
+          "name": "France 24 English",
+          "url": "https://www.france24.com/en/video/20261017-trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+        },
+        {
+          "name": "Mailchimptemplate",
+          "url": "https://english.aawsat.com/node/5330486"
+        },
+        {
+          "name": "The Sun Nigeria",
+          "url": "https://thesun.ng/trump-waives-new-russia-sanctions-tariffs-in-executive-order"
+        },
+        {
+          "name": "Business News Today",
+          "url": "https://www.thehindubusinessline.com/economy/india-gets-tariff-reprieve-as-trump-waives-russian-oil-penalties-but-the-threat-lingers/article71595740.ece"
+        },
+        {
+          "name": "Business Recorder",
+          "url": "https://www.brecorder.com/news/40444662/trump-waives-key-russia-related-sanctions-tariffs-before-they-take-effect-under-new-law"
+        }
+      ],
+      "imageUrl": "https://cdn.i-scmp.com/sites/default/files/styles/1280x720/public/d8/images/canvas/2026/10/17/084a4e2f-a073-440f-afb7-24f20fc87fee_833dc7d4.jpg?itok=9q73ljNo&v=1792203967",
+      "topics": [
+        "us-politics",
+        "geopolitics",
+        "europe"
+      ],
+      "readMinutes": 1,
+      "world": [
+        {
+          "country": "Kenya",
+          "outlet": "KBC Digital",
+          "line": "Kenyan outlet frames the waiver against the backlash from US lawmakers and the open war of words between Trump and Zelensky.",
+          "url": "https://www.kbc.co.ke/trump-waives-several-russia-sanctions-as-row-with-zelensky-intensifies"
+        },
+        {
+          "country": "Pakistan",
+          "outlet": "Arab News Pakistan",
+          "line": "Pakistani outlet stresses the executive order text and links the reversal to Trump's earlier controversial deal with Putin.",
+          "url": "https://www.arabnews.pk/world/trump-signs-executive-order-waiving-new-russia-sanctions-tariffs-3004413"
+        },
+        {
+          "country": "Middle East",
+          "outlet": "Al-Monitor",
+          "line": "Middle East outlet, citing Reuters, ties the waiver to US midterm elections and rising oil prices linked to the Iran war.",
+          "url": "https://www.al-monitor.com/originals/2026/10/trump-waives-key-russia-related-sanctions-tariffs-they-take-effect-under-new-law"
+        },
+        {
+          "country": "France",
+          "outlet": "France 24 English",
+          "line": "French outlet describes the waiver as a new low in Washington's ties with war-torn Ukraine.",
+          "url": "https://www.france24.com/en/video/20261017-trump-waives-new-russia-sanctions-as-ukraine-ties-slump"
+        }
+      ]
     }
   ],
   "calm": false,
   "language": "en",
   "largePrint": false,
-  "updates": [
-    {
-      "watchId": "7d3f2a10-5b8e-4c1a-9f3e-2b6d8c4e1a90",
-      "question": "What do new cars cost in Pakistan?",
-      "summary": "Suzuki Pakistan raised Alto and Cultus prices by up to Rs 150,000 from Monday, citing the weaker rupee.",
-      "sources": [
-        {
-          "name": "Dawn",
-          "url": "https://www.dawn.com/news/business"
-        }
-      ],
-      "storyId": "2113c77e-4242-4087-89bf-c304360383b7"
-    }
-  ],
   "extras": {
-    "onThisDay": "1989: the Loma Prieta earthquake strikes the San Francisco Bay Area during the World Series."
+    "onThisDay": "1660: A series of executions of the commissioners who signed the death warrant of King Charles I of England concluded; six were hanged, drawn and quartered for treason.",
+    "markets": {
+      "USD/EUR": "0.89",
+      "USD/GBP": "0.75",
+      "USD/JPY": "158.02"
+    }
   },
   "meta": {
-    "builtAt": "2026-10-17T02:00:00.000Z",
+    "builtAt": "2026-10-17T13:31:58.491Z",
     "fallback": false,
-    "grounding": 0.97
-  }
+    "grounding": 0.833
+  },
+  "updates": [
+    {
+      "watchId": "dae452e2-634b-49d4-ab05-ad35ecb018bc",
+      "question": "What does the AI safety bill propose?",
+      "summary": "Anthropic representatives have quietly pitched a draft bill to regulate frontier AI safety and security to Capitol Hill lawmakers, Politico reported on Friday, ",
+      "sources": [
+        {
+          "name": "CNA (Channel NewsAsia)",
+          "url": "https://www.channelnewsasia.com/business/anthropic-quietly-pitches-its-own-ai-safety-bill-us-lawmakers-6467581"
+        }
+      ],
+      "storyId": "ca4f4ad1-57bd-4133-a992-50438d6f450f"
+    }
+  ]
 }
