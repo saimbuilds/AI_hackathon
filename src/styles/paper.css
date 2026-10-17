@@ -1,0 +1,305 @@
+/* The paper: the product object. Everything inside is set in em so the page scales as one piece
+   (font-size comes from the container width), like a printed sheet photographed at any size. */
+
+@layer components {
+  .paper-frame {
+    container-type: inline-size;
+    width: 100%;
+  }
+  .paper {
+    --u: calc(100cqi / 62);
+    font-size: var(--u);
+    position: relative;
+    aspect-ratio: 0.78;
+    background: var(--paper-bg);
+    color: var(--paper-ink);
+    padding: 2.4em 2.6em;
+    border-radius: 0.35em;
+    overflow: hidden;
+    font-family: var(--font-newsreader), Georgia, serif;
+    letter-spacing: 0;
+    box-shadow:
+      0 0.08em 0.2em rgb(28 29 26 / 0.08),
+      0 2.4em 5em -1.6em rgb(28 29 26 / 0.32);
+  }
+  .paper[data-shadow="none"] {
+    box-shadow: none;
+  }
+  /* Paper grain: a faint tooth so the sheet doesn't read as a flat div */
+  .paper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  .paper-ears {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1em;
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 1em;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .paper-ears > :last-child {
+    text-align: right;
+  }
+  .paper-masthead {
+    font-family: var(--font-unifraktur), serif;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1;
+    font-size: 5.6em;
+    letter-spacing: -0.01em;
+    margin-block: 0.12em 0.08em;
+    white-space: nowrap;
+  }
+  .paper-masthead[data-long="true"] {
+    font-size: 4.4em;
+  }
+  .paper-masthead[data-xlong="true"] {
+    font-size: 3.5em;
+  }
+  .paper-dateline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    padding-block: 0.45em;
+    border-block: 0.09em solid var(--paper-ink);
+    box-shadow: 0 0.18em 0 -0.09em var(--paper-ink) inset;
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 0.95em;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    font-variant-numeric: tabular-nums;
+  }
+  .paper-grid {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 0 1.6em;
+    margin-top: 1.5em;
+  }
+  .paper-grid > * + * {
+    border-left: 0.06em solid var(--paper-rule);
+    padding-left: 1.6em;
+  }
+  .paper-kicker {
+    font-family: var(--font-grotesk), sans-serif;
+    font-weight: 600;
+    font-size: 0.85em;
+    letter-spacing: -0.005em;
+    color: var(--kicker);
+    margin-bottom: 0.4em;
+  }
+  .paper-lead {
+    font-weight: 500;
+    font-size: 3.15em;
+    line-height: 0.98;
+    letter-spacing: -0.028em;
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+  .paper-dek {
+    font-style: italic;
+    font-size: 1.3em;
+    line-height: 1.3;
+    margin-top: 0.55em;
+    color: color-mix(in oklab, var(--paper-ink) 78%, transparent);
+    text-wrap: pretty;
+  }
+  .paper-body {
+    columns: 2;
+    column-gap: 1.3em;
+    column-rule: 0.06em solid var(--paper-rule);
+    margin-top: 0.9em;
+    font-size: 0.98em;
+    line-height: 1.42;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .paper-body p + p {
+    text-indent: 1em;
+  }
+  .paper-body p:first-child::first-letter {
+    float: left;
+    font-size: 3.3em;
+    line-height: 0.82;
+    padding: 0.05em 0.08em 0 0;
+    font-weight: 500;
+  }
+  .paper-h2 {
+    font-weight: 500;
+    font-size: 1.55em;
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+  .paper-h3 {
+    font-weight: 500;
+    font-size: 1.18em;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .paper-small {
+    font-size: 0.92em;
+    line-height: 1.38;
+    margin-top: 0.4em;
+    color: color-mix(in oklab, var(--paper-ink) 82%, transparent);
+  }
+  .paper-rule {
+    height: 0.06em;
+    background: var(--paper-rule);
+    margin-block: 1em;
+  }
+  .paper-foryou {
+    margin-top: 1em;
+    padding: 0.7em 0.9em;
+    border-radius: 0.3em;
+    background: var(--sun);
+    color: #1c1d1a;
+    font-family: var(--font-grotesk), sans-serif;
+    font-weight: 500;
+    font-size: 0.98em;
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+  }
+  .paper-foryou b {
+    font-weight: 650;
+  }
+  .paper-trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-top: 0.8em;
+    font-family: var(--font-grotesk), sans-serif;
+    font-size: 0.85em;
+    font-weight: 550;
+  }
+  .paper-trust::before {
+    content: "";
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    background: var(--leaf);
+    box-shadow: 0 0 0 0.12em color-mix(in oklab, var(--leaf) 40%, transparent);
+  }
+  .paper-trust[data-label="single-source"]::before {
+    background: var(--sun-deep);
+  }
+  .paper-trust[data-label="developing"]::before {
+    background: var(--press);
+  }
+  .paper-endmark {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.6em;
+    text-align: center;
+    font-family: var(--font-grotesk), sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    letter-spacing: 0.02em;
+    color: var(--kicker);
+  }
+  /* Fade the bottom of a cropped page so it reads as "continues below the fold" */
+  .paper[data-crop="true"]::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 22%;
+    background: linear-gradient(transparent, var(--paper-bg) 85%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Right-to-left papers (Urdu, Nastaliq) */
+  .paper[dir="rtl"] {
+    font-family: var(--font-nastaliq), var(--font-newsreader), serif;
+  }
+  .paper[dir="rtl"] .paper-grid > * + * {
+    border-left: 0;
+    padding-left: 0;
+    border-right: 0.06em solid var(--paper-rule);
+    padding-right: 1.6em;
+  }
+  .paper[dir="rtl"] .paper-lead {
+    font-size: 2.5em;
+    line-height: 1.75;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .paper[dir="rtl"] .paper-masthead {
+    font-family: var(--font-nastaliq), serif;
+    font-size: 4.6em;
+    line-height: 1.6;
+    margin-block: -0.2em -0.3em;
+  }
+  .paper[dir="rtl"] .paper-h2,
+  .paper[dir="rtl"] .paper-h3 {
+    line-height: 1.9;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .paper[dir="rtl"] .paper-small,
+  .paper[dir="rtl"] .paper-body {
+    line-height: 2.1;
+    text-align: right;
+  }
+  .paper[dir="rtl"] .paper-body p:first-child::first-letter {
+    float: none;
+    font-size: inherit;
+    padding: 0;
+  }
+  .paper[data-large="true"] {
+    --u: calc(100cqi / 52);
+  }
+}
+
+/* Letterpress: glyphs drop in like metal type, with a small overshoot */
+.paper-masthead .glyph {
+  display: inline-block;
+  animation: glyph-drop 520ms var(--ease-bounce) both;
+}
+@keyframes glyph-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.4em) rotate(-6deg);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Urdu editions in the reader: Nastaliq needs taller lines and no negative tracking. */
+.edition-ur .edition-sheet .font-serif,
+.edition-ur [role="dialog"] .font-serif {
+  font-family: var(--font-nastaliq), var(--font-newsreader), serif;
+  letter-spacing: 0 !important;
+  line-height: 1.95 !important;
+  font-style: normal !important;
+}
+/* Large-print editions: the whole sheet scales up together. */
+.edition-large .edition-sheet {
+  zoom: 1.16;
+}
+
+/* Story text picks its own direction from its first strong character, so an Arabic or Urdu headline in an
+   English paper (or the reverse) reads right-to-left without per-story markup. */
+.font-serif,
+.paper-lead,
+.paper-h2,
+.paper-h3,
+.paper-dek,
+.paper-small {
+  unicode-bidi: plaintext; /* alignment follows: the default text-align is start */
+}

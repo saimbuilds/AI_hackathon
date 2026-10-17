@@ -1,0 +1,101 @@
+/* Endpaper design tokens (v2, "press" system).
+   Structure borrowed from big-type, panel-stacked editorial sites; the skin is a printing press:
+   newsprint + ink + three process inks. Colors are used as flat plates, never gradients. */
+
+:root {
+  /* Paper & ink */
+  --newsprint: #ece9e1; /* page */
+  --newsprint-2: #e0dcd1; /* sunk panels */
+  --newsprint-3: #cbc5b7; /* hairlines on sunk panels, chip hover */
+  --sheet: #fbfaf6; /* raised paper: cards, nav, inputs */
+  --ink: #1c1d1a;
+  --ink-2: #474842;
+  --ink-3: #64645d; /* 4.8:1 on newsprint */
+  --line: rgb(28 29 26 / 0.12);
+  --line-2: rgb(28 29 26 / 0.22);
+
+  /* Process inks (flat plates) */
+  --sun: #ffd23f; /* morning yellow: hero, CTA, ribbon */
+  --sun-deep: #f2bf14;
+  --press: #ff5a3d; /* press red: brand, footer, "developing", end mark */
+  --press-deep: #ec4325;
+  --cyan: #48aef5; /* process cyan: data, links in the paper */
+  --leaf: #86d18b; /* confirmed + correct answers only */
+  --leaf-ink: #1f6b33; /* text-safe green on sheet */
+
+  --on-dark: #ece9e1;
+  --selection: rgb(255 210 63 / 0.6);
+
+  /* Radii: sharp paper inside, soft objects outside */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 36px;
+  --r-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-bounce: cubic-bezier(0.17, 0.67, 0.3, 1.33);
+  --dur-hover: 140ms;
+  --dur-ui: 220ms;
+  --dur-bounce: 420ms;
+
+  /* Layout */
+  --gutter: clamp(16px, 1.4vw, 20px);
+  --page-max: 1400px;
+  --nav-h: 60px;
+  --nav-top: clamp(12px, 1.2vw, 18px);
+
+  /* Paper (the product object) */
+  --paper-ink: #151513;
+  --paper-bg: #f6f3ec;
+  --paper-rule: rgb(21 21 19 / 0.18);
+}
+
+/* Evening Edition: the reader follows the clock (set on <html> before paint). Marketing pages stay light. */
+:root[data-edition="evening"] .edition-scope,
+.edition-scope[data-edition="evening"] {
+  --newsprint: #141412;
+  --newsprint-2: #1c1c19;
+  --newsprint-3: #2c2c28;
+  --sheet: #20201d;
+  --ink: #ece9e1;
+  --ink-2: #bdbab1;
+  --ink-3: #9c998f;
+  --line: rgb(236 233 225 / 0.12);
+  --line-2: rgb(236 233 225 / 0.22);
+  --paper-ink: #ece9e1;
+  --paper-bg: #1a1a17;
+  --paper-rule: rgb(236 233 225 / 0.18);
+  color-scheme: dark;
+}
+
+/* Colored plates keep dark ink in the Evening Edition: light text on yellow, cyan or red is unreadable. */
+:root[data-edition="evening"] .edition-scope :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press, .chip[data-tone="sun"], .chip[data-tone="cyan"], .chip[data-tone="leaf"], .chip[data-tone="press"], .paper-foryou, .pbtn[data-look="solid"]),
+.edition-scope[data-edition="evening"] :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press, .chip[data-tone="sun"], .chip[data-tone="cyan"], .chip[data-tone="leaf"], .chip[data-tone="press"], .paper-foryou, .pbtn[data-look="solid"]) {
+  --ink: #1c1d1a;
+  --sheet: #fbfaf6;
+  --newsprint: #ece9e1;
+  --line: rgb(28 29 26 / 0.12);
+  color: #1c1d1a;
+}
+
+/* Kicker red: deep on paper, lifted at night; muted ink on colored plates stays readable in both editions. */
+:root {
+  --kicker: #c2321a;
+}
+:root[data-edition="evening"] .edition-scope {
+  --kicker: #ff7f61;
+}
+.edition-scope :is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press),
+:is(.bg-sun, .bg-cyan, .bg-leaf, .bg-press) {
+  --ink-2: #33342f;
+  --ink-3: #33342f;
+  --kicker: #a8240e;
+}
+.edition-scope .bg-cyan,
+.bg-cyan {
+  --kicker: #1c1d1a; /* red on cyan is unreadable */
+}

@@ -1,0 +1,76 @@
+/* Type system. One grotesk (Schibsted Grotesk, made for a newsroom) carries the interface at weight 500,
+   set tight like display type. Serif (Newsreader) and blackletter are reserved for the paper itself. */
+
+:root {
+  --fs-mega: clamp(3.5rem, 1rem + 10.2vw, 10.25rem);
+  --fs-xl: clamp(2.6rem, 1.85rem + 3.5vw, 5rem);
+  --fs-lg: clamp(2rem, 1.62rem + 1.75vw, 3.15rem);
+  --fs-md: clamp(1.5rem, 1.28rem + 1.05vw, 2.2rem);
+  --fs-body-lg: clamp(1.125rem, 1.06rem + 0.32vw, 1.3rem);
+  --fs-body: clamp(1rem, 0.975rem + 0.12vw, 1.0625rem);
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.78rem;
+}
+
+@layer components {
+  .t-mega {
+    font-size: var(--fs-mega);
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.062em;
+    text-wrap: balance;
+  }
+  .t-xl {
+    font-size: var(--fs-xl);
+    font-weight: 500;
+    line-height: 0.97;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+  .t-lg {
+    font-size: var(--fs-lg);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+  .t-md {
+    font-size: var(--fs-md);
+    font-weight: 500;
+    line-height: 1.17;
+    letter-spacing: -0.042em;
+    text-wrap: pretty;
+  }
+  .t-body-lg {
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    line-height: 1.38;
+    letter-spacing: -0.022em;
+    text-wrap: pretty;
+  }
+  .t-body {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.014em;
+    text-wrap: pretty;
+  }
+  .t-sm {
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.006em;
+  }
+  .t-xs {
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+  .t-num {
+    font-variant-numeric: tabular-nums;
+  }
+  .t-muted {
+    color: var(--ink-3);
+  }
+}

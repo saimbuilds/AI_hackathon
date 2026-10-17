@@ -1,26 +1,119 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "../styles/tokens.css";
+@import "../styles/type.css";
+@import "../styles/ui.css";
+@import "../styles/paper.css";
+@import "../styles/print.css"; /* A4 edition */
+@import "lenis/dist/lenis.css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-newsprint: var(--newsprint);
+  --color-newsprint-2: var(--newsprint-2);
+  --color-newsprint-3: var(--newsprint-3);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-sun: var(--sun);
+  --color-press: var(--press);
+  --color-cyan: var(--cyan);
+  --color-leaf: var(--leaf);
+  --font-sans: var(--font-grotesk);
+  --font-serif: var(--font-newsreader);
+  --font-blackletter: var(--font-unifraktur);
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------- Base ---------- */
+html {
+  /* clip, not hidden: tilted papers may overhang the edge, and sticky sections keep working */
+  overflow-x: clip;
+  background: var(--newsprint);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+body {
+  overflow-x: clip;
+  background: var(--newsprint);
+  color: var(--ink);
+  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  font-feature-settings: "kern", "liga", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+::selection {
+  background: var(--selection);
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+button,
+a,
+input,
+label {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+img,
+svg {
+  display: block;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--newsprint);
+  border-radius: var(--r-sm);
+  transition: top var(--dur-ui) var(--ease-out);
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+.container-page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Intro: hide animated pieces until GSAP sets their from-states (class removed by script, with a safety timeout). */
+.intro-pending [data-intro] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
