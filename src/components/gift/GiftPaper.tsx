@@ -61,7 +61,7 @@ export function GiftPaper({ token }: { token: string }) {
             <>
               <h1 className="t-xl">{state.kind === "printing" ? `Printing ${state.gift.forName}’s paper` : "Opening your paper"}</h1>
               <p className="t-body-lg mt-5 text-ink-2">
-                {state.kind === "printing" ? `${state.gift.fromName} made this for you. It takes about half a minute the first time.` : "One moment."}
+                {state.kind === "printing" ? `${state.gift.fromName} made this for you. The first print takes a minute or two (a translated paper takes the longest). Keep this page open.` : "One moment."}
               </p>
               <div className="mx-auto mt-10 h-2 w-48 overflow-hidden rounded-full bg-[rgb(28_29_26/0.12)]">
                 <div className="h-full w-1/3 animate-[press-slide_1.2s_var(--ease-io)_infinite] rounded-full bg-ink" />
