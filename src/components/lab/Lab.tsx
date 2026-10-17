@@ -89,6 +89,8 @@ export function Lab() {
   const div: Series[] = [{ key: "fold", label: "Endpaper", color: COLORS.fold, points: summary.byDay.fold.map((d) => ({ day: d.day, value: d.diversity })) }];
   const p = run.personas?.[persona];
   const days = summary.byDay.fold.length;
+  const tail = summary.byDay.fold.slice(-3);
+  const last3 = tail.reduce((n, d) => n + d.relevance, 0) / Math.max(tail.length, 1);
 
   return (
     <div className="container-page mt-16 space-y-3">
@@ -101,9 +103,10 @@ export function Lab() {
           </p>
         </div>
         <div className="rounded-[var(--r-lg)] bg-sheet p-7">
-          <p className="t-sm text-ink-3">Endpaper relevance, day 1 → day {days}</p>
-          <p className="t-num mt-3 text-[3.6rem] leading-none font-medium tracking-[-0.06em]">
-            {pct(summary.fold.day1)} → {pct(summary.fold.lastDay)}
+          <p className="t-sm text-ink-3">Share of the paper the reader wanted, last 3 days</p>
+          <p className="t-num mt-3 text-[3.6rem] leading-none font-medium tracking-[-0.06em]">{pct(last3)}</p>
+          <p className="t-sm mt-2">
+            vs {pct(summary.baselines.onboardingLast3)} for onboarding only, {pct(summary.baselines.randomLast3)} random
           </p>
         </div>
         <div className="rounded-[var(--r-lg)] bg-sheet p-7">

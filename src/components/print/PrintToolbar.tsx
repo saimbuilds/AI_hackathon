@@ -15,7 +15,10 @@ export function PrintToolbar({ editionId, largeDefault = false }: { editionId: s
   useEffect(() => {
     document.fonts.ready.then(() => {
       fitSheets();
-      document.documentElement.dataset.printReady = "true";
+      requestAnimationFrame(() => {
+        fitSheets();
+        document.documentElement.dataset.printReady = "true";
+      });
     });
   }, []);
 
@@ -50,6 +53,7 @@ export function PrintToolbar({ editionId, largeDefault = false }: { editionId: s
             setLarge((v) => !v);
             document.querySelector(".print-root")?.setAttribute("data-large", String(!large));
             fitSheets();
+            requestAnimationFrame(() => fitSheets());
           }}
           className={`chip !h-11 !px-4 text-[0.95rem] ${large ? "!bg-ink !text-[var(--on-dark)]" : "!bg-newsprint"}`}
         >
