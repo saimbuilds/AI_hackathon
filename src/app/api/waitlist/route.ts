@@ -32,9 +32,10 @@ export const POST = route(async (req) => {
   rateLimit(`waitlist:email:${b.email}`, 3, 86_400_000);
   const db = adminClient()!;
 
-  const { data: row, error } = await db.from('waitlist').upsert({ email: b.email, plan: b.plan, source: b.source ?? null }, { onConflict: 'email,plan', ignoreDuplicates: true }).select('id').maybeSingle();
+  const { error } = await db.from('waitlist').upsert({ email: b.email, plan: b.plan, source: b.source ?? null }, { onConflict: 'email,plan', ignoreDuplicates: true });
   if (error) throw new Error(`waitlist: ${error.message}`);
-  if (!row) return NextResponse.json({ ok: true }); // already on the list
+  const { data: row } = await db.from('waitlist').select('id,confirmed_at').eq('email', b.email).eq('plan', b.plan).single();
+  if (!row || row.confirmed_at) return NextResponse.json({ ok: true }); // already on the list and already confirmed: no second email
 
   const mail = transporter();
   const line = PLAN_LINE[b.plan];

@@ -40,7 +40,7 @@ export function transporter() {
   const t = host
     ? nodemailer.createTransport({ host, port: Number(process.env.SMTP_PORT ?? 587), secure: Number(process.env.SMTP_PORT ?? 587) === 465, auth: { user, pass } })
     : nodemailer.createTransport({ service: 'gmail', auth: { user, pass } });
-  const fromAddr = process.env.EMAIL_FROM ?? user;
+  const fromAddr = process.env.EMAIL_FROM || user;
   return { send: (m: SendMailOptions) => t.sendMail({ from: `"${process.env.EMAIL_FROM_NAME ?? 'Your morning paper'}" <${fromAddr}>`, ...m }), dry: false as const };
 }
 
