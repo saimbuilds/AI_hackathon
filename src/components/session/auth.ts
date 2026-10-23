@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import type { User } from "@supabase/supabase-js";
 import { browserClient } from "./client";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 
 // Google on top of the anonymous session: "Save my paper" links Google to the current (anonymous) account so
 // nothing is lost; returning readers on a new device sign in with Google directly.
@@ -11,6 +12,7 @@ const callback = (next: string) => `${location.origin}/auth/callback?next=${enco
 
 export async function saveWithGoogle(next = location.pathname + location.search): Promise<string | null> {
   const sb = browserClient();
+  if (PRESSES_STOPPED) return "The presses have stopped, so sign-in is closed.";
   if (!sb) return "Sign-in isn’t configured here.";
   const { data } = await sb.auth.getSession();
   const user = data.session?.user;
@@ -23,6 +25,7 @@ export async function saveWithGoogle(next = location.pathname + location.search)
 
 export async function signInWithGoogle(next = location.pathname + location.search): Promise<string | null> {
   const sb = browserClient();
+  if (PRESSES_STOPPED) return "The presses have stopped, so sign-in is closed.";
   if (!sb) return "Sign-in isn’t configured here.";
   const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: callback(next) } });
   return error ? error.message : null;

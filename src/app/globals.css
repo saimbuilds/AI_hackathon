@@ -123,3 +123,43 @@ svg {
   }
 }
 
+
+/* Presses stopped (src/lib/frozen.ts): a fixed strip above everything but overlays; the page and nav step down by its height. */
+html[data-presses="stopped"] {
+  --notice-h: 32px;
+}
+html[data-presses="stopped"] body {
+  padding-top: var(--notice-h);
+}
+html[data-presses="stopped"] .nav {
+  top: calc(var(--nav-top) + var(--notice-h));
+}
+.presses-stopped {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--notice-h);
+  padding-inline: 16px;
+  background: #1c1d1a;
+  color: #f3efe6;
+  font-size: 0.85rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.presses-stopped-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: #ff5a3d;
+}
+@media print {
+  html[data-presses="stopped"] body {
+    padding-top: 0;
+  }
+}

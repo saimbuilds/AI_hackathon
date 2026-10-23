@@ -5,6 +5,7 @@
 import { z } from 'zod';
 import { MODELS, PAID_DAILY_USD, PROVIDERS, ROUTES, TASK_DEFAULTS, type ModelKey, type Task } from './models';
 import { adminClient } from './supabase';
+import { PRESSES_STOPPED } from './frozen';
 
 export type AttemptOutcome =
   | 'ok'
@@ -152,7 +153,7 @@ async function logUsage(row: { model: ModelKey; task: Task; tokensIn: number; to
 
 export async function llm<T>(req: LLMRequest<T>): Promise<LLMResult<T>> {
   const attempts: Attempt[] = [];
-  if (process.env.LLM_DISABLED === '1') throw new LLMUnavailableError(req.task, attempts, 'disabled');
+  if (PRESSES_STOPPED || process.env.LLM_DISABLED === '1') throw new LLMUnavailableError(req.task, attempts, 'disabled');
 
   const defaults = TASK_DEFAULTS[req.task];
   const maxTokens = req.maxTokens ?? defaults.maxTokens;

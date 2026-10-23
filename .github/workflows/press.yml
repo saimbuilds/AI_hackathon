@@ -3,8 +3,9 @@ name: press
 # The press: reads ~500 feeds, clusters articles into stories, writes each story once,
 # fact-checks it, and stores the Daily 3. Runs every 3 hours; trigger by hand any time.
 on:
-  schedule:
-    - cron: '0 */3 * * *'
+  # Presses stopped after the hackathon: no schedule, run by hand only.
+  # schedule:
+  #   - cron: '0 */3 * * *'
   workflow_dispatch:
     inputs:
       sources:

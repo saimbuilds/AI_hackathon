@@ -2,8 +2,9 @@ name: nightly
 
 # Decays fast reading signals and refreshes each reader's plain-English memo.
 on:
-  schedule:
-    - cron: '30 20 * * *' # 01:30 PKT
+  # Presses stopped after the hackathon: no schedule, run by hand only.
+  # schedule:
+  #   - cron: '30 20 * * *' # 01:30 PKT
   workflow_dispatch:
 
 concurrency:

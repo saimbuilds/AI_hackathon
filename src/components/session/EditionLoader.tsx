@@ -5,12 +5,13 @@ import Link from "next/link";
 import type { Edition } from "@/types/edition";
 import { useClientValue } from "@/components/ui/useStored";
 import { hasStoredSession, loadEdition } from "./client";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 
 type State = { kind: "loading" } | { kind: "real"; edition: Edition } | { kind: "sample" };
 
 /** Shows the reader's own edition (?e=<id>, else their latest), or the sample paper with a label saying so. */
 export function EditionLoader({ sample, children }: { sample: Edition; children: (edition: Edition, isSample: boolean) => ReactNode }) {
-  const session = useClientValue(hasStoredSession, false);
+  const session = useClientValue(hasStoredSession, false) && !PRESSES_STOPPED;
   const [state, setState] = useState<State>({ kind: "loading" });
 
   useEffect(() => {
@@ -42,7 +43,15 @@ function SampleBadge() {
       href="/start"
       className="fixed bottom-20 left-1/2 z-40 -translate-x-1/2 rounded-full bg-sun px-5 py-3 text-[0.95rem] font-medium whitespace-nowrap text-ink shadow-[0_12px_30px_-12px_rgb(0_0_0/0.5)] md:bottom-6"
     >
-      This is a sample paper. <span className="underline underline-offset-4">Print your own</span>
+      {PRESSES_STOPPED ? (
+        <>
+          A real paper from 17 October. <span className="underline underline-offset-4">Try the onboarding</span>
+        </>
+      ) : (
+        <>
+          This is a sample paper. <span className="underline underline-offset-4">Print your own</span>
+        </>
+      )}
     </Link>
   );
 }

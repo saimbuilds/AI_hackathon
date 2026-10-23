@@ -8,6 +8,7 @@ import { SheetGlyph } from "./icons";
 import { useUser, isSaved, signInWithGoogle, signOut } from "@/components/session/auth";
 import { useClientValue } from "./useStored";
 import { hasStoredSession } from "@/components/session/client";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 
 /** Bottom of the menu: who holds this paper, or a way back into one on a new device. */
 function Account() {
@@ -157,7 +158,7 @@ export function Nav({
               </Link>
             ))}
           </div>
-          <Account />
+          {!PRESSES_STOPPED && <Account />}
         </div>
       </div>
 

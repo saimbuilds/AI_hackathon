@@ -3,8 +3,9 @@ name: email
 # Hourly: mail the morning paper to every subscribed reader whose delivery time has arrived (in their time zone).
 # Trigger by hand with force=true to send to every subscribed reader right now (e.g. once, on camera).
 on:
-  schedule:
-    - cron: '7 * * * *'
+  # Presses stopped after the hackathon: no schedule, run by hand only.
+  # schedule:
+  #   - cron: '7 * * * *'
   workflow_dispatch:
     inputs:
       force:

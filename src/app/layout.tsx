@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { ViewTransition } from "react";
 import { Newsreader, Schibsted_Grotesk, UnifrakturMaguntia } from "next/font/google";
 import { BRAND } from "@/lib/brand";
+import { PRESSES_STOPPED } from "@/lib/frozen";
+import { PressesStopped } from "@/components/ui/PressesStopped";
 import "./globals.css";
 
 // Interface: one grotesk, cut for a newsroom (Schibsted), used at in-between weights.
@@ -51,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-edition="morning"
+      data-presses={PRESSES_STOPPED ? "stopped" : undefined}
       suppressHydrationWarning
       className={`${grotesk.variable} ${newsreader.variable} ${unifraktur.variable}`}
     >
@@ -61,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        {PRESSES_STOPPED && <PressesStopped />}
         {/* Route changes cross-fade with a short rise (see .page in ui.css); the nav keeps its own name and stays put. */}
         <ViewTransition default="page">{children}</ViewTransition>
       </body>

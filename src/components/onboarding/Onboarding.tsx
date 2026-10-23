@@ -16,6 +16,7 @@ import { SwipeDeck, type DeckCard, type SwipeAction } from "./SwipeDeck";
 import { fetchDeck, serverParse, recordAndTranscribe, completeOnboarding, EXTRA_KEYS, type ServerParsed, type CompleteBody } from "./api";
 import { signInWithGoogle } from "@/components/session/auth";
 import { token } from "@/components/session/client";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 
 const DRAFT_KEY = "ep-onboarding-draft";
 
@@ -248,6 +249,11 @@ export function Onboarding({ deck: fallbackDeck, preview }: { deck: DeckCard[]; 
         },
         swipes: p.swipes.slice(0, 30),
     };
+    // Presses stopped: nothing is saved or printed; the tour carries on to the sample paper.
+    if (PRESSES_STOPPED) {
+      router.push(forSomeoneElse ? "/gift" : "/paper?tour=1");
+      return;
+    }
     // No anonymous session available: keep the answers and finish after Google brings the reader back.
     if (!(await token())) {
       writeStored(DRAFT_KEY, JSON.stringify({ body, forSomeoneElse }));

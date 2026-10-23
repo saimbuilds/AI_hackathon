@@ -2,6 +2,7 @@
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { EditionSchema, type Edition } from "@/types/edition";
+import { PRESSES_STOPPED, STOPPED_MESSAGE } from "@/lib/frozen";
 
 // Browser side of the backend contract (docs/API.md): an anonymous Supabase session, a bearer token on
 // every /api call, and RLS-scoped reads of the reader's own editions.
@@ -31,7 +32,7 @@ let failedAt = 0; // a refused sign-in isn't retried by every call that follows 
 /** The current access token, signing in anonymously the first time. Null when the backend isn't configured. */
 export async function token(create = true): Promise<string | null> {
   const sb = browserClient();
-  if (!sb) return null;
+  if (!sb || PRESSES_STOPPED) return null; // presses stopped: no new sessions, every page shows the sample
   const { data } = await sb.auth.getSession();
   if (data.session) return data.session.access_token;
   if (!create || Date.now() - failedAt < 30_000) return null;
@@ -62,6 +63,7 @@ export class ApiError extends Error {
 /** fetch() against our API with the bearer token; JSON in, JSON out, errors as ApiError. */
 export async function api<T>(path: string, init: RequestInit & { json?: unknown; auth?: boolean } = {}): Promise<T> {
   const { json, auth = true, headers, ...rest } = init;
+  if (PRESSES_STOPPED && (auth || (rest.method ?? "GET") !== "GET")) throw new ApiError(503, STOPPED_MESSAGE, { stopped: true });
   const t = auth ? await token() : null;
   if (auth && !t) throw new ApiError(503, "Couldn’t start your session just now. Try again in a moment.");
   const res = await fetch(path, {

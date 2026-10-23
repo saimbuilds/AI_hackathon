@@ -41,7 +41,7 @@ export function PrintToolbar({ editionId, largeDefault = false }: { editionId: s
   };
 
   return (
-    <div className="no-print fixed inset-x-[var(--gutter)] top-[var(--nav-top)] z-50 flex items-center justify-between gap-3">
+    <div className="no-print fixed inset-x-[var(--gutter)] top-[calc(var(--nav-top)+var(--notice-h,0px))] z-50 flex items-center justify-between gap-3">
       <Link href={`/paper?e=${editionId}`} className="nav-box px-5 text-[1.0625rem] font-medium tracking-[-0.025em]">
         Back to the paper
       </Link>

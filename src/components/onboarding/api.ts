@@ -1,6 +1,7 @@
 "use client";
 
 import { api, ApiError } from "@/components/session/client";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 import type { DeckCard, SwipeAction } from "./SwipeDeck";
 
 // Onboarding calls (docs/API.md). Each degrades: the screen keeps working on local data if a call fails.
@@ -17,6 +18,7 @@ export type ServerParsed = {
 };
 
 export async function fetchDeck(n = 12): Promise<DeckCard[] | null> {
+  if (PRESSES_STOPPED) return null; // the sample edition's headlines
   try {
     const r = await api<{ cards: { storyId: string; headline: string; dek?: string | null; category?: string | null; outlets?: number }[] }>(`/api/onboarding/deck?n=${n}`);
     if (!r.cards?.length) return null;
@@ -27,6 +29,7 @@ export async function fetchDeck(n = 12): Promise<DeckCard[] | null> {
 }
 
 export async function serverParse(text: string): Promise<ServerParsed | null> {
+  if (PRESSES_STOPPED) return null; // the local keyword read stands
   try {
     const r = await api<{ parsed: ServerParsed }>("/api/onboarding/parse", { method: "POST", json: { text } });
     return r.parsed;
@@ -37,6 +40,7 @@ export async function serverParse(text: string): Promise<ServerParsed | null> {
 
 /** Records up to `maxMs` of audio and transcribes it on the server. Returns null when the browser should fall back to Web Speech. */
 export async function recordAndTranscribe(signal: { stop?: () => void }, maxMs = 15000): Promise<string | null> {
+  if (PRESSES_STOPPED) return null; // no server transcription; the browser's own speech recognition
   if (typeof MediaRecorder === "undefined" || !navigator.mediaDevices?.getUserMedia) return null;
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const rec = new MediaRecorder(stream);

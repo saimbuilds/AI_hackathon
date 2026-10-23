@@ -20,6 +20,7 @@ import { editionUpdates } from "@/components/follow/api";
 import { useReadState } from "./useReadState";
 import { TasteStrip } from "@/components/taste/TastePanel";
 import { track } from "./track";
+import { PRESSES_STOPPED } from "@/lib/frozen";
 
 function weekDay(iso: string) {
   const d = new Date(`${iso}T00:00:00Z`);
@@ -175,7 +176,7 @@ export function Reader({ edition, variant = "own" }: { edition: Edition; variant
                 <span className="t-num">
                   {slots.length} stories, {minutes} min
                 </span>
-                <span className="t-num text-ink-3">Next edition in {next ?? "…"}</span>
+                <span className="t-num text-ink-3">{PRESSES_STOPPED ? "The presses have stopped" : `Next edition in ${next ?? "…"}`}</span>
               </div>
             </header>
             {!gift && !edition.gift && <TasteStrip />}
